@@ -76,12 +76,15 @@ public:
 		{
 			board.draw();
 
+			int stepret = 0;
 			while (1)
 			{
 				input.inputxy(x, y);
-				int stepret = board.dostep(x, y, 0);
+				stepret = board.dostep(x, y, 0);
 				if (stepret >= 0)	break;
 			}
+
+			if (stepret) break;
 		}
 
 	}
