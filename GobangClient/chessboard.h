@@ -37,12 +37,10 @@ public:
 
 	chessstep* getlaststep()
 	{
-		std::list<chessstep>::reverse_iterator it = steps.rbegin();
-		if (it != steps.rend)
-		{
-			return &(*it);
-		}
-		return NULL;
+		if (steps.size())
+			return &(steps.back());
+
+		return NULL:
 	}
 
 private:
