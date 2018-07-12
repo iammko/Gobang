@@ -35,3 +35,5 @@
 .vs/
 *.vcxproj
 *.vcxproj.user
+*.recipe
+*.merged
