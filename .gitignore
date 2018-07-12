@@ -37,3 +37,4 @@
 *.vcxproj.user
 *.recipe
 *.merged
+*.tlog/
