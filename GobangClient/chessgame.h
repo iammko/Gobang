@@ -80,7 +80,7 @@ public:
 			{
 				input.inputxy(x, y);
 				int stepret = board.dostep(x, y, 0);
-				if (stepret == 0)	break;
+				if (stepret >= 0)	break;
 			}
 
 			if (board.checkwin())	break;

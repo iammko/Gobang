@@ -3,7 +3,7 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <arpa/inet.h>
+#include <netinet/in.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -24,7 +24,7 @@ public:
 
 	}
 
-	void mcreatesocket()
+	void createsocket()
 	{
 		msock_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 		if (msock_fd == -1)
@@ -34,37 +34,37 @@ public:
 		}
 	}
 
-	void msetsockfd(int fd)
+	void setsockfd(int fd)
 	{
 		msock_fd = fd;
 	}
 
-	void msetip(const char *pip)
+	void setip(const char *pip)
 	{
 		maddr.sin_addr.s_addr = inet_addr(pip);
 	}
 
-	void msetport(int port)
+	void setport(int port)
 	{
 		maddr.sin_port = htons(port);
 	}
 
-	int msetnonblock()
+	int setnonblock()
 	{
 		return fcntl(msock_fd, F_SETFL, O_NONBLOCK);
 	}
 
-	int mwrite(const char *buff, int len)
+	int mywrite(const char *buff, int len)
 	{
 		return write(msock_fd, buff, len);
 	}
 
-	int mread(char *buff, int len)
+	int myread(char *buff, int len)
 	{
 		return read(msock_fd, buff, len);
 	}
 
-	int mclose()
+	int myclose()
 	{
 		return close(msock_fd);
 	}
@@ -76,23 +76,23 @@ public:
 
 class stcpsock :public tcpsock
 {
-	int mbind()
+	int mybind()
 	{
 		return bind(msock_fd, (sockaddr*)&maddr, maddrlen);
 	}
 
-	int mlisten(int n = 20)
+	int mylisten(int n = 20)
 	{
 		return listen(msock_fd, n);
 	}
 
-	tcpsock maccept()
+	tcpsock myaccept()
 	{
 		socklen_t peeraddrlen;
 		struct sockaddr_in peeraddr;
 		int peer_fd = accept(msock_fd, (sockaddr*)&peeraddr, &peeraddrlen);
 		tcpsock peersock;
-		peersock.msetsockfd(peer_fd);
+		peersock.setsockfd(peer_fd);
 		return peersock;
 	}
 };

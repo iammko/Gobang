@@ -38,3 +38,4 @@
 *.recipe
 *.merged
 *.tlog/
+*.sln

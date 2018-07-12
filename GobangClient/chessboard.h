@@ -146,7 +146,7 @@ public:
 
 		addstep(x, y, playerid);
 
-		if (checkwin())
+		if (checkwin(x, y))
 		{
 			printf("%c方胜利\n", turn);
 			return turn;
@@ -163,22 +163,15 @@ public:
 		return 0;
 	}
 
-
-
-
-	int checkwin()
+	int checkwin(char x, char y)
 	{
 		if (stepway.getstepno() < 9)	return false;
 
-		char curXO = turn == cb_black_chess ? cb_white_chess : cb_black_chess;
+		if (countup2down(x, y) > 4 || countleft2right(x, y) > 4 || countlowleft2upright(x, y) > 4 || countupleft2lowright(x, y) > 4)
+			return true;
 
-		static int i = 5;
-		while (--i)
-		{
-			return false;
-		}
 
-		return true;
+		return false;
 	}
 private:
 	bool checkxy(int x, int y)
@@ -202,6 +195,177 @@ private:
 	chessstep* getlaststep()
 	{
 		return stepway.getlaststep();
+	}
+
+	bool compareposandturn(char x, char y)
+	{
+		return chesses[y][x] == turn;
+	}
+
+	char upchess(char x, char y)
+	{
+		--y;
+		if (y)
+			return chesses[y][x];
+		return 0;
+	}
+
+	char lowerchess(char x, char y)
+	{
+		++y;
+		if (y <= cb_lenth)
+			return chesses[y][x];
+		return 0;
+	}
+
+	char leftchess(char x, char y)
+	{
+		--x;
+		if(x)
+			return chesses[y][x];
+		return 0;
+	}
+
+	char rightchess(char x, char y)
+	{
+		++x;
+		if (x <= cb_lenth)
+			return chesses[y][x];
+		return 0;
+	}
+
+	char upleftchess(char x, char y)
+	{
+		--x;
+		--y;
+		if(x && y)
+			return chesses[y][x];
+		return 0;
+	}
+
+	char uprightchess(char x, char y)
+	{
+		--y;
+		++x;
+		if(x <= cb_lenth && y)
+			return chesses[y][x];
+		return 0;
+	}
+
+	char lowerleftchess(char x, char y)
+	{
+		++y;
+		--x;
+		if (x && y <= cb_lenth)
+			return chesses[y][x];
+		return 0;
+	}
+
+	char lowerrightchess(char x, char y)
+	{
+		++y;
+		++x;
+		if (x <= cb_lenth && y <= cb_lenth)
+			return chesses[y][x];
+		return 0;
+	}
+
+	char countup2down(char x, char y)
+	{
+		char tmpy = y;
+		char count = 0;
+		while (1)
+		{
+			if (upchess(x, tmpy) != turn)
+				break;
+			--tmpy;
+			++count;
+		}
+
+		tmpy = y;
+		while (1)
+		{
+			if (lowerchess(x, tmpy) != turn)
+				break;
+			++tmpy;
+			++count;
+		}
+
+		return count;
+	}
+
+	char countleft2right(char x, char y)
+	{
+		char tmpx = x;
+		char count = 0;
+		while (1)
+		{
+			if (leftchess(tmpx, y) != turn)
+				break;
+			--tmpx;
+			++count;
+		}
+
+		tmpx = y;
+		while (1)
+		{
+			if (rightchess(tmpx, y) != turn)
+				break;
+			++tmpx;
+			++count;
+		}
+	}
+
+	char countupleft2lowright(char x, char y)
+	{
+		char tmpx = x;
+		char tmpy = y;
+		char count = 0;
+		while (1)
+		{
+			if (upleftchess(tmpx, tmpy) != turn)
+				break;
+			--tmpx;
+			--tmpy;
+			++count;
+		}
+
+		tmpx = x;
+		tmpy = y; 
+		while (1)
+		{
+			if (lowerrightchess(tmpx, tmpy) != turn)
+				break;
+			++tmpx;
+			++tmpy;
+			++count;
+		}
+	}
+
+	char countlowleft2upright(char x, char y)
+	{
+		char tmpx = x;
+		char tmpy = y;
+		char count = 0;
+		while (1)
+		{
+			if (lowerleftchess(tmpx, tmpy) != turn)
+				break;
+			--tmpx;
+			++tmpy;
+			++count;
+		}
+
+		tmpx = x;
+		tmpy = y;
+		while (1)
+		{
+			if (uprightchess(tmpx, tmpy) != turn)
+				break;
+			++tmpx;
+			--tmpy;
+			++count;
+		}
 	}
 private:
 	bool gameover;
