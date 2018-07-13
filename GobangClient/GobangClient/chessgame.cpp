@@ -13,7 +13,7 @@ chessgame::chessgame() : mmenu(this)
 	{
 		mscok.setip(paddr->ip.c_str());
 		mscok.setport(paddr->port);
-		mscok.setaddrlen(sizeof(mscok.maddr));
+		mscok.setaddrlen();
 	}
 }
 
@@ -22,12 +22,12 @@ void chessgame::start()
 	while (1)
 	{
 		int choose = mmenu.offonlinemenu();
-		if (!choose) break;
+		if (choose == BACK_VALUE) break;
 
 		while (1)
 		{
 			int mode = mmenu.modemenu(choose);
-			if (!mode)	break;
+			if (mode == BACK_VALUE)	break;
 			if (mode > cg_mode_type_none && mode < cg_mode_type_max)
 			{
 				while (startgame(mode))

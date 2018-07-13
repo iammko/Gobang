@@ -48,18 +48,20 @@ int chessmenu::modemenu(int choose)
 			printf("连接服务器失败，按任意键返回。。。\n");
 			char buf[16];
 			fgets(buf, 10, stdin);
-			return 0;
+			return BACK_VALUE;
 		}
 		else
 		{
-			printf("连接成功。。。");
-			sleep(1);
+			system("clear");
+			printf("连接成功。。。\n");
+			sleep(2);
+			system("clear");
 		}
 		formatmenu(online, len2);
 	}
 	else
 	{
-		return 0;
+		return BACK_VALUE;
 	}
 
 	int mode = 0;

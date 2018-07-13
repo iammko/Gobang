@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 	ssock.createsocket();
 	ssock.setip("127.0.0.1");
 	ssock.setport(3601);
+	ssock.setaddrlen();
 
 	ssock.mybind();
 	ssock.mylisten();

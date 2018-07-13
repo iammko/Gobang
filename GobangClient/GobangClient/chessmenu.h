@@ -5,6 +5,8 @@
 
 class chessgame;
 
+#define BACK_VALUE 0
+
 class chessmenu
 {
 public:

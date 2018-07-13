@@ -43,9 +43,9 @@ public:
 		maddr.sin_port = htons(port);
 	}
 
-	void setaddrlen(int len)
+	void setaddrlen()
 	{
-		maddrlen = len;
+		maddrlen = sizeof(maddr);
 	}
 
 	int setnonblock()
