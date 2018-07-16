@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<server>
+	<data>
+		<id>1</id>
+		<ip>127.0.0.1</ip>
+		<port>3601</port>
+	</data>
+</server>

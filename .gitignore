@@ -39,3 +39,4 @@
 *.merged
 *.tlog/
 *.sln
+*.filters
