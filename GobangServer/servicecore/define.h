@@ -23,6 +23,8 @@
 	} 
 #endif
 
+#define DEBUG_LOG perror
+#define ERROR_LOG perror
 
 
 const char cb_lenth = 15;
