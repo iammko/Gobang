@@ -5,15 +5,15 @@
 #include "tcpsock.h"
 #include "mgrs.h"
 
-chessgame::chessgame() : mmenu(this)
+chessgame::chessgame() : m_menu(this)
 {
-	mscok.createsocket();
-	serveraddr *paddr = servermgr::getinstance()->getserverinfobyid(1);
+	m_sock.createsocket();
+	serveraddr *paddr = servermgr::getinstance()->get_serverinfo_byid(1);
 	if (paddr)
 	{
-		mscok.setip(paddr->ip.c_str());
-		mscok.setport(paddr->port);
-		mscok.setaddrlen();
+		m_sock.setip(paddr->m_ip.c_str());
+		m_sock.setport(paddr->m_porto);
+		m_sock.setaddrlen();
 	}
 }
 
@@ -21,16 +21,16 @@ void chessgame::start()
 {
 	while (1)
 	{
-		int choose = mmenu.offonlinemenu();
+		int choose = m_menu.off_online_menu();
 		if (choose == BACK_VALUE) break;
 
 		while (1)
 		{
-			int mode = mmenu.modemenu(choose);
+			int mode = m_menu.mode_menu(choose);
 			if (mode == BACK_VALUE)	break;
 			if (mode > cg_mode_type_none && mode < cg_mode_type_max)
 			{
-				while (startgame(mode))
+				while (start_game(mode))
 				{
 
 				}
@@ -39,54 +39,54 @@ void chessgame::start()
 	}
 }
 
-bool chessgame::startgame(const char mode)
+bool chessgame::start_game(const char mode)
 {
 	if (mode == cg_mode_type_offpve)
 	{
-		gameoffpve();
+		game_off_pve();
 	}
 	else if (mode == cg_mode_type_offpvp)
 	{
-		gameoffpvp();
+		game_off_pvp();
 	}
 	else if (mode == cg_mode_type_onlinepvp)
 	{
-		gameonlinepvp();
+		game_online_quickstart();
 	}
 	else if (mode == cg_mode_type_match)
 	{
-		gamematch();
+		game_race();
 	}
 	else
 	{
 		return false;
 	}
 	int goon = 0;
-	getinputint("请选择继续(1)or返回(0)：", goon, 0, 1);
+	get_inputint("请选择继续(1)or返回(0)：", goon, 0, 1);
 
 	return goon;
 }
 
-int chessgame::gameoffpve()
+int chessgame::game_off_pve()
 {
 	return 0;
 }
 
-int chessgame::gameoffpvp()
+int chessgame::game_off_pvp()
 {
-	mboard.init();
+	m_board.init();
 
 	int x, y;
 	saveinput input;
 	while (1)
 	{
-		mboard.draw();
+		m_board.draw();
 
 		int stepret = 0;
 		while (1)
 		{
-			input.inputxy(x, y);
-			stepret = mboard.dostep(x, y, 0);
+			input.input_xy(x, y);
+			stepret = m_board.do_step(x, y, 0);
 			if (stepret >= 0)	break;
 		}
 
@@ -96,25 +96,31 @@ int chessgame::gameoffpvp()
 	return 0;
 }
 
-int chessgame::gameonlinepvp()
+int chessgame::game_online_quickstart()
+{
+
+	return 0;
+}
+
+int chessgame::game_race()
 {
 	return 0;
 }
 
-int chessgame::gamematch()
-{
-	return 0;
-}
-
-int chessgame::getinputint(const char * ptip, int & rno, int low, int up, int quit)
+int chessgame::get_inputint(const char * ptip, int & rno, int low, int up, int quit)
 {
 	saveinput input;
-	return input.getinputint(ptip, rno, low, up, quit);
+	return input.get_input_int(ptip, rno, low, up, quit);
 }
 
-int chessgame::myconnect(int serverid)
+int chessgame::my_connect(int serverid)
 {
-	return mscok.myconnect();
+	return m_sock.my_connect();
+}
+
+int chessgame::my_close()
+{
+	return m_sock.myclose();
 }
 
 

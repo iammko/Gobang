@@ -22,7 +22,7 @@ public:
 		stepno = 0;
 	}
 
-	int addstep(char x, char y, unsigned int player)
+	int add_step(char x, char y, unsigned int player)
 	{
 		chessstep step(x, y, player);
 		steps.push_back(step);
@@ -30,12 +30,12 @@ public:
 		return ++stepno;
 	}
 
-	char getstepno()
+	char get_stepno()
 	{
 		return stepno;
 	}
 
-	chessstep* getlaststep()
+	chessstep* get_laststep()
 	{
 		if (steps.size())
 			return &(steps.back());
@@ -53,10 +53,10 @@ class chessboard
 public:
 	chessboard()
 	{
-		bzero(chesses, sizeof(chesses));
-		turn = cb_white_chess;
-		black_id = 0;
-		white_id = 0;
+		bzero(m_chesses, sizeof(m_chesses));
+		m_turn = cb_white_chess;
+		m_black_id = 0;
+		m_white_id = 0;
 	}
 
 	~chessboard()
@@ -70,7 +70,7 @@ public:
 		{
 			for (int j = 0; j < cb_lenth; ++j)
 			{
-				chesses[i][j] = '+';
+				m_chesses[i][j] = '+';
 			}
 		}
 	}
@@ -95,9 +95,9 @@ public:
 			for (int j = 0; j < cb_lenth; ++j)
 			{
 				if(j==cb_lenth - 1)
-					printf("%c", chesses[i][j]);
+					printf("%c", m_chesses[i][j]);
 				else
-					printf("%c---", chesses[i][j]);
+					printf("%c---", m_chesses[i][j]);
 			}
 			printf("\n");
 
@@ -114,21 +114,21 @@ public:
 		printf("\n");
 	}
 
-	int dostep(char x, char y, unsigned int playerid)
+	int do_step(char x, char y, unsigned int playerid)
 	{
-		if (!checkxy(x, y))
+		if (!check_xy(x, y))
 		{
 			printf("输入坐标有误，请重新输入\n");
 			return -1;
 		}
 		bool ret = true;
-		if (playerid == white_id && turn == cb_white_chess)
+		if (playerid == m_white_id && m_turn == cb_white_chess)
 		{
-			ret = movechess(x, y, cb_white_chess);
+			ret = move_chess(x, y, cb_white_chess);
 		}
-		else if(playerid == black_id && turn == cb_black_chess)
+		else if(playerid == m_black_id && m_turn == cb_black_chess)
 		{
-			ret = movechess(x, y, cb_black_chess);
+			ret = move_chess(x, y, cb_black_chess);
 		}
 		else
 		{
@@ -142,138 +142,138 @@ public:
 			return -3;
 		}
 
-		addstep(x, y, playerid);
+		add_step(x, y, playerid);
 
-		if (checkwin(x, y))
+		if (check_win(x, y))
 		{
 			draw();
-			printf("%c方胜利\n", turn);
-			return turn;
+			printf("%c方胜利\n", m_turn);
+			return m_turn;
 		}
 
-		if (stepway.getstepno() >= cb_lenth * cb_lenth)
+		if (m_stepway.get_stepno() >= cb_lenth * cb_lenth)
 		{
 			draw();
 			printf("平局\n");
 			return cb_result_draw;
 		}
 
-		turn = turn == cb_black_chess ? cb_white_chess : cb_black_chess;
+		m_turn = m_turn == cb_black_chess ? cb_white_chess : cb_black_chess;
 
 		return 0;
 	}
 
-	int checkwin(char x, char y)
+	int check_win(char x, char y)
 	{
 		const char wincount = 5-1;
 
-		if (stepway.getstepno() < 1)	return false;
+		if (m_stepway.get_stepno() < 1)	return false;
 
-		if (countup2down(x, y) > wincount || countleft2right(x, y) > wincount || countlowleft2upright(x, y) > wincount || countupleft2lowright(x, y) > wincount)
+		if (count_up2down(x, y) > wincount || count_left2right(x, y) > wincount || count_lowleft2upright(x, y) > wincount || count_upleft2lowright(x, y) > wincount)
 			return true;
 
 
 		return false;
 	}
 private:
-	bool checkxy(int x, int y)
+	bool check_xy(int x, int y)
 	{
 		return x > 0 && x <= cb_lenth && y > 0 && y <= cb_lenth;
 	}
 
-	bool movechess(char x, char y, char c)
+	bool move_chess(char x, char y, char c)
 	{
-		if (chesses[y-1][x-1] != '+')	return false;
+		if (m_chesses[y-1][x-1] != '+')	return false;
 
-		chesses[y-1][x-1] = c;
+		m_chesses[y-1][x-1] = c;
 		return true;
 	}
 
-	void addstep(char x, char y, unsigned int playerid)
+	void add_step(char x, char y, unsigned int playerid)
 	{
-		stepway.addstep(x, y, playerid);
+		m_stepway.add_step(x, y, playerid);
 	}
 
 	chessstep* getlaststep()
 	{
-		return stepway.getlaststep();
+		return m_stepway.get_laststep();
 	}
 
-	char upchess(char x, char y)
+	char up_chess(char x, char y)
 	{
 		--y;
 		if (y)
-			return chesses[y-1][x-1];
+			return m_chesses[y-1][x-1];
 		return 0;
 	}
 
-	char lowerchess(char x, char y)
+	char lower_chess(char x, char y)
 	{
 		++y;
 		if (y <= cb_lenth)
-			return chesses[y-1][x-1];
+			return m_chesses[y-1][x-1];
 		return 0;
 	}
 
-	char leftchess(char x, char y)
+	char left_chess(char x, char y)
 	{
 		--x;
 		if(x)
-			return chesses[y-1][x-1];
+			return m_chesses[y-1][x-1];
 		return 0;
 	}
 
-	char rightchess(char x, char y)
+	char right_chess(char x, char y)
 	{
 		++x;
 		if (x <= cb_lenth)
-			return chesses[y-1][x-1];
+			return m_chesses[y-1][x-1];
 		return 0;
 	}
 
-	char upleftchess(char x, char y)
+	char up_left_chess(char x, char y)
 	{
 		--x;
 		--y;
 		if(x && y)
-			return chesses[y-1][x-1];
+			return m_chesses[y-1][x-1];
 		return 0;
 	}
 
-	char uprightchess(char x, char y)
+	char up_right_chess(char x, char y)
 	{
 		--y;
 		++x;
 		if(x <= cb_lenth && y)
-			return chesses[y-1][x-1];
+			return m_chesses[y-1][x-1];
 		return 0;
 	}
 
-	char lowerleftchess(char x, char y)
+	char lower_left_chess(char x, char y)
 	{
 		++y;
 		--x;
 		if (x && y <= cb_lenth)
-			return chesses[y-1][x-1];
+			return m_chesses[y-1][x-1];
 		return 0;
 	}
 
-	char lowerrightchess(char x, char y)
+	char lower_right_chess(char x, char y)
 	{
 		++y;
 		++x;
 		if (x <= cb_lenth && y <= cb_lenth)
-			return chesses[y-1][x-1];
+			return m_chesses[y-1][x-1];
 		return 0;
 	}
 
-	char countup2down(char x, char y)
+	char count_up2down(char x, char y)
 	{
 		char tmpy = y;
 		char count = 1;
 		while (1)
 		{
-			if (upchess(x, tmpy) != turn)
+			if (up_chess(x, tmpy) != m_turn)
 				break;
 			--tmpy;
 			++count;
@@ -282,7 +282,7 @@ private:
 		tmpy = y;
 		while (1)
 		{
-			if (lowerchess(x, tmpy) != turn)
+			if (lower_chess(x, tmpy) != m_turn)
 				break;
 			++tmpy;
 			++count;
@@ -291,13 +291,13 @@ private:
 		return count;
 	}
 
-	char countleft2right(char x, char y)
+	char count_left2right(char x, char y)
 	{
 		char tmpx = x;
 		char count = 1;
 		while (1)
 		{
-			if (leftchess(tmpx, y) != turn)
+			if (left_chess(tmpx, y) != m_turn)
 				break;
 			--tmpx;
 			++count;
@@ -306,7 +306,7 @@ private:
 		tmpx = x;
 		while (1)
 		{
-			if (rightchess(tmpx, y) != turn)
+			if (right_chess(tmpx, y) != m_turn)
 				break;
 			++tmpx;
 			++count;
@@ -315,14 +315,14 @@ private:
 		return count;
 	}
 
-	char countupleft2lowright(char x, char y)
+	char count_upleft2lowright(char x, char y)
 	{
 		char tmpx = x;
 		char tmpy = y;
 		char count = 1;
 		while (1)
 		{
-			if (upleftchess(tmpx, tmpy) != turn)
+			if (up_left_chess(tmpx, tmpy) != m_turn)
 				break;
 			--tmpx;
 			--tmpy;
@@ -333,7 +333,7 @@ private:
 		tmpy = y; 
 		while (1)
 		{
-			if (lowerrightchess(tmpx, tmpy) != turn)
+			if (lower_right_chess(tmpx, tmpy) != m_turn)
 				break;
 			++tmpx;
 			++tmpy;
@@ -343,14 +343,14 @@ private:
 		return count;
 	}
 
-	char countlowleft2upright(char x, char y)
+	char count_lowleft2upright(char x, char y)
 	{
 		char tmpx = x;
 		char tmpy = y;
 		char count = 1;
 		while (1)
 		{
-			if (lowerleftchess(tmpx, tmpy) != turn)
+			if (lower_left_chess(tmpx, tmpy) != m_turn)
 				break;
 			--tmpx;
 			++tmpy;
@@ -361,7 +361,7 @@ private:
 		tmpy = y;
 		while (1)
 		{
-			if (uprightchess(tmpx, tmpy) != turn)
+			if (up_right_chess(tmpx, tmpy) != m_turn)
 				break;
 			++tmpx;
 			--tmpy;
@@ -371,12 +371,12 @@ private:
 		return count;
 	}
 private:
-	bool gameover;
-	char turn;
-	char chesses[cb_lenth][cb_lenth];
-	unsigned int id;
-	unsigned int black_id;
-	unsigned int white_id;
-	chessway stepway;
-	std::list<unsigned int> judges;
+	bool m_gameover;
+	char m_turn;
+	char m_chesses[cb_lenth][cb_lenth];
+	unsigned int m_board_id;
+	unsigned int m_black_id;
+	unsigned int m_white_id;
+	chessway m_stepway;
+	std::list<unsigned int> m_judges;
 };

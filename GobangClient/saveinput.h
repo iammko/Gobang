@@ -7,21 +7,21 @@ class saveinput
 public:
 	saveinput() 
 	{
-		bzero(buf, sizeof(buf));
+		bzero(m_buf, sizeof(m_buf));
 	}
 	~saveinput() {}
 
-	int inputxy(int &x, int &y)
+	int input_xy(int &x, int &y)
 	{
 		while (1)
 		{
 			x = y = 0;
-			if (tipinputint("请输入x：", x) != 0)
+			if (tip_input_int("请输入x：", x) != 0)
 			{
 				continue;
 			}
 
-			if (tipinputint("请输入y：", y) != 0)
+			if (tip_input_int("请输入y：", y) != 0)
 			{
 				continue;
 			}
@@ -32,7 +32,7 @@ public:
 		return -1;
 	}
 
-	int tipinputint(const char * ptip, int &rno)
+	int tip_input_int(const char * ptip, int &rno)
 	{
 		printf("%s", ptip);
 		int ret = input2no();
@@ -45,12 +45,12 @@ public:
 		return 0;
 	}
 
-	int getinputint(const char *ptip, int &rno, int low = 0, int up = INT_MAX, int quit = 0)
+	int get_input_int(const char *ptip, int &rno, int low = 0, int up = INT_MAX, int quit = 0)
 	{
 		int tmpno = 0;
 		while (1)
 		{
-			int ret = tipinputint(ptip, tmpno);
+			int ret = tip_input_int(ptip, tmpno);
 			if (ret == 0)
 			{
 				if ((tmpno > low && tmpno <= up )|| tmpno == quit)
@@ -66,28 +66,28 @@ public:
 private:
 	int input2no()
 	{
-		bzero(buf, sizeof(buf));
+		bzero(m_buf, sizeof(m_buf));
 		fflush(stdin);
-		char *ret = fgets(buf, sizeof(buf), stdin);
+		char *ret = fgets(m_buf, sizeof(m_buf), stdin);
 		if (NULL == ret)
 		{
 			return -1;
 		}
 
-		if (strlen(buf) > 10)
+		if (strlen(m_buf) > 10)
 		{
 			return -2;
 		}
 
-		for (int i = 0; i < (int)strlen(buf); ++i)
+		for (int i = 0; i < (int)strlen(m_buf); ++i)
 		{
-			if (i != 0 && buf[i] == '\n')	continue;
-			if (!isdigit(buf[i]))	return -3;
+			if (i != 0 && m_buf[i] == '\n')	continue;
+			if (!isdigit(m_buf[i]))	return -3;
 		}
 
-		return atoi(buf);
+		return atoi(m_buf);
 	}
 
 private:
-	char buf[4096];
+	char m_buf[4096];
 };

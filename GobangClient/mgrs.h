@@ -6,12 +6,12 @@ struct serveraddr
 {
 	serveraddr()
 	{
-		id = 0;
-		port = 0;
+		m_id = 0;
+		m_port = 0;
 	}
-	int id;
-	std::string ip;
-	short port;
+	int m_id;
+	std::string m_ip;
+	uint16_t m_port;
 };
 
 class servermgr : public mysingleton<servermgr>
@@ -23,11 +23,11 @@ private:
 public:
 	void loadconfig(); 
 
-	struct serveraddr* getserverinfobyid(int id);
+	struct serveraddr* get_serverinfo_byid(int id);
 	
 
 	~servermgr();
 
 private:
-	std::map<int, struct serveraddr> servers;
+	std::map<int, struct serveraddr> m_servers;
 };

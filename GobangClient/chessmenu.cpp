@@ -3,10 +3,10 @@
 
 chessmenu::chessmenu(chessgame * game)
 {
-	pgame = game;
+	m_game = game;
 }
 
-int chessmenu::offonlinemenu()
+int chessmenu::off_online_menu()
 {
 	const char *options[]{
 		"离线模式",
@@ -14,16 +14,16 @@ int chessmenu::offonlinemenu()
 	};
 
 	int len = sizeof(options) / sizeof(options[0]);
-	formatmenu(options, len);
+	format_menu(options, len);
 
 	int choose = 0;
 	saveinput input;
-	input.getinputint("请选择模式(0退出)：", choose, 0, len, 0);
+	input.get_input_int("请选择模式(0退出)：", choose, 0, len, 0);
 
 	return choose;
 }
 
-int chessmenu::modemenu(int choose)
+int chessmenu::mode_menu(int choose)
 {
 	const char * offline[] = {
 		"(离线) PVE",
@@ -37,11 +37,11 @@ int chessmenu::modemenu(int choose)
 	int len2 = sizeof(online) / sizeof(online[0]);
 	if (choose == 1)
 	{
-		formatmenu(offline, len1);
+		format_menu(offline, len1);
 	}
 	else if (choose == 2)
 	{
-		int ret = pgame->myconnect();
+		int ret = m_game->my_connect();
 		if (ret == -1)
 		{
 			system("clear");
@@ -57,7 +57,7 @@ int chessmenu::modemenu(int choose)
 			sleep(2);
 			system("clear");
 		}
-		formatmenu(online, len2);
+		format_menu(online, len2);
 	}
 	else
 	{
@@ -66,7 +66,12 @@ int chessmenu::modemenu(int choose)
 
 	int mode = 0;
 	saveinput input;
-	input.getinputint("请选择游戏模式(0返回)：", mode, cg_mode_type_none, cg_mode_type_max - 1, 0);
+	input.get_input_int("请选择游戏模式(0返回)：", mode, cg_mode_type_none, cg_mode_type_max - 1, 0);
+	if (mode == 0)
+	{
+		m_game->my_close();
+	}
+
 
 	if (choose == 2 && mode)
 	{

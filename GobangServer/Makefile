@@ -2,8 +2,10 @@ CXX=g++
 
 CXXFLAGS= -g -Wall
 
-SRCS=$(wildcard ./servicecore/*.cpp)
-OBJS=$(SRCS:.cpp=.o)
+DIRS=gameserver proto servicecore
+
+SRCS=$(foreach dir,$(DIRS),$(wildcard $(dir)/*.cpp))
+OBJS=$(patsubst %.cpp,%.o,$(SRCS))
 
 TARGET=GobangServer
 
@@ -17,4 +19,16 @@ $(OBJS):%.o:%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf *.o $(TARGET) 
+	@for dir in $(DIRS); \
+	do \
+		cd $$dir; \
+		echo cd $$dir; \
+		for file in $(ls -ls);do \
+			echo rm $$file; \
+		done; \
+		rm -rf *.o; \
+		echo rm -rf *.o; \
+		cd ../; \
+		echo cd ../; \
+	done
+	rm -f $(TARGET)

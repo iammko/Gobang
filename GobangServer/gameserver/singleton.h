@@ -13,24 +13,24 @@ protected:
 	virtual ~mysingleton(){}
 	static void destroy()
 	{
-		SAVE_DELETE(m_instance);
+		SAVE_DELETE(p);
 	}
 public:
-	static T * getinstance()
+	static T * get_instance()
 	{
-		if (m_instance == NULL)
+		if (p == NULL)
 		{
-			if (m_instance == NULL)
+			if (p == NULL)
 			{
-				m_instance = new T();
+				p = new T();
 				atexit(destroy);
 			}
 		}
-		return m_instance;
+		return p;
 	}
 private:
-	static T * m_instance;
+	static T * p;
 };
 
 template<class T>
-T *mysingleton<T>::m_instance = NULL;
+T *mysingleton<T>::p = NULL;

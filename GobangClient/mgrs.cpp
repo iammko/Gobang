@@ -42,23 +42,23 @@ void servermgr::loadconfig()
 
 			info = info->NextSiblingElement("ip");
 			if (!info)	exit(-1);
-			addr.ip = info->GetText();
+			addr.m_ip = info->GetText();
 
 			info = info->NextSiblingElement("port");
 			if (!info)	exit(-1);
-			addr.port = atoi(info->GetText());
+			addr.m_port = atoi(info->GetText());
 
-			servers[id] = addr;
+			m_servers[id] = addr;
 
 			data = data->NextSiblingElement("data");
 		}
 	}
 }
 
-serveraddr * servermgr::getserverinfobyid(int id)
+serveraddr * servermgr::get_serverinfo_byid(int id)
 {
-	std::map<int, struct serveraddr>::iterator it = servers.find(id);
-	if (it == servers.end())
+	std::map<int, struct serveraddr>::iterator it = m_servers.find(id);
+	if (it == m_servers.end())
 	{
 		return NULL;
 	}

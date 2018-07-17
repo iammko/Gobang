@@ -12,19 +12,21 @@ public:
 
 	void start();
 
-	bool startgame(const char mode);
+	bool start_game(const char mode);
 
-	int gameoffpve();
-	int gameoffpvp();
-	int gameonlinepvp();
-	int gamematch();
+	int game_off_pve();
+	int game_off_pvp();
+	int game_online_quickstart();
+	int game_race();
 
-	int getinputint(const char *ptip, int &rno, int low = 0, int up = INT_MAX, int quit = 0);
+	int get_inputint(const char *ptip, int &rno, int low = 0, int up = INT_MAX, int quit = 0);
 
-	int myconnect(int serverid = 1);
+	int my_connect(int serverid = 1);
+	int my_close();
+
 
 private:
-	ctcpsock mscok;
-	chessmenu mmenu;
-	chessboard mboard;
+	tcpsock m_sock;
+	chessmenu m_menu;
+	chessboard m_board;
 };

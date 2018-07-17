@@ -14,12 +14,12 @@ public:
 	
 	void init();
 
-	int offonlinemenu();
+	int off_online_menu();
 
-	int modemenu(int choose);
+	int mode_menu(int choose);
 
 private:
-	void printstar(int n)
+	void print_star(int n)
 	{
 		for (int i = 0; i < n; ++i)
 		{
@@ -27,7 +27,7 @@ private:
 		}
 	}
 
-	int getmaxlen(const char *strarray[], int len)
+	int get_maxlen(const char *strarray[], int len)
 	{
 		int maxlen = 0;
 		for (int i = 0; i < len; ++i)
@@ -41,13 +41,13 @@ private:
 		return maxlen;
 	}
 
-	void formatmenu(const char *options[], int len)
+	void format_menu(const char *options[], int len)
 	{
-		int maxlen = getmaxlen(options, len);
+		int maxlen = get_maxlen(options, len);
 
 		const int prefix = 5;
 		system("clear");
-		printstar(maxlen + prefix * 2);
+		print_star(maxlen + prefix * 2);
 		printf("\n\n");
 
 		for (int i = 0; i < prefix; ++i)
@@ -61,10 +61,9 @@ private:
 		}
 
 		printf("\n");
-		printstar(maxlen + prefix * 2);
+		print_star(maxlen + prefix * 2);
 		printf("\n");
 	}
 private:
-	chessgame * pgame;
-	std::map<char, std::string> options;
+	chessgame * m_game;
 };
