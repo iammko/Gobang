@@ -110,6 +110,7 @@ int tcp_listen_routine::on_read()
 			}
 			else
 			{
+				service::get_instance()->on_routine_created(tsr->m_routine_id);
 				DEBUG_LOG("on_read.accept success conn_fd=%d\n", conn_fd);
 				m_routine_proxy->add_routine(tsr);
 			}

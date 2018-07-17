@@ -22,14 +22,17 @@ struct	service_msg_header
 	service_msg_header& operator=(const service_msg_header &smh)
 	{
 		this->msg_size = smh.msg_size;
+		this->msg_type = smh.msg_type;
 		return	*this;
 	}
 
 	service_msg_header(const service_msg_header &smh)
 	{
 		this->msg_size = smh.msg_size;
+		this->msg_type = smh.msg_type;
 	}
 	uint32_t	msg_size;
+	uint32_t	msg_type;
 };
 #pragma	pack()
 
@@ -48,9 +51,9 @@ public:
 	virtual int process_msg(tcp_routine_proxy *trp, tcp_routine *tr, circular_buffer *buff);
 	virtual int process_msg(tcp_routine *tr, service_msg_header &msgheader, const char *msg, unsigned len) = 0;
 
-	virtual	void	on_peer_close(tcp_routine_proxy* proxy, routine* r) = 0;
-	virtual	void	on_hangup(tcp_routine_proxy* proxy, routine* r) = 0;
-	virtual	void	on_routine_error(tcp_routine_proxy* proxy, routine* r) = 0;
+	virtual	void	on_peer_close(tcp_routine_proxy* proxy, tcp_routine* r) = 0;
+	virtual	void	on_hangup(tcp_routine_proxy* proxy, tcp_routine* r) = 0;
+	virtual	void	on_routine_error(tcp_routine_proxy* proxy, tcp_routine* r) = 0;
 	virtual	void	on_routine_created(uint64_t routine_id) = 0;
 	virtual	void	on_routine_closed(tcp_routine_proxy* rt) = 0;
 
