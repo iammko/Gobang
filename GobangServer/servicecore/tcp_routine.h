@@ -1,8 +1,10 @@
 #pragma once
 #include "define.h"
+#include "service_define.h"
 
 class tcp_routine_proxy;
 class circular_buffer;
+
 
 
 class tcp_routine
@@ -24,6 +26,11 @@ public:
 	uint64_t get_routine_id()
 	{
 		return m_routine_id;
+	}
+
+	int get_fd()
+	{
+		return m_fd;
 	}
 
 	int do_nonblock_write();

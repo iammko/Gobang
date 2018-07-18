@@ -1,6 +1,8 @@
 #pragma once
 #include "define.h"
 
+class chessgame;
+
 struct chessstep
 {
 	chessstep()
@@ -51,7 +53,7 @@ private:
 class chessboard
 {
 public:
-	chessboard()
+	chessboard(chessgame *game):m_game(game)
 	{
 		bzero(m_chesses, sizeof(m_chesses));
 		m_turn = cb_white_chess;
@@ -371,6 +373,8 @@ private:
 		return count;
 	}
 private:
+	chessgame * m_game;
+
 	bool m_gameover;
 	char m_turn;
 	char m_chesses[cb_lenth][cb_lenth];

@@ -1,4 +1,6 @@
 #include "game_mgr.h"
+#include "game_service.h"
+#include "msg_handler_mgr.h"
 
 game_mgr::game_mgr()
 {
@@ -10,10 +12,14 @@ game_mgr::~game_mgr()
 
 void game_mgr::start()
 {
-	msg_handler_mgr::register_all();
+	msg_handler_mgr::get_instance()->register_all();
+	loadconfig();
+
+	game_service server("127.0.0.1", 3601, "log");
+	server.start_service();
 }
 
-void game_mgr::handle_msg(tcp_routine * tr, const char * msg, unsigned len)
+void game_mgr::loadconfig()
 {
 }
 

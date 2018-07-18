@@ -70,12 +70,12 @@ int service::process_msg(tcp_routine_proxy * trp, tcp_routine * tr, circular_buf
 
 		if (header.msg_size > buff->data_len())
 		{
-			DEBUG_LOG("process_msg recive incomplete msg msgsize=%u buflen=%u\n", header.msg_size, buff->data_len());
+			DEBUG_LOG("process_msg recive incomplete msg msgsize=%u buflen=%u", header.msg_size, buff->data_len());
 			return 0;
 		}
 		else if (header.msg_size < buff->data_len())
 		{
-			ERROR_LOG("process_msg recive err msg  msgsize=%u buflen=%u\n", header.msg_size, buff->data_len());
+			ERROR_LOG("process_msg recive err msg  msgsize=%u buflen=%u", header.msg_size, buff->data_len());
 			return -1;
 		}
 		else
@@ -119,32 +119,32 @@ uint64_t service::create_listen_routine(const char * ipaddr, uint16_t port)
 	}
 
 	m_routine_proxy->add_routine(tlr);
-	INFO_LOG("create_listen_routine routine_id=%lu, ip=%s, port=%u\n", tlr->get_routine_id(), ipaddr, port);
+	INFO_LOG("create_listen_routine routine_id=%lu, ip=%s, port=%u", tlr->get_routine_id(), ipaddr, port);
 
 	return tlr->get_routine_id();
 }
 
 void service::signal_handler(int sigid, siginfo_t * si, void * unused)
 {
-	DEBUG_LOG("recive signal=%d\n", sigid);
+	DEBUG_LOG("recive signal=%d", sigid);
 
 	if (sigid == SIGPIPE || sigid == SIGHUP)
 	{
-		DEBUG_LOG("signal_handler ignore\n");
+		DEBUG_LOG("signal_handler ignore");
 	}
 	else if (sigid == SIGTERM || sigid == SIGINT)
 	{
-		DEBUG_LOG("signal_handler stop_service\n");
+		DEBUG_LOG("signal_handler stop_service");
 		service::get_instance()->m_service_state = service_state_stop;
 	}
 }
 
 void service::set_user_data(uint64_t routine_id, const user_data & data)
 {
-	m_routine_proxy->set_user_data(routine_id);
+	m_routine_proxy->set_user_data(routine_id, data);
 }
 
 void service::get_user_data(uint64_t routine_id, user_data & data)
 {
-	m_routine_proxy->get_user_data(routine_id);
+	m_routine_proxy->get_user_data(routine_id, data);
 }

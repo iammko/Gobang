@@ -8,7 +8,7 @@ chessmenu::chessmenu(chessgame * game)
 
 int chessmenu::off_online_menu()
 {
-	const char *options[]{
+	const char *options[] = {
 		"离线模式",
 		"在线模式",
 	};
@@ -54,10 +54,12 @@ int chessmenu::mode_menu(int choose)
 		{
 			system("clear");
 			printf("连接成功。。。\n");
+			m_game->send_id_req();
 			sleep(2);
 			system("clear");
 		}
 		format_menu(online, len2);
+		printf("ID:%u\n", m_game->get_id());
 	}
 	else
 	{

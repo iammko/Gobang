@@ -1,21 +1,27 @@
 CXX=g++
 
-CXXFLAGS= -g -Wall
+CXXFLAGS= -g -Wall -I./servicecore -I./proto -I./common -I./gameserver
+CXXLFLAGS= -lprotobuf
 
-DIRS=gameserver proto servicecore
+DIRS=gameserver servicecore common
 
 SRCS=$(foreach dir,$(DIRS),$(wildcard $(dir)/*.cpp))
+SRCS2=$(wildcard ./proto/*.cc)
 OBJS=$(patsubst %.cpp,%.o,$(SRCS))
+OBJS2=$(patsubst %.cc,%.o,$(SRCS2))
+ALLOBJS=$(OBJS) $(OBJS2)
 
 TARGET=GobangServer
 
 .PHONY: clean
 
-$(TARGET):$(OBJS) 
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
+$(TARGET):$(ALLOBJS) 
+	$(CXX) $(CXXLFLAGS) $(ALLOBJS) -o $@
 	rm -rf *.o
 
 $(OBJS):%.o:%.cpp 
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(OBJS2):%.o:%.cc
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:

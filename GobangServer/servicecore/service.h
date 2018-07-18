@@ -49,12 +49,12 @@ public:
 	virtual void start_service();
 	virtual int stop_service();
 	virtual int process_msg(tcp_routine_proxy *trp, tcp_routine *tr, circular_buffer *buff);
-	virtual int process_msg(tcp_routine *tr, service_msg_header &msgheader, const char *msg, unsigned len) = 0;
+	virtual int process_msg(tcp_routine *tr,const service_msg_header &msgheader, const char *msg, unsigned len) = 0;
 
 	virtual	void	on_peer_close(tcp_routine_proxy* proxy, tcp_routine* r) = 0;
 	virtual	void	on_hangup(tcp_routine_proxy* proxy, tcp_routine* r) = 0;
 	virtual	void	on_routine_error(tcp_routine_proxy* proxy, tcp_routine* r) = 0;
-	virtual	void	on_routine_created(uint64_t routine_id) = 0;
+	virtual	void	on_routine_created(tcp_routine* r) = 0;
 	virtual	void	on_routine_closed(tcp_routine_proxy* rt) = 0;
 
 	void send_msg(uint64_t routine_id, const char *msg, unsigned len);

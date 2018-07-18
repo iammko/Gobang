@@ -1,13 +1,17 @@
 #pragma once
 
+#include "define.h"
 #include "singleton.h"
 #include "proto_define.h"
+
+class game_player;
+class service_msg_header;
 
 
 class msg_hander
 {
 public:
-	virtual done(game_player *gp, const char *msg, unsigned len) = 0;
+	virtual int done(game_player *gp, const char *msg, unsigned len) = 0;
 };
 
 class msg_handler_mgr : public mysingleton<msg_handler_mgr>
@@ -22,7 +26,23 @@ public:
 
 	void register_all();
 	void register_handler(protocol_number pn, msg_hander *handler);
+
+	void handle_msg(game_player *gp,const service_msg_header & msgheader, const char * msg, unsigned len);
 private:
 	typedef std::map<protocol_number, msg_hander*> handler_map_t;
 	handler_map_t m_handler_mgr;
+};
+
+
+class cs_id_req_handler :public msg_hander
+{
+public:
+	virtual int done(game_player *gp, const char *msg, unsigned len);
+};
+
+
+class game_type_req_handler :public msg_hander
+{
+public:
+	virtual int done(game_player *gp, const char *msg, unsigned len);
 };

@@ -5,6 +5,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <vector>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -23,9 +24,9 @@
 	} 
 #endif
 
-#define INFO_LOG	report_event;
-#define DEBUG_LOG	report_event;
-#define ERROR_LOG	report_event;
+#define INFO_LOG	report_event
+#define DEBUG_LOG	report_event
+#define ERROR_LOG	report_event
 
 void    report_event(const char *format, ...);
 
@@ -39,8 +40,50 @@ enum cg_mode_type
 	cg_mode_type_none = 0,
 	cg_mode_type_offpve = 1,
 	cg_mode_type_offpvp = 2,
-	cg_mode_type_onlinepvp = 3,
-	cg_mode_type_match = 4,
+	cg_mode_type_online_quickstart = 3,
+	cg_mode_type_online_race = 4,
 	cg_mode_type_max
 };
 
+enum cg_game_room_type
+{
+	cg_game_room_none = 0,
+	cg_game_room_normal = 1,
+
+	cg_game_room_count
+};
+
+#pragma	pack(1)
+struct	service_msg_header
+{
+	service_msg_header() :msg_size(0)
+	{
+	}
+
+	service_msg_header& operator=(const service_msg_header &smh)
+	{
+		this->msg_size = smh.msg_size;
+		this->msg_type = smh.msg_type;
+		return	*this;
+	}
+
+	service_msg_header(const service_msg_header &smh)
+	{
+		this->msg_size = smh.msg_size;
+		this->msg_type = smh.msg_type;
+	}
+	uint32_t	msg_size;
+	uint32_t	msg_type;
+};
+#pragma	pack()
+
+struct process_msg_data
+{
+	process_msg_data()
+	{
+		len = 0;
+		data = NULL;
+	}
+	unsigned len;
+	void *data;
+};

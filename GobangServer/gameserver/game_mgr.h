@@ -3,6 +3,7 @@
 #include "singleton.h"
 
 class tcp_routine;
+class service_task;
 
 class game_mgr : public mysingleton<game_mgr>
 {
@@ -14,5 +15,7 @@ public:
 	~game_mgr();
 
 	void start();
-	void handle_msg(tcp_routine *tr, const char *msg, unsigned len);
+	void loadconfig();
+
+private:
 };

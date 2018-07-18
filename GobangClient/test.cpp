@@ -3,7 +3,7 @@
 
 int main()
 {
-	servermgr::getinstance()->loadconfig();
+	servermgr::get_instance()->loadconfig();
 
 	chessgame game;
 

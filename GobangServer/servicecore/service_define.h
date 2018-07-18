@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stdint.h>
 
 
 bool	test_byte_order();

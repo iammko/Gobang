@@ -1,5 +1,6 @@
 #include "tcp_routine_proxy.h"
 #include "tcp_routine.h"
+#include "service.h"
 
 #include <errno.h>
 
@@ -47,11 +48,11 @@ void tcp_routine_proxy::add_routine(tcp_routine * tr)
 	{
 		if (epoll_ctl(m_epoll_fd, EPOLL_CTL_ADD, tr->m_fd, &ev) == 0)
 		{
-			DEBUG_LOG("add_routine.epoll_ctl done epfd=%d routine_id=%lu fd=%d\n", m_epoll_fd, tr->m_routine_id, tr->m_fd);
+			DEBUG_LOG("add_routine.epoll_ctl done epfd=%d routine_id=%lu fd=%d", m_epoll_fd, tr->m_routine_id, tr->m_fd);
 		}
 		else
 		{
-			ERROR_LOG("add_routine.epoll_ctl error epfd=%d routine_id=%lu fd=%d\n", m_epoll_fd, tr->m_routine_id, tr->m_fd);
+			ERROR_LOG("add_routine.epoll_ctl error epfd=%d routine_id=%lu fd=%d", m_epoll_fd, tr->m_routine_id, tr->m_fd);
 		}
 	}
 }
@@ -90,11 +91,11 @@ void tcp_routine_proxy::unregister_events(tcp_routine * tr)
 	{
 		if (epoll_ctl(m_epoll_fd, EPOLL_CTL_DEL, tr->m_fd, &ev) == 0)
 		{
-			DEBUG_LOG("unregister_events done epfd=%d routine_id=%lu fd=%d\n", m_epoll_fd, tr->m_routine_id, tr->m_fd);
+			DEBUG_LOG("unregister_events done epfd=%d routine_id=%lu fd=%d", m_epoll_fd, tr->m_routine_id, tr->m_fd);
 		}
 		else
 		{
-			ERROR_LOG("unregister_events error epfd=%d routine_id=%lu fd=%d\n", m_epoll_fd, tr->m_routine_id, tr->m_fd);
+			ERROR_LOG("unregister_events error epfd=%d routine_id=%lu fd=%d", m_epoll_fd, tr->m_routine_id, tr->m_fd);
 		}
 	}
 }
@@ -150,7 +151,7 @@ void tcp_routine_proxy::react()
 	inspect();
 
 	struct timespec rqtp;
-	rqtp.tv_nsec = 2 * 1000 * 1000;
+	rqtp.tv_nsec = 20 * 1000 * 1000;
 	nanosleep(&rqtp, NULL);
 }
 
@@ -178,26 +179,26 @@ void tcp_routine_proxy::process_events(uint64_t routine_id, uint32_t events)
 		if (tr->on_read() < 0)
 		{
 			service::get_instance()->on_peer_close(this, tr);
-			tr->m_del_flag = true;
+			tr->on_peer_close();
 		}
 	}
 
 	if (events & EPOLLRDHUP)
 	{
+		service::get_instance()->on_peer_close(this, tr);
 		tr->on_peer_close();
-		service::get_instance()->on_peer_close(this, rt);
 	}
 
 	if (events & EPOLLHUP)
 	{
+		service::get_instance()->on_hangup(this, tr);
 		tr->on_hangup();
-		service::get_instance()->on_hangup(this, rt);
 	}
 
 	if (events & EPOLLERR)
 	{
+		service::get_instance()->on_routine_error(this, tr);
 		tr->on_error();
-		service::get_instance()->on_routine_error(this, rt);
 	}
 }
 

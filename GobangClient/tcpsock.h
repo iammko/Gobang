@@ -1,22 +1,16 @@
 #pragma once
 #include "define.h"
+#include "proto_define.h"
 
+class chessgame;
+class circular_buffer;
 
 class tcpsock
 {
 public:
-	tcpsock()
-	{
-		m_sock_fd = -1;
-		bzero(&m_addr, sizeof(m_addr));
-		m_addr.sin_family = AF_INET;
-		m_addrlen = 0;
-	}
+	tcpsock(chessgame *game);
 
-	~tcpsock()
-	{
-
-	}
+	~tcpsock();
 
 	void create_socket()
 	{
@@ -53,12 +47,13 @@ public:
 		return fcntl(m_sock_fd, F_SETFL, O_NONBLOCK);
 	}
 
-	int my_write(const char *buff, int len)
-	{
-		return write(m_sock_fd, buff, len);
-	}
+	int do_proto(protocol_number pn, const char *msg, unsigned len);
+	int recv_proto();
 
-	int my_read(char *buff, int len)
+	int send_msg(protocol_number pn, const char *buff, unsigned len);
+	int process_msg(protocol_number pn, const char *buff, unsigned len);
+
+	int my_read(char *buff, unsigned len)
 	{
 		return read(m_sock_fd, buff, len);
 	}
@@ -73,7 +68,12 @@ public:
 		return connect(m_sock_fd, (sockaddr*)&m_addr, m_addrlen);
 	}
 
+private:
+	chessgame* m_game;
+
 	int m_sock_fd;
 	socklen_t m_addrlen;
 	struct sockaddr_in m_addr;
+
+	circular_buffer *m_recv;
 };

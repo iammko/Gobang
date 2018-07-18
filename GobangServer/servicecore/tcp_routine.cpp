@@ -105,13 +105,13 @@ int tcp_listen_routine::on_read()
 			tcp_session_routine * tsr = tcp_session_routine::create(m_routine_proxy, conn_fd);
 			if (NULL == tsr)
 			{
-				ERROR_LOG("on_read.accept bad_alloc for conn_fd\n");
+				ERROR_LOG("on_read.accept bad_alloc for conn_fd");
 				close(conn_fd);
 			}
 			else
 			{
-				service::get_instance()->on_routine_created(tsr->m_routine_id);
-				DEBUG_LOG("on_read.accept success conn_fd=%d\n", conn_fd);
+				service::get_instance()->on_routine_created(tsr);
+				DEBUG_LOG("on_read.accept success conn_fd=%d", conn_fd);
 				m_routine_proxy->add_routine(tsr);
 			}
 			continue;
@@ -219,6 +219,7 @@ int tcp_session_routine::on_write()
 
 void tcp_session_routine::on_peer_close()
 {
+	m_del_flag = true;
 	DEBUG_LOG("peer close connection");
 }
 
@@ -234,6 +235,7 @@ void tcp_session_routine::on_error()
 
 bool tcp_routine::append_send_data(const char * data, unsigned len)
 {
+	DEBUG_LOG("append_send_data %u bytes data before", len);
 	if (m_writable && m_send->data_len() == 0)
 	{
 		unsigned sent = 0;
@@ -243,6 +245,7 @@ bool tcp_routine::append_send_data(const char * data, unsigned len)
 			if (sent < len)
 			{
 				m_writable = false;
+				DEBUG_LOG("append_send_data.do_nonblock_write incomplete %u bytes data unsend", len - sent);
 				return m_send->append(data + sent, len - sent);
 			}
 			return true;
@@ -287,7 +290,7 @@ int tcp_routine::do_nonblock_write(const char * buf, unsigned len, unsigned & se
 {
 	while (sent < len)
 	{
-		int ret = write(m_fd, buf + send, len - sent);
+		int ret = write(m_fd, buf + sent, len - sent);
 		if (ret >= 0)
 		{
 			sent += ret;

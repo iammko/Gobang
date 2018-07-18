@@ -1,6 +1,7 @@
 #pragma once
 
 #include "define.h"
+#include "service_define.h"
 
 class tcp_routine;
 

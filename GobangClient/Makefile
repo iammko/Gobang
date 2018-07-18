@@ -1,8 +1,8 @@
 CXX=g++
 
 CXXFLAGS= -g -Wall
+CXXLFLAGS= -lprotobuf
 
-HEADS=$(wildcard *.h)
 SRCS=$(wildcard *.cpp)
 OBJS=$(SRCS:.cpp=.o)
 
@@ -11,10 +11,10 @@ TARGET=GobangClient
 .PHONY: clean
 
 $(TARGET):$(OBJS) 
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
+	$(CXX) $(CXXLFLAGS) $(OBJS) -o $@
 	rm -rf *.o
 
-$(OBJS):%.o:%.cpp $(HEADS) 
+$(OBJS):%.o:%.cpp 
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:

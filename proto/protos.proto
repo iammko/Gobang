@@ -1,0 +1,24 @@
+package proto;
+//protocol_number_id_proto = 1
+message id_req
+{
+
+}
+
+message id_ret
+{
+	optional uint32 id = 1;
+}
+
+//protocol_number_game_type = 2
+message game_type_req
+{
+	optional uint32 game_type = 1;
+}
+
+message game_type_ret
+{
+	optional uint32 result = 1;
+}
+
+

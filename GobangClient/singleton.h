@@ -16,7 +16,7 @@ protected:
 		SAVE_DELETE(m_instance);
 	}
 public:
-	static T * getinstance()
+	static T * get_instance()
 	{
 		if (m_instance == NULL)
 		{

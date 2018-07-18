@@ -4,17 +4,23 @@
 #include "saveinput.h"
 #include "tcpsock.h"
 #include "mgrs.h"
+#include "protos.pb.h"
 
-chessgame::chessgame() : m_menu(this)
+chessgame::chessgame() : m_sock(this),m_menu(this),m_board(this)
 {
-	m_sock.createsocket();
-	serveraddr *paddr = servermgr::getinstance()->get_serverinfo_byid(1);
+	m_sock.create_socket();
+	serveraddr *paddr = servermgr::get_instance()->get_serverinfo_byid(1);
 	if (paddr)
 	{
-		m_sock.setip(paddr->m_ip.c_str());
-		m_sock.setport(paddr->m_porto);
-		m_sock.setaddrlen();
+		m_sock.set_ip(paddr->m_ip.c_str());
+		m_sock.set_port(paddr->m_port);
+		m_sock.set_addrlen();
 	}
+}
+
+chessgame::~chessgame()
+{
+
 }
 
 void chessgame::start()
@@ -41,6 +47,7 @@ void chessgame::start()
 
 bool chessgame::start_game(const char mode)
 {
+	m_game_type = (cg_mode_type)mode;
 	if (mode == cg_mode_type_offpve)
 	{
 		game_off_pve();
@@ -49,13 +56,15 @@ bool chessgame::start_game(const char mode)
 	{
 		game_off_pvp();
 	}
-	else if (mode == cg_mode_type_onlinepvp)
+	else if (mode == cg_mode_type_online_quickstart)
 	{
 		game_online_quickstart();
+		return 0;
 	}
-	else if (mode == cg_mode_type_match)
+	else if (mode == cg_mode_type_online_race)
 	{
-		game_race();
+		game_online_race();
+		return;
 	}
 	else
 	{
@@ -98,11 +107,13 @@ int chessgame::game_off_pvp()
 
 int chessgame::game_online_quickstart()
 {
+	do_proto(protocol_number_game_type);
+
 
 	return 0;
 }
 
-int chessgame::game_race()
+int chessgame::game_online_race()
 {
 	return 0;
 }
@@ -120,7 +131,44 @@ int chessgame::my_connect(int serverid)
 
 int chessgame::my_close()
 {
-	return m_sock.myclose();
+	return m_sock.my_close();
+}
+
+int chessgame::send_id_req()
+{
+	proto::id_req send;
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+	
+	m_sock.do_proto(protocol_number_id_req,&bytes[0], size);
+
+	return 0;
+}
+
+int chessgame::send_game_type_req(cg_mode_type type)
+{
+	proto::game_type_req send;
+	send.set_game_type(type);
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+
+	m_sock.do_proto(protocol_number_game_type, &bytes[0], size);
+
+	return 0;
+}
+
+void chessgame::set_id(unsigned id)
+{
+	m_player_id = id;
+}
+
+unsigned chessgame::get_id()
+{
+	return m_player_id;
 }
 
 
