@@ -16,12 +16,11 @@ chessgame::chessgame() : m_sock(this),m_menu(this),m_board(this)
 		m_sock.set_port(paddr->m_port);
 		m_sock.set_addrlen();
 	}
-	m_msg_data = new process_msg_data();
 }
 
 chessgame::~chessgame()
 {
-	delete m_msg_data;
+
 }
 
 void chessgame::start()
@@ -37,10 +36,12 @@ void chessgame::start()
 			if (mode == BACK_VALUE)	break;
 			if (mode > cg_mode_type_none && mode < cg_mode_type_max)
 			{
+				m_game_type = (cg_mode_type)mode;
 				while (start_game(mode))
 				{
 
 				}
+				m_game_type = cg_mode_type_none;
 			}
 		}
 	}
@@ -48,7 +49,6 @@ void chessgame::start()
 
 bool chessgame::start_game(const char mode)
 {
-	m_game_type = (cg_mode_type)mode;
 	if (mode == cg_mode_type_offpve)
 	{
 		game_off_pve();
@@ -108,11 +108,14 @@ int chessgame::game_off_pvp()
 
 int chessgame::game_online_quickstart()
 {
-	send_game_type_req();
+	int ret = send_game_type_req();
+	if (ret != 1)	return 0;
 
+	
+	m_board.init();
+	m_board.draw();
+	
 
-
-	return 0;
 }
 
 int chessgame::game_online_race()
@@ -134,12 +137,6 @@ int chessgame::my_connect(int serverid)
 int chessgame::my_close()
 {
 	return m_sock.my_close();
-}
-
-void chessgame::set_process_msg_data(const void * data, len)
-{
-	SAFE_DELETE
-	memcpy(m_msg_data.data)
 }
 
 int chessgame::send_id_req()
@@ -164,9 +161,7 @@ int chessgame::send_game_type_req()
 	bytes.resize(size);
 	send.SerializeToArray(&bytes[0], size);
 
-	m_sock.do_proto(protocol_number_game_type, &bytes[0], size);
-
-	return 0;
+	return m_sock.do_proto(protocol_number_game_type, &bytes[0], size);
 }
 
 void chessgame::set_id(unsigned id)

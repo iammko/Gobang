@@ -28,8 +28,6 @@ public:
 	int my_connect(int serverid = 1);
 	int my_close();
 
-	void set_process_msg_data(const void *data, len);
-
 	int send_id_req();
 	int send_game_type_req();
 
@@ -41,5 +39,4 @@ private:
 	tcpsock m_sock;
 	chessmenu m_menu;
 	chessboard m_board;
-	process_msg_data *m_msg_data;
 };

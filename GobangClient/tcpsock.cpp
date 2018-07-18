@@ -64,7 +64,7 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 		decode.ParseFromArray(buff, len);
 		if (decode.has_result())
 		{
-			
+			return decode.result();
 		}
 	}
 
@@ -113,7 +113,7 @@ int tcpsock::recv_proto()
 			{
 				return -1;
 			}
-			process_msg((protocol_number)header.msg_type, m_recv->data_ptr(), m_recv->data_len());
+			return process_msg((protocol_number)header.msg_type, m_recv->data_ptr(), m_recv->data_len());
 		}
 	}
 	else if (ret == 0)
@@ -122,7 +122,7 @@ int tcpsock::recv_proto()
 	}
 	else if (errno == EAGAIN || errno == EWOULDBLOCK)
 	{
-		ret = 0;
+		ret = -1;
 	}
 	else
 	{
