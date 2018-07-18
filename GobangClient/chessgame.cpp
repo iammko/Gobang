@@ -16,11 +16,12 @@ chessgame::chessgame() : m_sock(this),m_menu(this),m_board(this)
 		m_sock.set_port(paddr->m_port);
 		m_sock.set_addrlen();
 	}
+	m_msg_data = new process_msg_data();
 }
 
 chessgame::~chessgame()
 {
-
+	delete m_msg_data;
 }
 
 void chessgame::start()
@@ -107,7 +108,8 @@ int chessgame::game_off_pvp()
 
 int chessgame::game_online_quickstart()
 {
-	do_proto(protocol_number_game_type);
+	send_game_type_req();
+
 
 
 	return 0;
@@ -134,6 +136,12 @@ int chessgame::my_close()
 	return m_sock.my_close();
 }
 
+void chessgame::set_process_msg_data(const void * data, len)
+{
+	SAFE_DELETE
+	memcpy(m_msg_data.data)
+}
+
 int chessgame::send_id_req()
 {
 	proto::id_req send;
@@ -147,10 +155,10 @@ int chessgame::send_id_req()
 	return 0;
 }
 
-int chessgame::send_game_type_req(cg_mode_type type)
+int chessgame::send_game_type_req()
 {
 	proto::game_type_req send;
-	send.set_game_type(type);
+	send.set_game_type(m_game_type);
 	int size = send.ByteSize();
 	std::vector<char> bytes;
 	bytes.resize(size);

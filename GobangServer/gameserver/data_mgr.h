@@ -22,6 +22,8 @@ public:
 	}
 
 	void send_msg(protocol_number pn, const char *msg, unsigned len);
+	bool check_state();
+	int choose_type(cg_game_room_type type);
 
 
 private:

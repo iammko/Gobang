@@ -63,7 +63,7 @@ int cs_id_req_handler::done(game_player * gp, const char * msg, unsigned len)
 		bytes.resize(size);
 		send.SerializeToArray(&bytes[0], size);
 
-		DEBUG_LOG("cs_id_req_handler new player id=%u", gp->get_player_id());
+		DEBUG_LOG("cs_id_req_handler done id=%u", gp->get_player_id());
 		gp->send_msg(protocol_number_id_req, &bytes[0], size);
 	}
 
@@ -75,7 +75,21 @@ int game_type_req_handler::done(game_player * gp, const char * msg, unsigned len
 	proto::game_type_req decode;
 	decode.ParseFromArray(msg, len);
 
+	if (!gp->check_state())	return 0;
+	gp->choose_type(decode.game_type());
 
+	proto::game_type_ret send;
+	send.set_result(0);
+	int size = send;
+	if (size)
+	{
+		std::vector<char> bytes;	
+		bytes.resize(size);
+		send.SerializeToArray(&bytes[0], size);
+
+		DEBUG_LOG("game_type_req_handler done id=%u", gp->get_player_id());
+		gp->send_msg(protocol_number_game_type, , &bytes[0], size);
+	}
 
 	return 0;
 }

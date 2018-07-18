@@ -21,6 +21,18 @@ void game_player::send_msg(protocol_number pn, const char * msg, unsigned len)
 	m_service_task->send_msg(pn, msg, len);
 }
 
+bool game_player::check_state()
+{
+
+	return true;
+}
+
+int game_player::choose_type(cg_game_room_type type)
+{
+	m_room_type = type;
+	return 0;
+}
+
 
 data_mgr::data_mgr()
 {

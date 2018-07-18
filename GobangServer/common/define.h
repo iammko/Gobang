@@ -84,6 +84,14 @@ struct process_msg_data
 		len = 0;
 		data = NULL;
 	}
-	unsigned len;
-	void *data;
+	~process_msg_data()
+	{
+		delete data;
+	}
+	int save_data(const void *data, unsigned len)
+	{
+		SAFE_DELTE(data);
+	}
+	unsigned m_len;
+	void *m_data;
 };
