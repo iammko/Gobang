@@ -16,7 +16,6 @@ TARGET=GobangServer
 .PHONY: clean
 
 $(TARGET):$(ALLOBJS) 
-	$(CXX) $(CXXLFLAGS) $(ALLOBJS) -o $@
 	$(CXX) $(ALLOBJS) -o $@ $(CXXLFLAGS)
 	rm -rf *.o
 
