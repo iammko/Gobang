@@ -56,7 +56,7 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 		proto::id_ret decode;
 		decode.ParseFromArray(buff, len);
 		if (decode.has_id())
-			m_game->set_id(decode.id());
+			m_game->set_my_id(decode.id());
 	}
 	else if (pn == protocol_number_game_type)
 	{
@@ -67,15 +67,92 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 			return decode.result();
 		}
 	}
+	else if (pn == protocol_number_join_board)
+	{
+		proto::join_board_ret decode;
+		decode.ParseFromArray(buff, len);
+		if (decode.has_result())
+		{
+			if (decode.has_board_id() && decode.board_id() && decode.result())
+			{
+				m_game->set_board_id(decode.board_id());
+			}
+			return decode.result();
+		}
+	}
+	else if (pn == protocol_number_player_info)
+	{
+		proto::player_info_ret decode;
+		decode.ParseFromArray(buff, len);
+		for (int i = 0; i < decode.players_size(); ++i)
+		{
+			const proto::player_info &info = decode.players(i);
+			if (info.player_type() == 1)
+			{//玩家
+				m_game->set_other_id(info.player_id());
+			}
+		}
+	}
+	else if (pn == protocol_number_start)
+	{
+		proto::start_ret decode;
+		decode.ParseFromArray(buff, len);
+		if (decode.has_white_id())
+		{
+			m_game->set_player_chess(decode.white_id(), cb_white_chess);
+		}
+		if (decode.has_black_id())
+		{
+			m_game->set_player_chess(decode.black_id(), cb_black_chess);
+		}
+		if (decode.has_start_chess())
+		{
+			m_game->set_turn_chess(decode.start_chess());
+		}
+	}
+	else if (pn == protocol_number_do_step)
+	{
+		proto::do_step_ret decode;
+		decode.ParseFromArray(buff, len);
+		if (decode.has_other_step())
+		{
+			proto::step_info *info = decode.mutable_other_step();
+			if (info)
+			{
+				m_game->do_step(info->x(), info->y(), m_game->get_other_id());
+			}
+		}
+		if (decode.has_result())
+		{
+			m_game->set_game_over(decode.result());
+			if (decode.result() != 2 && decode.has_win_id())
+			{
+				m_game->result_menu(decode.result(), decode.win_id());
+			}
+			else
+			{
+				m_game->result_menu(decode.result());
+			}
+		}
+		
+	}
+	else if (pn == protocol_number_surrender)
+	{
+
+	}
 
 
-	return 0;
+	return 1;
 }
 
 int tcpsock::do_proto(protocol_number pn, const char *msg, unsigned len)
 {
 	send_msg(pn, msg, len);
 	int ret = recv_proto();
+	if (ret == -1)
+	{
+		m_game->m_menu.connection_failed();
+	}
 
 	return ret;
 }
@@ -122,7 +199,7 @@ int tcpsock::recv_proto()
 	}
 	else if (errno == EAGAIN || errno == EWOULDBLOCK)
 	{
-		ret = -1;
+		ret = 0;
 	}
 	else
 	{

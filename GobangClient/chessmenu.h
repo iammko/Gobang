@@ -17,7 +17,14 @@ public:
 	int off_online_menu();
 
 	int mode_menu(int choose);
+	bool continue_menu();
+	void id_chess_menu();
+	bool start_oder_menu();
 
+	bool sure_or_not_menu(const char *tips);
+
+	void result_menu(int result, int win_id);
+	int connection_failed();
 private:
 	void print_star(int n)
 	{

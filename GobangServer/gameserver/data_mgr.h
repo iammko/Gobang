@@ -23,14 +23,29 @@ public:
 
 	void send_msg(protocol_number pn, const char *msg, unsigned len);
 	bool check_state();
-	int choose_type(cg_game_room_type type);
 
+	void set_room_id(unsigned room_id);
+	unsigned get_room_id();
 
+	void set_board_id(unsigned board_id);
+	unsigned get_board_id();
+
+	int set_game_type(cg_mode_type type);
+	cg_mode_type get_game_type();
+
+	int set_room_type(cg_game_room_type type);
+	cg_game_room_type get_room_type();
+
+	void set_chess(char chess);
+	char get_chess();
 private:
 	friend class data_mgr;
+	cg_mode_type m_game_type;
 	unsigned m_player_id;
 	cg_game_room_type m_room_type;
 	unsigned m_room_id;
+	unsigned m_board_id;
+	char m_chess_color;
 
 	service_task *m_service_task;
 };

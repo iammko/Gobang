@@ -12,7 +12,6 @@ game_mgr::~game_mgr()
 
 void game_mgr::start()
 {
-	msg_handler_mgr::get_instance()->register_all();
 	loadconfig();
 
 	game_service server("127.0.0.1", 3601, "log");
@@ -21,6 +20,7 @@ void game_mgr::start()
 
 void game_mgr::loadconfig()
 {
+	msg_handler_mgr::get_instance()->register_all();
 }
 
 

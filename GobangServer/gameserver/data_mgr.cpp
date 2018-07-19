@@ -8,6 +8,8 @@ game_player::game_player()
 	m_player_id = 0;
 	m_room_type = cg_game_room_none;
 	m_room_id = 0;
+	m_board_id = 0;
+	m_chess_color = 0;
 	m_service_task = NULL;
 }
 
@@ -27,10 +29,55 @@ bool game_player::check_state()
 	return true;
 }
 
-int game_player::choose_type(cg_game_room_type type)
+void game_player::set_room_id(unsigned room_id)
+{
+}
+
+unsigned game_player::get_room_id()
+{
+	return 0;
+}
+
+void game_player::set_board_id(unsigned board_id)
+{
+}
+
+unsigned game_player::get_board_id()
+{
+	return 0;
+}
+
+int game_player::set_game_type(cg_mode_type type)
+{
+	m_game_type = type;
+	return 0;
+}
+
+cg_mode_type game_player::get_game_type()
+{
+	return m_game_type;
+}
+
+int game_player::set_room_type(cg_game_room_type type)
 {
 	m_room_type = type;
+
 	return 0;
+}
+
+cg_game_room_type game_player::get_room_type()
+{
+	return m_room_type;
+}
+
+void game_player::set_chess(char chess)
+{
+	m_chess_color = chess;
+}
+
+char game_player::get_chess()
+{
+	return m_chess_color;
 }
 
 

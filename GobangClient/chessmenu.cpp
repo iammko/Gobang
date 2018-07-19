@@ -44,10 +44,7 @@ int chessmenu::mode_menu(int choose)
 		int ret = m_game->my_connect();
 		if (ret == -1)
 		{
-			system("clear");
-			printf("连接服务器失败，按任意键返回。。。\n");
-			char buf[16];
-			fgets(buf, 10, stdin);
+			connection_failed();
 			return BACK_VALUE;
 		}
 		else
@@ -59,7 +56,7 @@ int chessmenu::mode_menu(int choose)
 			system("clear");
 		}
 		format_menu(online, len2);
-		printf("ID:%u\n", m_game->get_id());
+		printf("ID:%u\n", m_game->get_my_id());
 	}
 	else
 	{
@@ -81,4 +78,62 @@ int chessmenu::mode_menu(int choose)
 	}
 
 	return mode;
+}
+
+bool chessmenu::continue_menu()
+{
+
+	return false;
+}
+
+void chessmenu::id_chess_menu()
+{
+	printf("桌号：%d\n", m_game->get_board_id());
+	printf("你的ID：%d	棋子：%c\n", m_game->get_my_id(), m_game->get_player_chess(m_game->get_my_id()));
+	printf("对方ID：%d	棋子：%c\n", m_game->get_other_id(), m_game->get_player_chess(m_game->get_other_id()));
+}
+
+bool chessmenu::start_oder_menu()
+{
+	id_chess_menu();
+	printf("%c方先行\n", m_game->get_turn_chess());
+
+	return true;
+}
+
+bool chessmenu::sure_or_not_menu(const char * tips)
+{
+	int choose = 0;
+	saveinput input;
+	input.get_input_int(tips, choose, 0, 1, 0);
+
+	return choose;
+}
+
+void chessmenu::result_menu(int result, int win_id)
+{
+	printf("游戏结束！\n");
+	if (result == 1)
+	{
+		printf("玩家%d 获胜！\n", win_id);
+	}
+	else if (result == 2)
+	{
+		printf("平局！\n");
+	}
+	else if (result == 3)
+	{
+		unsigned lose = m_game->get_my_id();
+		if (win_id != lose)	lose = m_game->get_other_id();
+		printf("玩家%u投降了！\n", lose);
+	}
+}
+
+int chessmenu::connection_failed()
+{
+	system("clear");
+	printf("连接服务器失败，按任意键返回。。。\n");
+	char buf[16];
+	fgets(buf, 10, stdin);
+	return 0;
 }

@@ -3,7 +3,7 @@ CXX=g++
 CXXFLAGS= -g -Wall -I./servicecore -I./proto -I./common -I./gameserver
 CXXLFLAGS= -lprotobuf
 
-DIRS=gameserver servicecore common
+DIRS=gameserver servicecore common proto
 
 SRCS=$(foreach dir,$(DIRS),$(wildcard $(dir)/*.cpp))
 SRCS2=$(wildcard ./proto/*.cc)

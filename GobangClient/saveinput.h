@@ -16,12 +16,13 @@ public:
 		while (1)
 		{
 			x = y = 0;
-			if (tip_input_int("请输入x：", x) != 0)
+			if (tip_input_int("请输入(0投降)x：", x) != 0)
 			{
 				continue;
 			}
+			if (x == 0)	break;
 
-			if (tip_input_int("请输入y：", y) != 0)
+			if (tip_input_int("请输入(0投降)y：", y) != 0)
 			{
 				continue;
 			}

@@ -1,8 +1,5 @@
 #include "chessgame.h"
-#include "chessmenu.h"
-#include "chessboard.h"
 #include "saveinput.h"
-#include "tcpsock.h"
 #include "mgrs.h"
 #include "protos.pb.h"
 
@@ -44,6 +41,7 @@ void chessgame::start()
 				m_game_type = cg_mode_type_none;
 			}
 		}
+		my_close();
 	}
 }
 
@@ -60,12 +58,12 @@ bool chessgame::start_game(const char mode)
 	else if (mode == cg_mode_type_online_quickstart)
 	{
 		game_online_quickstart();
-		return 0;
+		return false;
 	}
 	else if (mode == cg_mode_type_online_race)
 	{
 		game_online_race();
-		return;
+		return false;
 	}
 	else
 	{
@@ -96,7 +94,7 @@ int chessgame::game_off_pvp()
 		while (1)
 		{
 			input.input_xy(x, y);
-			stepret = m_board.do_step(x, y, 0);
+				stepret = m_board.do_step(x, y, 0);
 			if (stepret >= 0)	break;
 		}
 
@@ -111,9 +109,54 @@ int chessgame::game_online_quickstart()
 	int ret = send_game_type_req();
 	if (ret != 1)	return 0;
 
-	
-	m_board.init();
-	m_board.draw();
+	ret = send_board_join_req();
+	if (ret != 1)	return 0;
+
+	while (1)
+	{
+		m_board.init();
+		m_board.draw();
+		ret = send_player_info_req();
+		if (ret == -1)	return 0;
+
+		m_board.draw();
+		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))	return 0;
+
+		ret = send_start_req();
+		if (ret == -1)	return 0;
+
+		m_board.draw();
+		m_menu.start_oder_menu();
+		int x, y;
+		x = y = 0;
+		saveinput input;
+		if (get_turn_chess() == get_player_chess(m_player_id))
+		{
+			input.input_xy(x, y);
+		}
+		send_do_step_req(x, y);
+		while (1)
+		{
+			while (1)
+			{
+				m_menu.id_chess_menu();
+				input.input_xy(x, y);
+				if (x == 0 || y == 0)//投降
+				{
+					break;
+				}
+				if (m_board.do_step(x, y, m_player_id) >= 0) break;
+			}
+			if (x == 0 || y == 0)//投降
+			{
+				send_surrender_req();
+				break;
+			}
+			if (send_do_step_req(x, y) == -1)	return 0;
+			if (get_game_over())	break;
+		}
+		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)：")) return 0;
+	}
 	
 
 }
@@ -164,14 +207,181 @@ int chessgame::send_game_type_req()
 	return m_sock.do_proto(protocol_number_game_type, &bytes[0], size);
 }
 
-void chessgame::set_id(unsigned id)
+int chessgame::send_board_join_req(unsigned room_id)
 {
-	m_player_id = id;
+	printf("正在加入房间");
+	int n = 3;
+	struct timespec req;
+	req.tv_sec = 0;
+	req.tv_nsec = 300 * 1000 * 1000;
+	while (n--)
+	{
+		printf(".");
+		nanosleep(&req, NULL);
+	}
+	printf("\n");
+	proto::join_board_req send;
+	if (room_id)
+	{
+		send.set_board_id(room_id);
+	}
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+
+	return m_sock.do_proto(protocol_number_join_board, &bytes[0], size);
 }
 
-unsigned chessgame::get_id()
+int chessgame::send_player_info_req()
+{
+	printf("正在等待玩家\n");
+	proto::player_info_req send;
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+
+	int ret = m_sock.do_proto(protocol_number_player_info, &bytes[0], size);
+	if (ret == 1)
+	{
+		printf("%d玩家加入\n", get_other_id());
+	}
+	return ret;
+}
+
+int chessgame::send_start_req()
+{
+	proto::start_req send;
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+	return m_sock.do_proto(protocol_number_start, &bytes[0], size);
+}
+
+int chessgame::send_do_step_req(int x, int y)
+{
+	proto::do_step_req send;
+	if (x != 0 && y != 0)
+	{
+		proto::step_info *info = send.mutable_step();
+		if (info)
+		{
+			info->set_x(x);
+			info->set_y(y);
+			info->set_stepno(get_step_no());
+		}
+	}
+
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+	return m_sock.do_proto(protocol_number_do_step, &bytes[0], size);
+}
+
+int chessgame::send_surrender_req()
+{
+	proto::surrender_req send;
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+	return m_sock.do_proto(protocol_number_surrender, &bytes[0], size);
+}
+
+void chessgame::set_my_id(unsigned id)
+{
+	m_player_id = id;
+	m_board.set_id(PLAYER_ME, id);
+}
+
+unsigned chessgame::get_my_id()
 {
 	return m_player_id;
+}
+
+void chessgame::set_other_id(unsigned id)
+{
+	m_board.set_id(PLAYER_OTHER, id);
+}
+
+unsigned chessgame::get_other_id()
+{
+	return m_board.get_id(PLAYER_OTHER);
+}
+
+void chessgame::set_board_id(unsigned id)
+{
+	m_board.m_board_id = id;
+}
+
+unsigned chessgame::get_board_id()
+{
+	return m_board.m_board_id;
+}
+
+void chessgame::set_turn_chess(char chess)
+{
+	m_board.m_turn = chess;
+}
+
+char chessgame::get_turn_chess()
+{
+	return m_board.m_turn;
+}
+
+void chessgame::set_player_chess(unsigned player_id, char chess)
+{
+	if (player_id == m_player_id)
+	{
+		m_board.set_player_chess(PLAYER_ME, chess);
+	}
+	else if (player_id == get_other_id())
+	{
+		m_board.set_player_chess(PLAYER_OTHER, chess);
+	}
+
+}
+
+char chessgame::get_player_chess(unsigned player_id)
+{
+	if (player_id == m_player_id)
+	{
+		return m_board.get_player_chess(PLAYER_ME);
+	}
+	else if (player_id == get_other_id())
+	{
+		return m_board.get_player_chess(PLAYER_OTHER);
+	}
+
+	return 0;
+}
+
+int chessgame::do_step(int x, int y, unsigned player_id)
+{
+	return m_board.do_step(x, y, player_id);
+}
+
+void chessgame::result_menu(int result, int win_id)
+{
+	m_menu.result_menu(result, win_id);
+}
+
+void chessgame::set_game_over(int over)
+{
+	m_board.m_gameover = over;
+}
+
+int chessgame::get_game_over()
+{
+	return m_board.m_gameover;
+}
+
+unsigned chessgame::get_step_no()
+{
+	return m_board.m_stepway.get_stepno();
 }
 
 

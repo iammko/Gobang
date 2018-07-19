@@ -76,7 +76,11 @@ int game_type_req_handler::done(game_player * gp, const char * msg, unsigned len
 	decode.ParseFromArray(msg, len);
 
 	if (!gp->check_state())	return 0;
-	gp->choose_type(decode.game_type());
+	gp->set_game_type(decode.game_type());
+	if (decode.game_type() == cg_mode_type_online_quickstart)
+	{
+		gp->set_room_type(cg_game_room_normal);
+	}
 
 	proto::game_type_ret send;
 	send.set_result(0);
@@ -91,5 +95,58 @@ int game_type_req_handler::done(game_player * gp, const char * msg, unsigned len
 		gp->send_msg(protocol_number_game_type, , &bytes[0], size);
 	}
 
+	return 0;
+}
+
+int join_board_req_handler::done(game_player * gp, const char * msg, unsigned len)
+{
+	proto::join_board_req decode;
+	decode.ParseFromArray(msg, len);
+
+	bool ret = 0;
+	if (decode.has_board_id())
+	{
+		ret = game_room_mgr::get_instance()->join_board(gp, decode.board_id());
+	}
+	else
+	{
+		ret = game_room_mgr::get_instance()->join_board(gp, 0);
+	}
+	proto::join_board_ret send;
+	send.set_result(ret);
+	send.set_board_id(gp->get_board_id());
+	int size = send;
+	if (size)
+	{
+		std::vector<char> bytes;
+		bytes.resize(size);
+		send.SerializeToArray(&bytes[0], size);
+
+		DEBUG_LOG("join_board_req_handler done id=%u", gp->get_player_id());
+		gp->send_msg(protocol_number_game_type, , &bytes[0], size);
+	}
+
+	return 0;
+}
+
+int player_info_req_handler::done(game_player * gp, const char * msg, unsigned len)
+{
+	proto::player_info_req
+
+	return 0;
+}
+
+int start_req_handler::done(game_player * gp, const char * msg, unsigned len)
+{
+	return 0;
+}
+
+int do_step_req_handler::done(game_player * gp, const char * msg, unsigned len)
+{
+	return 0;
+}
+
+int surrender_req_handler::done(game_player * gp, const char * msg, unsigned len)
+{
 	return 0;
 }

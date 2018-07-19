@@ -21,4 +21,73 @@ message game_type_ret
 	optional uint32 result = 1;
 }
 
+//protocol_number_join_board = 3
+message join_board_req
+{
+	optional uint32 board_id = 1;
+}
+
+message join_board_ret
+{
+	optional uint32 result = 1;
+	optional uint32 board_id = 2;
+}
+
+//protocol_number_player_info = 4
+message player_info
+{
+	optional uint32 player_id = 1;
+	optional uint32 player_type = 2;//1.玩家 2.裁判
+}
+
+
+message player_info_req
+{
+	
+}
+
+message player_info_ret
+{
+	repeated player_info players = 1;
+	
+}
+
+//protocol_number_start = 5
+message start_req
+{
+
+}
+
+message start_ret
+{
+	optional uint32 white_id = 1;
+	optional uint32 black_id = 2;
+	optional uint32 start_chess = 3;
+}
+
+//protocol_number_do_step = 6
+message step_info
+{
+	optional uint32 x = 1;
+	optional uint32 y = 2;
+	optional uint32 stepno = 3;
+}
+
+message do_step_req
+{
+	optional step_info step = 1;
+}
+
+message do_step_ret
+{
+	optional step_info other_step = 1;
+	optional uint32 result = 2;//1.胜负 2.平局 3.投降
+	optional uint32 win_id = 3;
+}
+
+//protocol_number_surrender = 7
+message surrender_req
+{
+
+}
 

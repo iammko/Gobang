@@ -76,22 +76,3 @@ struct	service_msg_header
 	uint32_t	msg_type;
 };
 #pragma	pack()
-
-struct process_msg_data
-{
-	process_msg_data()
-	{
-		len = 0;
-		data = NULL;
-	}
-	~process_msg_data()
-	{
-		delete data;
-	}
-	int save_data(const void *data, unsigned len)
-	{
-		SAFE_DELTE(data);
-	}
-	unsigned m_len;
-	void *m_data;
-};

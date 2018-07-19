@@ -40,8 +40,37 @@ public:
 	virtual int done(game_player *gp, const char *msg, unsigned len);
 };
 
-
 class game_type_req_handler :public msg_hander
+{
+public:
+	virtual int done(game_player *gp, const char *msg, unsigned len);
+};
+
+class join_board_req_handler :public msg_hander
+{
+public:
+	virtual int done(game_player *gp, const char *msg, unsigned len);
+};
+
+class player_info_req_handler :public msg_hander
+{
+public:
+	virtual int done(game_player *gp, const char *msg, unsigned len);
+};
+
+class start_req_handler :public msg_hander
+{
+public:
+	virtual int done(game_player *gp, const char *msg, unsigned len);
+};
+
+class do_step_req_handler :public msg_hander
+{
+public:
+	virtual int done(game_player *gp, const char *msg, unsigned len);
+};
+
+class surrender_req_handler :public msg_hander
 {
 public:
 	virtual int done(game_player *gp, const char *msg, unsigned len);
