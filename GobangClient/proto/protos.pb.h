@@ -35,6 +35,19 @@ void protobuf_ShutdownFile_protos_2eproto();
 
 class id_req;
 class id_ret;
+class game_type_req;
+class game_type_ret;
+class join_board_req;
+class join_board_ret;
+class player_info;
+class player_info_req;
+class player_info_ret;
+class start_req;
+class start_ret;
+class step_info;
+class do_step_req;
+class do_step_ret;
+class surrender_req;
 
 // ===================================================================
 
@@ -184,6 +197,1090 @@ class id_ret : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static id_ret* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class game_type_req : public ::google::protobuf::Message {
+ public:
+  game_type_req();
+  virtual ~game_type_req();
+
+  game_type_req(const game_type_req& from);
+
+  inline game_type_req& operator=(const game_type_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const game_type_req& default_instance();
+
+  void Swap(game_type_req* other);
+
+  // implements Message ----------------------------------------------
+
+  game_type_req* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const game_type_req& from);
+  void MergeFrom(const game_type_req& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 game_type = 1;
+  inline bool has_game_type() const;
+  inline void clear_game_type();
+  static const int kGameTypeFieldNumber = 1;
+  inline ::google::protobuf::uint32 game_type() const;
+  inline void set_game_type(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.game_type_req)
+ private:
+  inline void set_has_game_type();
+  inline void clear_has_game_type();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 game_type_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static game_type_req* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class game_type_ret : public ::google::protobuf::Message {
+ public:
+  game_type_ret();
+  virtual ~game_type_ret();
+
+  game_type_ret(const game_type_ret& from);
+
+  inline game_type_ret& operator=(const game_type_ret& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const game_type_ret& default_instance();
+
+  void Swap(game_type_ret* other);
+
+  // implements Message ----------------------------------------------
+
+  game_type_ret* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const game_type_ret& from);
+  void MergeFrom(const game_type_ret& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.game_type_ret)
+ private:
+  inline void set_has_result();
+  inline void clear_has_result();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 result_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static game_type_ret* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class join_board_req : public ::google::protobuf::Message {
+ public:
+  join_board_req();
+  virtual ~join_board_req();
+
+  join_board_req(const join_board_req& from);
+
+  inline join_board_req& operator=(const join_board_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const join_board_req& default_instance();
+
+  void Swap(join_board_req* other);
+
+  // implements Message ----------------------------------------------
+
+  join_board_req* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const join_board_req& from);
+  void MergeFrom(const join_board_req& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 board_id = 1;
+  inline bool has_board_id() const;
+  inline void clear_board_id();
+  static const int kBoardIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 board_id() const;
+  inline void set_board_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.join_board_req)
+ private:
+  inline void set_has_board_id();
+  inline void clear_has_board_id();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 board_id_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static join_board_req* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class join_board_ret : public ::google::protobuf::Message {
+ public:
+  join_board_ret();
+  virtual ~join_board_ret();
+
+  join_board_ret(const join_board_ret& from);
+
+  inline join_board_ret& operator=(const join_board_ret& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const join_board_ret& default_instance();
+
+  void Swap(join_board_ret* other);
+
+  // implements Message ----------------------------------------------
+
+  join_board_ret* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const join_board_ret& from);
+  void MergeFrom(const join_board_ret& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
+
+  // optional uint32 board_id = 2;
+  inline bool has_board_id() const;
+  inline void clear_board_id();
+  static const int kBoardIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 board_id() const;
+  inline void set_board_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.join_board_ret)
+ private:
+  inline void set_has_result();
+  inline void clear_has_result();
+  inline void set_has_board_id();
+  inline void clear_has_board_id();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 result_;
+  ::google::protobuf::uint32 board_id_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static join_board_ret* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class player_info : public ::google::protobuf::Message {
+ public:
+  player_info();
+  virtual ~player_info();
+
+  player_info(const player_info& from);
+
+  inline player_info& operator=(const player_info& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const player_info& default_instance();
+
+  void Swap(player_info* other);
+
+  // implements Message ----------------------------------------------
+
+  player_info* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const player_info& from);
+  void MergeFrom(const player_info& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 player_id = 1;
+  inline bool has_player_id() const;
+  inline void clear_player_id();
+  static const int kPlayerIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 player_id() const;
+  inline void set_player_id(::google::protobuf::uint32 value);
+
+  // optional uint32 player_type = 2;
+  inline bool has_player_type() const;
+  inline void clear_player_type();
+  static const int kPlayerTypeFieldNumber = 2;
+  inline ::google::protobuf::uint32 player_type() const;
+  inline void set_player_type(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.player_info)
+ private:
+  inline void set_has_player_id();
+  inline void clear_has_player_id();
+  inline void set_has_player_type();
+  inline void clear_has_player_type();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 player_id_;
+  ::google::protobuf::uint32 player_type_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static player_info* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class player_info_req : public ::google::protobuf::Message {
+ public:
+  player_info_req();
+  virtual ~player_info_req();
+
+  player_info_req(const player_info_req& from);
+
+  inline player_info_req& operator=(const player_info_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const player_info_req& default_instance();
+
+  void Swap(player_info_req* other);
+
+  // implements Message ----------------------------------------------
+
+  player_info_req* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const player_info_req& from);
+  void MergeFrom(const player_info_req& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:proto.player_info_req)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static player_info_req* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class player_info_ret : public ::google::protobuf::Message {
+ public:
+  player_info_ret();
+  virtual ~player_info_ret();
+
+  player_info_ret(const player_info_ret& from);
+
+  inline player_info_ret& operator=(const player_info_ret& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const player_info_ret& default_instance();
+
+  void Swap(player_info_ret* other);
+
+  // implements Message ----------------------------------------------
+
+  player_info_ret* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const player_info_ret& from);
+  void MergeFrom(const player_info_ret& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .proto.player_info players = 1;
+  inline int players_size() const;
+  inline void clear_players();
+  static const int kPlayersFieldNumber = 1;
+  inline const ::proto::player_info& players(int index) const;
+  inline ::proto::player_info* mutable_players(int index);
+  inline ::proto::player_info* add_players();
+  inline const ::google::protobuf::RepeatedPtrField< ::proto::player_info >&
+      players() const;
+  inline ::google::protobuf::RepeatedPtrField< ::proto::player_info >*
+      mutable_players();
+
+  // @@protoc_insertion_point(class_scope:proto.player_info_ret)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::proto::player_info > players_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static player_info_ret* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class start_req : public ::google::protobuf::Message {
+ public:
+  start_req();
+  virtual ~start_req();
+
+  start_req(const start_req& from);
+
+  inline start_req& operator=(const start_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const start_req& default_instance();
+
+  void Swap(start_req* other);
+
+  // implements Message ----------------------------------------------
+
+  start_req* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const start_req& from);
+  void MergeFrom(const start_req& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:proto.start_req)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static start_req* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class start_ret : public ::google::protobuf::Message {
+ public:
+  start_ret();
+  virtual ~start_ret();
+
+  start_ret(const start_ret& from);
+
+  inline start_ret& operator=(const start_ret& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const start_ret& default_instance();
+
+  void Swap(start_ret* other);
+
+  // implements Message ----------------------------------------------
+
+  start_ret* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const start_ret& from);
+  void MergeFrom(const start_ret& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 white_id = 1;
+  inline bool has_white_id() const;
+  inline void clear_white_id();
+  static const int kWhiteIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 white_id() const;
+  inline void set_white_id(::google::protobuf::uint32 value);
+
+  // optional uint32 black_id = 2;
+  inline bool has_black_id() const;
+  inline void clear_black_id();
+  static const int kBlackIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 black_id() const;
+  inline void set_black_id(::google::protobuf::uint32 value);
+
+  // optional uint32 start_chess = 3;
+  inline bool has_start_chess() const;
+  inline void clear_start_chess();
+  static const int kStartChessFieldNumber = 3;
+  inline ::google::protobuf::uint32 start_chess() const;
+  inline void set_start_chess(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.start_ret)
+ private:
+  inline void set_has_white_id();
+  inline void clear_has_white_id();
+  inline void set_has_black_id();
+  inline void clear_has_black_id();
+  inline void set_has_start_chess();
+  inline void clear_has_start_chess();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 white_id_;
+  ::google::protobuf::uint32 black_id_;
+  ::google::protobuf::uint32 start_chess_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static start_ret* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class step_info : public ::google::protobuf::Message {
+ public:
+  step_info();
+  virtual ~step_info();
+
+  step_info(const step_info& from);
+
+  inline step_info& operator=(const step_info& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const step_info& default_instance();
+
+  void Swap(step_info* other);
+
+  // implements Message ----------------------------------------------
+
+  step_info* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const step_info& from);
+  void MergeFrom(const step_info& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 x = 1;
+  inline bool has_x() const;
+  inline void clear_x();
+  static const int kXFieldNumber = 1;
+  inline ::google::protobuf::uint32 x() const;
+  inline void set_x(::google::protobuf::uint32 value);
+
+  // optional uint32 y = 2;
+  inline bool has_y() const;
+  inline void clear_y();
+  static const int kYFieldNumber = 2;
+  inline ::google::protobuf::uint32 y() const;
+  inline void set_y(::google::protobuf::uint32 value);
+
+  // optional uint32 stepno = 3;
+  inline bool has_stepno() const;
+  inline void clear_stepno();
+  static const int kStepnoFieldNumber = 3;
+  inline ::google::protobuf::uint32 stepno() const;
+  inline void set_stepno(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.step_info)
+ private:
+  inline void set_has_x();
+  inline void clear_has_x();
+  inline void set_has_y();
+  inline void clear_has_y();
+  inline void set_has_stepno();
+  inline void clear_has_stepno();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 x_;
+  ::google::protobuf::uint32 y_;
+  ::google::protobuf::uint32 stepno_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static step_info* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class do_step_req : public ::google::protobuf::Message {
+ public:
+  do_step_req();
+  virtual ~do_step_req();
+
+  do_step_req(const do_step_req& from);
+
+  inline do_step_req& operator=(const do_step_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const do_step_req& default_instance();
+
+  void Swap(do_step_req* other);
+
+  // implements Message ----------------------------------------------
+
+  do_step_req* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const do_step_req& from);
+  void MergeFrom(const do_step_req& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .proto.step_info step = 1;
+  inline bool has_step() const;
+  inline void clear_step();
+  static const int kStepFieldNumber = 1;
+  inline const ::proto::step_info& step() const;
+  inline ::proto::step_info* mutable_step();
+  inline ::proto::step_info* release_step();
+  inline void set_allocated_step(::proto::step_info* step);
+
+  // @@protoc_insertion_point(class_scope:proto.do_step_req)
+ private:
+  inline void set_has_step();
+  inline void clear_has_step();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::proto::step_info* step_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static do_step_req* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class do_step_ret : public ::google::protobuf::Message {
+ public:
+  do_step_ret();
+  virtual ~do_step_ret();
+
+  do_step_ret(const do_step_ret& from);
+
+  inline do_step_ret& operator=(const do_step_ret& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const do_step_ret& default_instance();
+
+  void Swap(do_step_ret* other);
+
+  // implements Message ----------------------------------------------
+
+  do_step_ret* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const do_step_ret& from);
+  void MergeFrom(const do_step_ret& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .proto.step_info other_step = 1;
+  inline bool has_other_step() const;
+  inline void clear_other_step();
+  static const int kOtherStepFieldNumber = 1;
+  inline const ::proto::step_info& other_step() const;
+  inline ::proto::step_info* mutable_other_step();
+  inline ::proto::step_info* release_other_step();
+  inline void set_allocated_other_step(::proto::step_info* other_step);
+
+  // optional uint32 result = 2;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 2;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
+
+  // optional uint32 win_id = 3;
+  inline bool has_win_id() const;
+  inline void clear_win_id();
+  static const int kWinIdFieldNumber = 3;
+  inline ::google::protobuf::uint32 win_id() const;
+  inline void set_win_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.do_step_ret)
+ private:
+  inline void set_has_other_step();
+  inline void clear_has_other_step();
+  inline void set_has_result();
+  inline void clear_has_result();
+  inline void set_has_win_id();
+  inline void clear_has_win_id();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::proto::step_info* other_step_;
+  ::google::protobuf::uint32 result_;
+  ::google::protobuf::uint32 win_id_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static do_step_ret* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class surrender_req : public ::google::protobuf::Message {
+ public:
+  surrender_req();
+  virtual ~surrender_req();
+
+  surrender_req(const surrender_req& from);
+
+  inline surrender_req& operator=(const surrender_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const surrender_req& default_instance();
+
+  void Swap(surrender_req* other);
+
+  // implements Message ----------------------------------------------
+
+  surrender_req* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const surrender_req& from);
+  void MergeFrom(const surrender_req& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:proto.surrender_req)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static surrender_req* default_instance_;
+};
 // ===================================================================
 
 
@@ -218,6 +1315,530 @@ inline void id_ret::set_id(::google::protobuf::uint32 value) {
   id_ = value;
   // @@protoc_insertion_point(field_set:proto.id_ret.id)
 }
+
+// -------------------------------------------------------------------
+
+// game_type_req
+
+// optional uint32 game_type = 1;
+inline bool game_type_req::has_game_type() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void game_type_req::set_has_game_type() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void game_type_req::clear_has_game_type() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void game_type_req::clear_game_type() {
+  game_type_ = 0u;
+  clear_has_game_type();
+}
+inline ::google::protobuf::uint32 game_type_req::game_type() const {
+  // @@protoc_insertion_point(field_get:proto.game_type_req.game_type)
+  return game_type_;
+}
+inline void game_type_req::set_game_type(::google::protobuf::uint32 value) {
+  set_has_game_type();
+  game_type_ = value;
+  // @@protoc_insertion_point(field_set:proto.game_type_req.game_type)
+}
+
+// -------------------------------------------------------------------
+
+// game_type_ret
+
+// optional uint32 result = 1;
+inline bool game_type_ret::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void game_type_ret::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void game_type_ret::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void game_type_ret::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 game_type_ret::result() const {
+  // @@protoc_insertion_point(field_get:proto.game_type_ret.result)
+  return result_;
+}
+inline void game_type_ret::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:proto.game_type_ret.result)
+}
+
+// -------------------------------------------------------------------
+
+// join_board_req
+
+// optional uint32 board_id = 1;
+inline bool join_board_req::has_board_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void join_board_req::set_has_board_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void join_board_req::clear_has_board_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void join_board_req::clear_board_id() {
+  board_id_ = 0u;
+  clear_has_board_id();
+}
+inline ::google::protobuf::uint32 join_board_req::board_id() const {
+  // @@protoc_insertion_point(field_get:proto.join_board_req.board_id)
+  return board_id_;
+}
+inline void join_board_req::set_board_id(::google::protobuf::uint32 value) {
+  set_has_board_id();
+  board_id_ = value;
+  // @@protoc_insertion_point(field_set:proto.join_board_req.board_id)
+}
+
+// -------------------------------------------------------------------
+
+// join_board_ret
+
+// optional uint32 result = 1;
+inline bool join_board_ret::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void join_board_ret::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void join_board_ret::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void join_board_ret::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 join_board_ret::result() const {
+  // @@protoc_insertion_point(field_get:proto.join_board_ret.result)
+  return result_;
+}
+inline void join_board_ret::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:proto.join_board_ret.result)
+}
+
+// optional uint32 board_id = 2;
+inline bool join_board_ret::has_board_id() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void join_board_ret::set_has_board_id() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void join_board_ret::clear_has_board_id() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void join_board_ret::clear_board_id() {
+  board_id_ = 0u;
+  clear_has_board_id();
+}
+inline ::google::protobuf::uint32 join_board_ret::board_id() const {
+  // @@protoc_insertion_point(field_get:proto.join_board_ret.board_id)
+  return board_id_;
+}
+inline void join_board_ret::set_board_id(::google::protobuf::uint32 value) {
+  set_has_board_id();
+  board_id_ = value;
+  // @@protoc_insertion_point(field_set:proto.join_board_ret.board_id)
+}
+
+// -------------------------------------------------------------------
+
+// player_info
+
+// optional uint32 player_id = 1;
+inline bool player_info::has_player_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void player_info::set_has_player_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void player_info::clear_has_player_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void player_info::clear_player_id() {
+  player_id_ = 0u;
+  clear_has_player_id();
+}
+inline ::google::protobuf::uint32 player_info::player_id() const {
+  // @@protoc_insertion_point(field_get:proto.player_info.player_id)
+  return player_id_;
+}
+inline void player_info::set_player_id(::google::protobuf::uint32 value) {
+  set_has_player_id();
+  player_id_ = value;
+  // @@protoc_insertion_point(field_set:proto.player_info.player_id)
+}
+
+// optional uint32 player_type = 2;
+inline bool player_info::has_player_type() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void player_info::set_has_player_type() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void player_info::clear_has_player_type() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void player_info::clear_player_type() {
+  player_type_ = 0u;
+  clear_has_player_type();
+}
+inline ::google::protobuf::uint32 player_info::player_type() const {
+  // @@protoc_insertion_point(field_get:proto.player_info.player_type)
+  return player_type_;
+}
+inline void player_info::set_player_type(::google::protobuf::uint32 value) {
+  set_has_player_type();
+  player_type_ = value;
+  // @@protoc_insertion_point(field_set:proto.player_info.player_type)
+}
+
+// -------------------------------------------------------------------
+
+// player_info_req
+
+// -------------------------------------------------------------------
+
+// player_info_ret
+
+// repeated .proto.player_info players = 1;
+inline int player_info_ret::players_size() const {
+  return players_.size();
+}
+inline void player_info_ret::clear_players() {
+  players_.Clear();
+}
+inline const ::proto::player_info& player_info_ret::players(int index) const {
+  // @@protoc_insertion_point(field_get:proto.player_info_ret.players)
+  return players_.Get(index);
+}
+inline ::proto::player_info* player_info_ret::mutable_players(int index) {
+  // @@protoc_insertion_point(field_mutable:proto.player_info_ret.players)
+  return players_.Mutable(index);
+}
+inline ::proto::player_info* player_info_ret::add_players() {
+  // @@protoc_insertion_point(field_add:proto.player_info_ret.players)
+  return players_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::proto::player_info >&
+player_info_ret::players() const {
+  // @@protoc_insertion_point(field_list:proto.player_info_ret.players)
+  return players_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::proto::player_info >*
+player_info_ret::mutable_players() {
+  // @@protoc_insertion_point(field_mutable_list:proto.player_info_ret.players)
+  return &players_;
+}
+
+// -------------------------------------------------------------------
+
+// start_req
+
+// -------------------------------------------------------------------
+
+// start_ret
+
+// optional uint32 white_id = 1;
+inline bool start_ret::has_white_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void start_ret::set_has_white_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void start_ret::clear_has_white_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void start_ret::clear_white_id() {
+  white_id_ = 0u;
+  clear_has_white_id();
+}
+inline ::google::protobuf::uint32 start_ret::white_id() const {
+  // @@protoc_insertion_point(field_get:proto.start_ret.white_id)
+  return white_id_;
+}
+inline void start_ret::set_white_id(::google::protobuf::uint32 value) {
+  set_has_white_id();
+  white_id_ = value;
+  // @@protoc_insertion_point(field_set:proto.start_ret.white_id)
+}
+
+// optional uint32 black_id = 2;
+inline bool start_ret::has_black_id() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void start_ret::set_has_black_id() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void start_ret::clear_has_black_id() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void start_ret::clear_black_id() {
+  black_id_ = 0u;
+  clear_has_black_id();
+}
+inline ::google::protobuf::uint32 start_ret::black_id() const {
+  // @@protoc_insertion_point(field_get:proto.start_ret.black_id)
+  return black_id_;
+}
+inline void start_ret::set_black_id(::google::protobuf::uint32 value) {
+  set_has_black_id();
+  black_id_ = value;
+  // @@protoc_insertion_point(field_set:proto.start_ret.black_id)
+}
+
+// optional uint32 start_chess = 3;
+inline bool start_ret::has_start_chess() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void start_ret::set_has_start_chess() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void start_ret::clear_has_start_chess() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void start_ret::clear_start_chess() {
+  start_chess_ = 0u;
+  clear_has_start_chess();
+}
+inline ::google::protobuf::uint32 start_ret::start_chess() const {
+  // @@protoc_insertion_point(field_get:proto.start_ret.start_chess)
+  return start_chess_;
+}
+inline void start_ret::set_start_chess(::google::protobuf::uint32 value) {
+  set_has_start_chess();
+  start_chess_ = value;
+  // @@protoc_insertion_point(field_set:proto.start_ret.start_chess)
+}
+
+// -------------------------------------------------------------------
+
+// step_info
+
+// optional uint32 x = 1;
+inline bool step_info::has_x() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void step_info::set_has_x() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void step_info::clear_has_x() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void step_info::clear_x() {
+  x_ = 0u;
+  clear_has_x();
+}
+inline ::google::protobuf::uint32 step_info::x() const {
+  // @@protoc_insertion_point(field_get:proto.step_info.x)
+  return x_;
+}
+inline void step_info::set_x(::google::protobuf::uint32 value) {
+  set_has_x();
+  x_ = value;
+  // @@protoc_insertion_point(field_set:proto.step_info.x)
+}
+
+// optional uint32 y = 2;
+inline bool step_info::has_y() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void step_info::set_has_y() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void step_info::clear_has_y() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void step_info::clear_y() {
+  y_ = 0u;
+  clear_has_y();
+}
+inline ::google::protobuf::uint32 step_info::y() const {
+  // @@protoc_insertion_point(field_get:proto.step_info.y)
+  return y_;
+}
+inline void step_info::set_y(::google::protobuf::uint32 value) {
+  set_has_y();
+  y_ = value;
+  // @@protoc_insertion_point(field_set:proto.step_info.y)
+}
+
+// optional uint32 stepno = 3;
+inline bool step_info::has_stepno() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void step_info::set_has_stepno() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void step_info::clear_has_stepno() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void step_info::clear_stepno() {
+  stepno_ = 0u;
+  clear_has_stepno();
+}
+inline ::google::protobuf::uint32 step_info::stepno() const {
+  // @@protoc_insertion_point(field_get:proto.step_info.stepno)
+  return stepno_;
+}
+inline void step_info::set_stepno(::google::protobuf::uint32 value) {
+  set_has_stepno();
+  stepno_ = value;
+  // @@protoc_insertion_point(field_set:proto.step_info.stepno)
+}
+
+// -------------------------------------------------------------------
+
+// do_step_req
+
+// optional .proto.step_info step = 1;
+inline bool do_step_req::has_step() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void do_step_req::set_has_step() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void do_step_req::clear_has_step() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void do_step_req::clear_step() {
+  if (step_ != NULL) step_->::proto::step_info::Clear();
+  clear_has_step();
+}
+inline const ::proto::step_info& do_step_req::step() const {
+  // @@protoc_insertion_point(field_get:proto.do_step_req.step)
+  return step_ != NULL ? *step_ : *default_instance_->step_;
+}
+inline ::proto::step_info* do_step_req::mutable_step() {
+  set_has_step();
+  if (step_ == NULL) step_ = new ::proto::step_info;
+  // @@protoc_insertion_point(field_mutable:proto.do_step_req.step)
+  return step_;
+}
+inline ::proto::step_info* do_step_req::release_step() {
+  clear_has_step();
+  ::proto::step_info* temp = step_;
+  step_ = NULL;
+  return temp;
+}
+inline void do_step_req::set_allocated_step(::proto::step_info* step) {
+  delete step_;
+  step_ = step;
+  if (step) {
+    set_has_step();
+  } else {
+    clear_has_step();
+  }
+  // @@protoc_insertion_point(field_set_allocated:proto.do_step_req.step)
+}
+
+// -------------------------------------------------------------------
+
+// do_step_ret
+
+// optional .proto.step_info other_step = 1;
+inline bool do_step_ret::has_other_step() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void do_step_ret::set_has_other_step() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void do_step_ret::clear_has_other_step() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void do_step_ret::clear_other_step() {
+  if (other_step_ != NULL) other_step_->::proto::step_info::Clear();
+  clear_has_other_step();
+}
+inline const ::proto::step_info& do_step_ret::other_step() const {
+  // @@protoc_insertion_point(field_get:proto.do_step_ret.other_step)
+  return other_step_ != NULL ? *other_step_ : *default_instance_->other_step_;
+}
+inline ::proto::step_info* do_step_ret::mutable_other_step() {
+  set_has_other_step();
+  if (other_step_ == NULL) other_step_ = new ::proto::step_info;
+  // @@protoc_insertion_point(field_mutable:proto.do_step_ret.other_step)
+  return other_step_;
+}
+inline ::proto::step_info* do_step_ret::release_other_step() {
+  clear_has_other_step();
+  ::proto::step_info* temp = other_step_;
+  other_step_ = NULL;
+  return temp;
+}
+inline void do_step_ret::set_allocated_other_step(::proto::step_info* other_step) {
+  delete other_step_;
+  other_step_ = other_step;
+  if (other_step) {
+    set_has_other_step();
+  } else {
+    clear_has_other_step();
+  }
+  // @@protoc_insertion_point(field_set_allocated:proto.do_step_ret.other_step)
+}
+
+// optional uint32 result = 2;
+inline bool do_step_ret::has_result() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void do_step_ret::set_has_result() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void do_step_ret::clear_has_result() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void do_step_ret::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 do_step_ret::result() const {
+  // @@protoc_insertion_point(field_get:proto.do_step_ret.result)
+  return result_;
+}
+inline void do_step_ret::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:proto.do_step_ret.result)
+}
+
+// optional uint32 win_id = 3;
+inline bool do_step_ret::has_win_id() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void do_step_ret::set_has_win_id() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void do_step_ret::clear_has_win_id() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void do_step_ret::clear_win_id() {
+  win_id_ = 0u;
+  clear_has_win_id();
+}
+inline ::google::protobuf::uint32 do_step_ret::win_id() const {
+  // @@protoc_insertion_point(field_get:proto.do_step_ret.win_id)
+  return win_id_;
+}
+inline void do_step_ret::set_win_id(::google::protobuf::uint32 value) {
+  set_has_win_id();
+  win_id_ = value;
+  // @@protoc_insertion_point(field_set:proto.do_step_ret.win_id)
+}
+
+// -------------------------------------------------------------------
+
+// surrender_req
 
 
 // @@protoc_insertion_point(namespace_scope)

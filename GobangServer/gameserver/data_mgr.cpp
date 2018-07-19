@@ -94,6 +94,16 @@ data_mgr::~data_mgr()
 	}
 }
 
+game_player * data_mgr::get_player(unsigned player_id)
+{
+	game_player_map_t::iterator it = m_game_player_mgr.find(player_id);
+	if (it != m_game_player_mgr.end())
+	{
+		return it->second;
+	}
+	return NULL;
+}
+
 game_player * data_mgr::get_player(tcp_routine * rt)
 {
 	game_player_map_t::iterator it = m_game_player_mgr.find(rt->get_routine_id());

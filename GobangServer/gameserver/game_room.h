@@ -32,7 +32,7 @@ private:
 
 class game_room_mgr : public mysingleton<game_room_mgr>
 {
-private:
+public:
 	game_room_mgr();
 
 	game_room *get_game_room(cg_game_room_type type);
@@ -40,7 +40,7 @@ private:
 	bool join_board(game_player *gp, unsigned board_id);
 
 	friend class mysingleton<game_room_mgr>;
-public:
+private:
 	typedef std::map<cg_game_room_type, game_room> game_room_map_t;
 	game_room_map_t m_room_mgr;
 

@@ -10,7 +10,7 @@ enum protocol_number
 	protocol_number_start = 5,
 	protocol_number_do_step = 6,
 	protocol_number_surrender = 7,
-
+	
 
 
 };

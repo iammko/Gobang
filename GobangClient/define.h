@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <set>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -33,7 +34,16 @@ void    report_event(const char *format, ...);
 const char cb_lenth = 15;
 const char cb_black_chess = 'X';
 const char cb_white_chess = 'O';
-const char cb_result_draw = 1;
+const char cb_chesses[2] = { 'O', 'X' };
+
+enum cg_result_type
+{
+	cg_result_none = 0,
+	cg_result_win_lost = 1,
+	cg_result_draw = 2,
+	cg_result_surrender = 3,
+	cg_result_count
+};
 
 enum cg_mode_type
 {

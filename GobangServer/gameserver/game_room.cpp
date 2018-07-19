@@ -1,5 +1,6 @@
 #include "game_room.h"
 #include "data_mgr.h"
+#include "board.h"
 
 
 game_room::game_room(cg_game_room_type type, unsigned room_id):
@@ -16,10 +17,11 @@ game_room::~game_room()
 
 void game_room::init()
 {
-	m_boards.resize(m_max_count);
+	m_boards.reserve(m_max_count);
 	for (int i = 0; i < m_max_count; ++i)
 	{
 		m_boards[i] = board(i + 1);
+		m_emptys.insert(i + 1);
 	}
 }
 
@@ -79,14 +81,14 @@ board* game_room::alloc_room_by_type_id(cg_mode_type type, unsigned board_id)
 		board_set_t::iterator it = m_readys.begin();
 		if (it != m_readys.end())
 		{
-			return &(it->second);
+			return get_board_by_id(*it);
 		}
 		it = m_emptys.begin();
 		if (it != m_emptys.end())
 		{
-			return &(it->second);
+			return get_board_by_id(*it);
 		}
-		return NULL:
+		return NULL;
 	}
 	else
 	{
@@ -98,15 +100,20 @@ board * game_room::get_board_by_id(unsigned board_id)
 {
 	if (board_id > 0 && board_id < m_max_count)
 	{
-		return &(m_boards[board_id]);
+		return &(m_boards[board_id-1]);
 	}
 
 	return NULL;
 }
 
+game_room_mgr::game_room_mgr()
+{
+	m_room_mgr.insert(std::pair<cg_game_room_type, game_room>(cg_game_room_normal, game_room(cg_game_room_normal, 1)));
+}
+
 game_room * game_room_mgr::get_game_room(cg_game_room_type type)
 {
-	game_room_map_t::iterator it = m_room_mgr.find(cg_game_room_type);
+	game_room_map_t::iterator it = m_room_mgr.find(type);
 	if (it != m_room_mgr.end())
 	{
 		return &(it->second);
@@ -119,6 +126,6 @@ bool game_room_mgr::join_board(game_player *gp, unsigned board_id)
 	game_room *t_room = get_game_room(gp->get_room_type());
 	if (!t_room) return false;
 
-	return t_room->join_board(board_id);
+	return t_room->join_board(gp, board_id);
 }
 

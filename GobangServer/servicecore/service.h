@@ -12,30 +12,6 @@ class file_writer;
 
 class user_data;
 
-#pragma	pack(1)
-struct	service_msg_header 
-{
-	service_msg_header() :msg_size(0)
-	{
-	}
-
-	service_msg_header& operator=(const service_msg_header &smh)
-	{
-		this->msg_size = smh.msg_size;
-		this->msg_type = smh.msg_type;
-		return	*this;
-	}
-
-	service_msg_header(const service_msg_header &smh)
-	{
-		this->msg_size = smh.msg_size;
-		this->msg_type = smh.msg_type;
-	}
-	uint32_t	msg_size;
-	uint32_t	msg_type;
-};
-#pragma	pack()
-
 class service
 {
 public:

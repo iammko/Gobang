@@ -65,6 +65,8 @@ public:
 		return ++unique_id;
 	}
 
+	game_player *get_player(unsigned player_id);
+
 	game_player *get_player(tcp_routine *rt);
 	void add_player(tcp_routine *rt);
 	void remove_player(tcp_routine *rt);
