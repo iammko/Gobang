@@ -95,7 +95,7 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 	}
 	else if (pn == protocol_number_start)
 	{
-		set_state(cg_player_state_playing);
+		m_game->set_state(cg_player_state_playing);
 		proto::start_ret decode;
 		decode.ParseFromArray(buff, len);
 		if (decode.has_white_id())
