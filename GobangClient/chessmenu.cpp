@@ -90,8 +90,19 @@ bool chessmenu::continue_menu()
 void chessmenu::id_chess_menu()
 {
 	printf("桌号：%d\n", m_game->get_board_id());
-	printf("你的ID：%d	棋子：%c\n", m_game->get_my_id(), m_game->get_player_chess(m_game->get_my_id()));
-	printf("对方ID：%d	棋子：%c\n", m_game->get_other_id(), m_game->get_player_chess(m_game->get_other_id()));
+	unsigned other_id = m_game->get_other_id();
+	char my_chess = m_game->get_player_chess(m_game->get_my_id());
+	char other_chess = m_game->get_player_chess(m_game->get_other_id());
+
+	printf("你的ID：%d	", m_game->get_my_id(), my_chess);
+	if (my_chess)	printf("棋子：%c", my_chess);
+	printf("\n");
+	if (other_id)
+	{
+		printf("对方ID：%d	", other_id);
+		if (other_chess)	printf("棋子：%c", other_chess);
+	}
+	printf("\n");
 }
 
 bool chessmenu::start_oder_menu()

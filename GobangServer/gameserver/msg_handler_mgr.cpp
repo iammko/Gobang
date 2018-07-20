@@ -236,18 +236,14 @@ int exit_board_req_handler::done(game_player * gp, const char * msg, unsigned le
 	game_room *gm = game_room_mgr::get_instance()->get_game_room(gp->get_room_type());
 	if (gm)
 	{
-		board *b = gm->get_board_by_id(gp->get_board_id());
-		if (b)
+		if (gm->exit_board(gp))
 		{
-			if (b->exit(gp))
-			{
-				send.set_result(1);
-				int size = send.ByteSize();
-				std::vector<char> bytes;
-				bytes.resize(size);
-				send.SerializeToArray(&bytes[0], size);
-				gp->send_msg(protocol_number_exit_board, &bytes[0], size);
-			}
+			send.set_result(1);
+			int size = send.ByteSize();
+			std::vector<char> bytes;
+			bytes.resize(size);
+			send.SerializeToArray(&bytes[0], size);
+			gp->send_msg(protocol_number_exit_board, &bytes[0], size);
 		}
 	}
 	return 0;

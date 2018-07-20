@@ -385,6 +385,7 @@ unsigned chessgame::get_board_id()
 void chessgame::exit_board()
 {
 	set_board_id(0);
+	set_other_id(0);
 }
 
 void chessgame::set_turn_chess(char chess)
