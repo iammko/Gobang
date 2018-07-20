@@ -42,6 +42,7 @@ enum cg_result_type
 	cg_result_win_lost = 1,
 	cg_result_draw = 2,
 	cg_result_surrender = 3,
+	cg_result_escape = 4,
 	cg_result_count
 };
 

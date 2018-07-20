@@ -127,6 +127,10 @@ void chessmenu::result_menu(int result, unsigned win_id)
 		if (win_id != lose)	lose = m_game->get_other_id();
 		printf("玩家%u投降了！\n", lose);
 	}
+	else if (result == (int)cg_result_escape)
+	{
+		printf("玩家逃跑了！\n");
+	}
 }
 
 int chessmenu::connection_failed()

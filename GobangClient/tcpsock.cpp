@@ -151,14 +151,16 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 			if (m_game->get_my_id() == decode.player_id())
 			{
 				m_game->exit_board();
+				printf("退出房间\n");
 			}
 			else if(m_game->get_other_id() == decode.player_id())
 			{
+				printf("玩家%d退出房间\n", m_game->get_other_id());
 				m_game->set_other_id(0);
 			}
 			if (m_game->get_state() == cg_player_state_playing)
 			{
-				m_game->set_game_over(cg_result_surrender);
+				m_game->set_game_over(cg_result_escape);
 			}
 		}
 	}

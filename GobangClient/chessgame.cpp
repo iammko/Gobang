@@ -326,7 +326,7 @@ int chessgame::send_exit_board_req()
 	std::vector<char> bytes;
 	bytes.resize(size);
 	send.SerializeToArray(&bytes[0], size);
-	return m_sock.do_proto(protocol_number_surrender, &bytes[0], size);
+	return m_sock.do_proto(protocol_number_exit_board, &bytes[0], size);
 }
 
 void chessgame::set_my_id(unsigned id)
