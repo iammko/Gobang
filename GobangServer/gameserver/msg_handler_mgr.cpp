@@ -32,7 +32,7 @@ void msg_handler_mgr::register_all()
 	register_handler(protocol_number_start, new start_req_handler());
 	register_handler(protocol_number_do_step, new do_step_req_handler());
 	register_handler(protocol_number_surrender, new surrender_req_handler()); 
-	register_handler(protocol_number_surrender, new exit_board_req_handler());
+	register_handler(protocol_number_exit_board, new exit_board_req_handler());
 }
 
 void msg_handler_mgr::register_handler(protocol_number pn, msg_hander * handler)
