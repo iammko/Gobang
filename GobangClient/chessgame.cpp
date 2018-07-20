@@ -123,35 +123,43 @@ int chessgame::game_online_quickstart()
 		if (ret == -1)	return 0;
 		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))	return 0;
 
-		ret = send_start_req();
-		if (ret == -1)	return 0;
-
-		m_board.draw();
-		m_menu.start_oder_menu();
-		if (get_turn_chess() == get_player_chess(m_player_id))
-		{
-			ret = game_do_input_xy_send();
-			if (ret == -1)//错误
-				return 0;
-		}
-		else
-		{ 
-			send_do_step_req(0, 0);
-		}
 		while (1)
 		{
-			if (get_game_over())	break;
+			bool update_flag = false;
+			if (update_flag)
+			{
+				m_board.init();
+			}
+			m_board.draw();
+			m_menu.id_chess_menu();
+			ret = send_start_req();
+			if (ret == -1)	return 0;
 
-			ret = game_do_input_xy_send();
-			if (ret == -1)//错误
-				return 0;
+			m_board.draw();
+			m_menu.start_oder_menu();
+			if (get_turn_chess() == get_player_chess(m_player_id))
+			{
+				ret = game_do_input_xy_send();
+				if (ret == -1)//错误
+					return 0;
+			}
+			else
+			{
+				send_do_step_req(0, 0);
+			}
+			while (1)
+			{
+				if (get_game_over())	break;
+
+				ret = game_do_input_xy_send();
+				if (ret == -1)//错误
+					return 0;
+			}
+
+			if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)：")) return 0;
+			update_flag = true;
 		}
-
-GAMEOVER:
-		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)：")) return 0;
 	}
-	
-
 }
 
 int chessgame::game_online_race()

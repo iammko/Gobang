@@ -45,6 +45,7 @@ int chessmenu::mode_menu(int choose)
 		if (ret == -1)
 		{
 			connection_failed();
+			DEBUG_LOG("connect failed");
 			return BACK_VALUE;
 		}
 		else if(ret == 0)
