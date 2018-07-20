@@ -35,7 +35,8 @@ int tcpsock::send_msg(protocol_number pn, const char * buff, unsigned len)
 	if (header.msg_size > 32*4096)	return -1;
 
 	memcpy(buf, &header, headlen);
-	memcpy(buf + headlen, buff, len);
+	if(len)
+		memcpy(buf + headlen, buff, len);
 
 	unsigned sent = 0;
 	while (sent < header.msg_size)

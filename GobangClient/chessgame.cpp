@@ -119,6 +119,7 @@ int chessgame::game_online_quickstart()
 	while (1)
 	{
 		m_board.init();
+		set_other_id(0);
 		m_menu.id_chess_menu();
 		ret = send_player_info_req();
 		if (ret == -1)	return 0;
@@ -221,15 +222,6 @@ int chessgame::my_connect(int serverid)
 	{
 		m_sock.create_socket();
 		return	m_sock.my_connect();
-	}
-
-	char buf[1] = { 1 };
-	int ret = m_sock.my_write(buf, sizeof(buf));
-	if (ret < 1 && errno != EAGAIN && errno != EWOULDBLOCK)
-	{
-		my_close();
-		m_sock.create_socket();
-		return m_sock.my_connect();
 	}
 
 	return 1;

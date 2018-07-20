@@ -74,7 +74,6 @@ public:
 		if (!m_need_init)	return;
 
 		m_gameover = 0;
-		m_chess_players[1].m_player_id = 0;
 		for (int i = 0; i < cb_lenth; ++i)
 		{
 			for (int j = 0; j < cb_lenth; ++j)
