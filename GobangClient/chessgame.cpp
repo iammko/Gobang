@@ -148,6 +148,8 @@ int chessgame::game_online_quickstart()
 			else
 			{
 				ret =send_do_step_req(0, 0);
+				if (ret == -1)
+					return 0;
 				if (ret == (int)protocol_number_exit_board)
 					break;
 			}
@@ -219,6 +221,15 @@ int chessgame::my_connect(int serverid)
 		m_sock.create_socket();
 		return	m_sock.my_connect();
 	}
+
+	char buf[1] = { 0 };
+	if (m_sock.my_read(buf, sizeof(buf)) == 0)
+	{
+		my_close();
+		m_sock.create_socket();
+		return m_sock;
+	}
+
 	return 1;
 }
 

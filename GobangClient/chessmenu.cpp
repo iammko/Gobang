@@ -101,8 +101,8 @@ void chessmenu::id_chess_menu()
 	{
 		printf("对方ID：%d	", other_id);
 		if (other_chess)	printf("棋子：%c", other_chess);
+		printf("\n");
 	}
-	printf("\n");
 }
 
 bool chessmenu::start_oder_menu()
