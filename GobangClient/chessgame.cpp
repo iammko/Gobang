@@ -2,6 +2,7 @@
 #include "saveinput.h"
 #include "mgrs.h"
 #include "protos.pb.h"
+#include "errno.h"
 
 chessgame::chessgame() : m_sock(this),m_menu(this),m_board(this)
 {
