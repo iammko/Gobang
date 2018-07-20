@@ -227,7 +227,7 @@ int chessgame::my_connect(int serverid)
 	{
 		my_close();
 		m_sock.create_socket();
-		return m_sock;
+		return m_sock.my_connect();
 	}
 
 	return 1;
