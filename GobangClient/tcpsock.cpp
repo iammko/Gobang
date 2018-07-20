@@ -162,6 +162,7 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 			{
 				m_game->set_game_over(cg_result_escape);
 			}
+			return protocol_number_exit_board;
 		}
 	}
 

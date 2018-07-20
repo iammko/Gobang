@@ -134,6 +134,7 @@ int chessgame::game_online_quickstart()
 			m_menu.id_chess_menu();
 			ret = send_start_req();
 			if (ret == -1)	return 0;
+			else if(ret == (int)protocol_number_exit_board)	continue;
 
 			m_board.draw();
 			m_menu.start_oder_menu();
@@ -154,6 +155,10 @@ int chessgame::game_online_quickstart()
 				ret = game_do_input_xy_send();
 				if (ret == -1)//错误
 					return 0;
+			}
+			if (ret == (int)protocol_number_exit_board)
+			{
+				break;
 			}
 
 			if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)：")) return 0;
