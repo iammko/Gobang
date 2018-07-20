@@ -222,8 +222,9 @@ int chessgame::my_connect(int serverid)
 		return	m_sock.my_connect();
 	}
 
-	char buf[1] = { 0 };
-	if (m_sock.my_read(buf, sizeof(buf)) == 0)
+	char buf[1] = { 1 };
+	int ret = m_sock.my_write(buf, sizeof(buf));
+	if (ret < 1 && errno != EAGAIN && errno != EWOULDBLOCK)
 	{
 		my_close();
 		m_sock.create_socket();

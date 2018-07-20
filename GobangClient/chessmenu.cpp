@@ -94,7 +94,7 @@ void chessmenu::id_chess_menu()
 	char my_chess = m_game->get_player_chess(m_game->get_my_id());
 	char other_chess = m_game->get_player_chess(m_game->get_other_id());
 
-	printf("你的ID：%d	", m_game->get_my_id(), my_chess);
+	printf("你的ID：%d	", m_game->get_my_id());
 	if (my_chess)	printf("棋子：%c", my_chess);
 	printf("\n");
 	if (other_id)

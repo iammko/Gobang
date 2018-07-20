@@ -58,6 +58,11 @@ public:
 		return read(m_sock_fd, buff, len);
 	}
 
+	int my_write(const char *buff, unsigned len)
+	{
+		return write(m_sock_fd, buff, len);
+	}
+
 	int my_close()
 	{
 		return close(m_sock_fd);
