@@ -133,7 +133,7 @@ int chessgame::game_online_quickstart()
 			m_menu.id_chess_menu();
 			ret = send_start_req();
 			if (ret == -1)	return 0;
-			else if(ret == (int)protocol_number_exit_board)	continue;
+			else if(ret == (int)protocol_number_exit_board)	break;;
 
 			m_board.draw();
 			m_menu.start_oder_menu();
@@ -142,10 +142,14 @@ int chessgame::game_online_quickstart()
 				ret = game_do_input_xy_send();
 				if (ret == -1)//错误
 					return 0;
+				else if (ret == (int)protocol_number_exit_board)
+					break;
 			}
 			else
 			{
-				send_do_step_req(0, 0);
+				ret =send_do_step_req(0, 0);
+				if (ret == (int)protocol_number_exit_board)
+					break;
 			}
 			while (1)
 			{
@@ -154,6 +158,8 @@ int chessgame::game_online_quickstart()
 				ret = game_do_input_xy_send();
 				if (ret == -1)//错误
 					return 0;
+				else if (ret == (int)protocol_number_exit_board)
+					break;
 			}
 			if (ret == (int)protocol_number_exit_board)
 			{
