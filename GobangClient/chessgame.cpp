@@ -121,15 +121,14 @@ int chessgame::game_online_quickstart()
 		m_menu.id_chess_menu();
 		ret = send_player_info_req();
 		if (ret == -1)	return 0;
-		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))	return 0;
+		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))
+		{
+			send_exit_board_req();
+			return 0;
+		}
 
 		while (1)
 		{
-			bool update_flag = false;
-			if (update_flag)
-			{
-				m_board.init();
-			}
 			m_board.draw();
 			m_menu.id_chess_menu();
 			ret = send_start_req();
@@ -161,8 +160,12 @@ int chessgame::game_online_quickstart()
 				break;
 			}
 
-			if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)：")) return 0;
-			update_flag = true;
+			if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))
+			{
+				send_exit_board_req();
+				return 0;
+			}
+			m_board.init();
 		}
 	}
 }
