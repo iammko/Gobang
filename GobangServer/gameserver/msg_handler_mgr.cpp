@@ -27,6 +27,12 @@ void msg_handler_mgr::register_all()
 {
 	register_handler(protocol_number_id_req,new cs_id_req_handler());
 	register_handler(protocol_number_game_type, new game_type_req_handler());
+	register_handler(protocol_number_join_board, new join_board_req_handler());
+	register_handler(protocol_number_player_info, new player_info_req_handler());
+	register_handler(protocol_number_start, new start_req_handler());
+	register_handler(protocol_number_do_step, new do_step_req_handler());
+	register_handler(protocol_number_surrender, new surrender_req_handler()); 
+	register_handler(protocol_number_surrender, new exit_board_req_handler());
 }
 
 void msg_handler_mgr::register_handler(protocol_number pn, msg_hander * handler)
@@ -85,7 +91,7 @@ int game_type_req_handler::done(game_player * gp, const char * msg, unsigned len
 	}
 
 	proto::game_type_ret send;
-	send.set_result(0);
+	send.set_result(1);
 	int size = send.ByteSize();
 	if (size)
 	{
@@ -125,7 +131,7 @@ int join_board_req_handler::done(game_player * gp, const char * msg, unsigned le
 		send.SerializeToArray(&bytes[0], size);
 
 		DEBUG_LOG("join_board_req_handler done id=%u", gp->get_player_id());
-		gp->send_msg(protocol_number_game_type, &bytes[0], size);
+		gp->send_msg(protocol_number_join_board, &bytes[0], size);
 	}
 
 	return 0;
@@ -164,10 +170,8 @@ int start_req_handler::done(game_player * gp, const char * msg, unsigned len)
 		board *b = gm->get_board_by_id(gp->get_board_id());
 		if (b)
 		{
-			if (b->player_count() == 2)
-			{
-				b->send_start_ret(gp);
-			}
+			gp->set_state(cg_player_state_wait);
+			b->set_ready(gp->get_player_id(), true);
 		}
 	}
 
@@ -220,5 +224,31 @@ int surrender_req_handler::done(game_player * gp, const char * msg, unsigned len
 		}
 	}
 
+	return 0;
+}
+
+int exit_board_req_handler::done(game_player * gp, const char * msg, unsigned len)
+{
+	proto::exit_board_ret send;
+	send.set_player_id(gp->get_player_id());
+	send.set_result(0);
+
+	game_room *gm = game_room_mgr::get_instance()->get_game_room(gp->get_room_type());
+	if (gm)
+	{
+		board *b = gm->get_board_by_id(gp->get_board_id());
+		if (b)
+		{
+			if (b->exit(gp))
+			{
+				send.set_result(1);
+				int size = send.ByteSize();
+				std::vector<char> bytes;
+				bytes.resize(size);
+				send.SerializeToArray(&bytes[0], size);
+				gp->send_msg(protocol_number_exit_board, &bytes[0], size);
+			}
+		}
+	}
 	return 0;
 }

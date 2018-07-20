@@ -21,6 +21,8 @@ public:
 	int game_online_quickstart();
 	int game_online_race();
 
+	int game_do_input_xy_send();
+
 	int get_inputint(const char *ptip, int &rno, int low = 0, int up = INT_MAX, int quit = 0);
 
 	int my_connect(int serverid = 1);
@@ -35,6 +37,7 @@ public:
 	int send_start_req();
 	int send_do_step_req(int x, int y);
 	int send_surrender_req();
+	int send_exit_board_req();
 
 	void set_my_id(unsigned id);
 	unsigned get_my_id();
@@ -43,6 +46,8 @@ public:
 
 	void set_board_id(unsigned id);
 	unsigned get_board_id();
+
+	void exit_board();
 
 	void set_turn_chess(char chess);
 	char get_turn_chess();
@@ -56,6 +61,9 @@ public:
 	int get_game_over();
 
 	unsigned get_step_no();
+
+	void set_state(cg_player_state_type type);
+	cg_player_state_type get_state();
 private:
 	friend class tcpsock;
 	friend class chessmenu;
@@ -64,4 +72,6 @@ private:
 	tcpsock m_sock;
 	chessmenu m_menu;
 	chessboard m_board;
+	cg_player_state_type m_state;
+	bool m_connected_flag;
 };

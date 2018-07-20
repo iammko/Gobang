@@ -5,6 +5,9 @@ chessboard::chessboard(chessgame * game) : m_game(game)
 {
 	bzero(m_chesses, sizeof(m_chesses));
 	m_turn = cb_white_chess;
+	m_board_id = 0;
+	m_gameover = 0;
+	m_need_init = true;
 }
 
 chessboard::~chessboard()
@@ -50,16 +53,46 @@ void chessboard::draw()
 	printf("\n");
 }
 
+void chessboard::show_do_step_info(int info_no)
+{
+	if (info_no == -1)
+	{
+		printf("输入坐标有误，请重新输入\n");
+	}
+	else if (info_no == -2)
+	{
+		printf("不是你的回合\n");
+	}
+	else if (info_no == -3)
+	{
+		printf("位置已被占\n");
+	}
+	else if (info_no == (int)cg_result_win_lost)
+	{
+		draw();
+		printf("%c方胜利\n", m_turn);
+	}
+	else if(info_no == (int)cg_result_draw)
+	{
+		draw();
+		printf("平局\n");
+	}
+	else
+	{
+
+	}
+
+}
+
 int chessboard::do_step(char x, char y, unsigned int playerid)
 {
 	if (!check_xy(x, y))
 	{
-		printf("输入坐标有误，请重新输入\n");
 		return -1;
 	}
 	bool ret = true;
 	bool move_flag = false;
-	for (int i = 0; i < sizeof(m_chess_players) / sizeof(m_chess_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_chess_players) / sizeof(m_chess_players[0]); ++i)
 	{
 		if (m_turn == m_chess_players[i].m_chess && playerid == m_chess_players[i].m_player_id)
 		{
@@ -70,29 +103,24 @@ int chessboard::do_step(char x, char y, unsigned int playerid)
 
 	if (!move_flag)
 	{
-		printf("不是你的回合\n");
 		return -2;
 	}
 
 	if (!ret)
 	{
-		printf("位置已被占\n");
 		return -3;
 	}
 
+	m_need_init = true;
 	add_step(x, y, playerid);
 
 	if (check_win(x, y))
 	{
-		draw();
-		printf("%c方胜利\n", m_turn);
-		return m_turn;
+		return cg_result_win_lost;
 	}
 
 	if (m_stepway.get_stepno() >= cb_lenth * cb_lenth)
 	{
-		draw();
-		printf("平局\n");
 		return cg_result_draw;
 	}
 

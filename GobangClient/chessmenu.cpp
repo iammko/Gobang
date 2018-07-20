@@ -47,12 +47,12 @@ int chessmenu::mode_menu(int choose)
 			connection_failed();
 			return BACK_VALUE;
 		}
-		else
+		else if(ret == 0)
 		{
 			system("clear");
 			printf("连接成功。。。\n");
 			m_game->send_id_req();
-			sleep(2);
+			sleep(1);
 			system("clear");
 		}
 		format_menu(online, len2);
@@ -110,7 +110,7 @@ bool chessmenu::sure_or_not_menu(const char * tips)
 	return choose;
 }
 
-void chessmenu::result_menu(int result, int win_id)
+void chessmenu::result_menu(int result, unsigned win_id)
 {
 	printf("游戏结束！\n");
 	if (result == 1)

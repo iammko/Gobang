@@ -86,3 +86,13 @@ struct	service_msg_header
 	uint32_t	msg_type;
 };
 #pragma	pack()
+
+enum cg_player_state_type
+{
+	cg_player_state_none = 0,
+	cg_player_state_free = 1,
+	cg_player_state_wait = 2,
+	cg_player_state_playing = 3,
+
+	cg_player_state_count
+};

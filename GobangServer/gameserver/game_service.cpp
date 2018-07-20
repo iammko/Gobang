@@ -22,7 +22,8 @@ void service_task::send_msg(protocol_number pn, const char * msg, unsigned len)
 	std::vector<char> bytes;
 	bytes.resize(header.msg_size);
 	memcpy(&bytes[0], &header, headerlen);
-	memcpy(&bytes[0] + headerlen, msg, len);
+	if(len)
+		memcpy(&bytes[0] + headerlen, msg, len);
 	
 	DEBUG_LOG("service_task.send_msg %u bytes data, %u bytes header", header.msg_size, headerlen);
 	service::get_instance()->send_msg(m_routine->get_routine_id(), &bytes[0], header.msg_size);
@@ -36,17 +37,17 @@ game_service::game_service(const std::string & ipaddr, uint16_t port, const std:
 
 void game_service::on_peer_close(tcp_routine_proxy * proxy, tcp_routine * r)
 {
-	data_mgr::get_instance()->remove_player(r);
+	data_mgr::get_instance()->player_offline(r);
 }
 
 void game_service::on_hangup(tcp_routine_proxy * proxy, tcp_routine * r)
 {
-	data_mgr::get_instance()->remove_player(r);
+	data_mgr::get_instance()->player_offline(r);
 }
 
 void game_service::on_routine_error(tcp_routine_proxy * proxy, tcp_routine * r)
 {
-	data_mgr::get_instance()->remove_player(r);
+	data_mgr::get_instance()->player_offline(r);
 }
 
 void game_service::on_routine_created(tcp_routine* r)

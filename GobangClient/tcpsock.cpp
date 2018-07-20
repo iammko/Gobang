@@ -95,6 +95,7 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 	}
 	else if (pn == protocol_number_start)
 	{
+		set_state(cg_player_state_playing);
 		proto::start_ret decode;
 		decode.ParseFromArray(buff, len);
 		if (decode.has_white_id())
@@ -140,7 +141,27 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 	{
 
 	}
+	else if (pn == protocol_number_exit_board)
+	{
+		proto::exit_board_ret decode;
+		decode.ParseFromArray(buff, len);
 
+		if (decode.has_player_id())
+		{
+			if (m_game->get_my_id() == decode.player_id())
+			{
+				m_game->exit_board();
+			}
+			else if(m_game->get_other_id() == decode.player_id())
+			{
+				m_game->set_other_id(0);
+			}
+			if (m_game->get_state() == cg_player_state_playing)
+			{
+				m_game->set_game_over(cg_result_surrender);
+			}
+		}
+	}
 
 	return 1;
 }
@@ -190,7 +211,8 @@ int tcpsock::recv_proto()
 			{
 				return -1;
 			}
-			return process_msg((protocol_number)header.msg_type, m_recv->data_ptr(), m_recv->data_len());
+			ret = process_msg((protocol_number)header.msg_type, m_recv->data_ptr(), m_recv->data_len());
+			m_recv->consume(m_recv->data_len());
 		}
 	}
 	else if (ret == 0)

@@ -14,6 +14,7 @@ struct chess_player
 	}
 	unsigned m_player_id;
 	char m_chess;
+	bool m_ready;
 };
 
 struct chessstep
@@ -72,7 +73,7 @@ private:
 class board
 {
 public:
-	board(unsigned board_id);
+	board(unsigned room_id, unsigned board_id);
 	~board();
 
 	void init();
@@ -82,11 +83,13 @@ public:
 	bool exit(game_player *gp);
 
 	bool send_info_each(game_player *src);
-	bool send_start_ret(game_player *gp);
+	bool send_start_ret();
 	bool send_do_step_ret(game_player *src,const proto::step_info *step);
 	bool send_surrender_ret(game_player *gp);
 
 	unsigned player_count();
+	bool all_ready();
+	void set_ready(unsigned player_id,bool is_ready = true);
 
 	int do_step(char x, char y, unsigned playerid);
 	int do_bot_step();
@@ -120,11 +123,12 @@ private:
 
 	friend class game_room;
 
+	int m_game_state;
 	unsigned m_room_id;
 	unsigned m_board_id;
 	int m_gameover;
 	char m_turn_chess;
-	char m_turn_index;
+	unsigned m_turn_index;
 	chess_player m_players[2];
 	char m_chesses[cb_lenth][cb_lenth];
 	chess_way m_chess_way;

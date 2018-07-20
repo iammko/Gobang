@@ -21,12 +21,17 @@ public:
 		return m_player_id;
 	}
 
+	void player_online();
+	void player_offline();
+
 	void send_msg(protocol_number pn, const char *msg, unsigned len);
+
+	void set_state(cg_player_state_type state);
+	cg_player_state_type get_state();
 	bool check_state();
 
 	void set_room_id(unsigned room_id);
 	unsigned get_room_id();
-
 	void set_board_id(unsigned board_id);
 	unsigned get_board_id();
 
@@ -47,6 +52,7 @@ private:
 	unsigned m_board_id;
 	char m_chess_color;
 
+	cg_player_state_type m_state;
 	service_task *m_service_task;
 };
 
@@ -58,6 +64,11 @@ private:
 	friend class mysingleton<data_mgr>;
 public:
 	~data_mgr();
+
+	void load_config();
+
+	void player_online(tcp_routine *rt);
+	void player_offline(tcp_routine *rt);
 
 	unsigned get_unique_id() 
 	{

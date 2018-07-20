@@ -69,6 +69,7 @@ public:
 	}
 
 private:
+	friend class chessgame;
 	chessgame* m_game;
 
 	int m_sock_fd;

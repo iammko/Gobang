@@ -35,6 +35,8 @@ class game_room_mgr : public mysingleton<game_room_mgr>
 public:
 	game_room_mgr();
 
+	void load_config();
+
 	game_room *get_game_room(cg_game_room_type type);
 
 	bool join_board(game_player *gp, unsigned board_id);

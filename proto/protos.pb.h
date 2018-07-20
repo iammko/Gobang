@@ -48,6 +48,8 @@ class step_info;
 class do_step_req;
 class do_step_ret;
 class surrender_req;
+class exit_board_req;
+class exit_board_ret;
 
 // ===================================================================
 
@@ -1281,6 +1283,164 @@ class surrender_req : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static surrender_req* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class exit_board_req : public ::google::protobuf::Message {
+ public:
+  exit_board_req();
+  virtual ~exit_board_req();
+
+  exit_board_req(const exit_board_req& from);
+
+  inline exit_board_req& operator=(const exit_board_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const exit_board_req& default_instance();
+
+  void Swap(exit_board_req* other);
+
+  // implements Message ----------------------------------------------
+
+  exit_board_req* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const exit_board_req& from);
+  void MergeFrom(const exit_board_req& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:proto.exit_board_req)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static exit_board_req* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class exit_board_ret : public ::google::protobuf::Message {
+ public:
+  exit_board_ret();
+  virtual ~exit_board_ret();
+
+  exit_board_ret(const exit_board_ret& from);
+
+  inline exit_board_ret& operator=(const exit_board_ret& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const exit_board_ret& default_instance();
+
+  void Swap(exit_board_ret* other);
+
+  // implements Message ----------------------------------------------
+
+  exit_board_ret* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const exit_board_ret& from);
+  void MergeFrom(const exit_board_ret& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint32 result = 1;
+  inline bool has_result() const;
+  inline void clear_result();
+  static const int kResultFieldNumber = 1;
+  inline ::google::protobuf::uint32 result() const;
+  inline void set_result(::google::protobuf::uint32 value);
+
+  // optional uint32 player_id = 2;
+  inline bool has_player_id() const;
+  inline void clear_player_id();
+  static const int kPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 player_id() const;
+  inline void set_player_id(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.exit_board_ret)
+ private:
+  inline void set_has_result();
+  inline void clear_has_result();
+  inline void set_has_player_id();
+  inline void clear_has_player_id();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 result_;
+  ::google::protobuf::uint32 player_id_;
+  friend void  protobuf_AddDesc_protos_2eproto();
+  friend void protobuf_AssignDesc_protos_2eproto();
+  friend void protobuf_ShutdownFile_protos_2eproto();
+
+  void InitAsDefaultInstance();
+  static exit_board_ret* default_instance_;
+};
 // ===================================================================
 
 
@@ -1839,6 +1999,62 @@ inline void do_step_ret::set_win_id(::google::protobuf::uint32 value) {
 // -------------------------------------------------------------------
 
 // surrender_req
+
+// -------------------------------------------------------------------
+
+// exit_board_req
+
+// -------------------------------------------------------------------
+
+// exit_board_ret
+
+// optional uint32 result = 1;
+inline bool exit_board_ret::has_result() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void exit_board_ret::set_has_result() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void exit_board_ret::clear_has_result() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void exit_board_ret::clear_result() {
+  result_ = 0u;
+  clear_has_result();
+}
+inline ::google::protobuf::uint32 exit_board_ret::result() const {
+  // @@protoc_insertion_point(field_get:proto.exit_board_ret.result)
+  return result_;
+}
+inline void exit_board_ret::set_result(::google::protobuf::uint32 value) {
+  set_has_result();
+  result_ = value;
+  // @@protoc_insertion_point(field_set:proto.exit_board_ret.result)
+}
+
+// optional uint32 player_id = 2;
+inline bool exit_board_ret::has_player_id() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void exit_board_ret::set_has_player_id() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void exit_board_ret::clear_has_player_id() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void exit_board_ret::clear_player_id() {
+  player_id_ = 0u;
+  clear_has_player_id();
+}
+inline ::google::protobuf::uint32 exit_board_ret::player_id() const {
+  // @@protoc_insertion_point(field_get:proto.exit_board_ret.player_id)
+  return player_id_;
+}
+inline void exit_board_ret::set_player_id(::google::protobuf::uint32 value) {
+  set_has_player_id();
+  player_id_ = value;
+  // @@protoc_insertion_point(field_set:proto.exit_board_ret.player_id)
+}
 
 
 // @@protoc_insertion_point(namespace_scope)

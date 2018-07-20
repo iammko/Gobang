@@ -71,6 +71,10 @@ public:
 
 	void init()
 	{
+		if (!m_need_init)	return;
+
+		m_gameover = 0;
+		m_chess_players[1].m_player_id = 0;
 		for (int i = 0; i < cb_lenth; ++i)
 		{
 			for (int j = 0; j < cb_lenth; ++j)
@@ -78,10 +82,18 @@ public:
 				m_chesses[i][j] = '+';
 			}
 		}
+		m_need_init = false;
 	}
 
 	void draw();
 
+	void show_do_step_info(int info_no);
+	//-1坐标有误
+	//-2对方回合
+	//-3位置非空
+	//cg_result_win_lost
+	//cg_result_draw
+	//0正常
 	int do_step(char x, char y, unsigned int playerid);
 	int check_win(char x, char y);
 
@@ -124,4 +136,6 @@ private:
 	chess_player m_chess_players[2];
 	chessway m_stepway;
 	std::list<unsigned int> m_judges;
+
+	bool m_need_init;
 };

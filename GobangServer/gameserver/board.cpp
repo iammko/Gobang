@@ -2,11 +2,11 @@
 #include "data_mgr.h"
 #include "protos.pb.h"
 
-board::board(unsigned board_id):m_board_id(board_id)
+board::board(unsigned room_id, unsigned board_id):m_room_id(room_id), m_board_id(board_id)
 {
 	init();
 
-	for (int i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{
 		m_players[i].m_player_id = 0;
 		m_players[i].m_chess = cb_chesses[i];
@@ -22,6 +22,8 @@ void board::init()
 	m_gameover = false;
 	m_turn_index = 0;
 	m_turn_chess = cb_chesses[m_turn_index];
+	m_game_state = 0;
+	m_chess_way.clear();
 	for (int i = 0; i < cb_lenth; ++i)
 	{
 		for (int j = 0; j < cb_lenth; ++j)
@@ -30,6 +32,10 @@ void board::init()
 		}
 	}
 
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	{
+		m_players[i].m_ready = false;
+	}
 }
 
 void board::turn_chess_index()
@@ -44,7 +50,7 @@ bool board::join(game_player * gp)
 	gp->set_room_id(m_room_id);
 	gp->set_board_id(m_board_id);
 
-	for (int i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{
 		if (m_players[i].m_player_id == 0)
 		{
@@ -59,11 +65,32 @@ bool board::join(game_player * gp)
 
 bool board::exit(game_player * gp)
 {
-	for (int i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{
 		if (m_players[i].m_player_id == gp->get_player_id())
 		{
 			m_players[i].m_player_id = 0;
+			m_players[i].m_ready = false;
+			gp->set_state(cg_player_state_free);
+			game_player *another = get_another_player(gp);
+			if (another)
+			{
+				if (another->get_state() == cg_player_state_wait
+					|| another->get_state() == cg_player_state_playing)
+				{
+					proto::exit_board_ret send;
+					send.set_player_id(gp->get_player_id());
+					send.set_result(1);
+					int size = send.ByteSize();
+					std::vector<char> bytes;
+					bytes.resize(size);
+					send.SerializeToArray(&bytes[0], size);
+
+					another->send_msg(protocol_number_exit_board, &bytes[0], size);
+					another->set_state(cg_player_state_free);
+				}
+			}
+
 			return true;
 		}
 	}
@@ -100,7 +127,7 @@ bool board::send_info_each(game_player * src)
 
 	game_player *dest = NULL;
 
-	for (int i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{
 		if (m_players[i].m_player_id == src->get_player_id())
 		{
@@ -121,7 +148,7 @@ bool board::send_info_each(game_player * src)
 	return true;
 }
 
-bool board::send_start_ret(game_player * gp)
+bool board::send_start_ret()
 {
 	proto::start_ret send;
 	
@@ -134,7 +161,7 @@ bool board::send_start_ret(game_player * gp)
 	bytes.resize(size);
 	send.SerializeToArray(&bytes[0], size);
 
-	gp->send_msg(protocol_number_start, &bytes[0], size);
+	send_msg_all(protocol_number_start, &bytes[0], size);
 
 	return true;
 }
@@ -144,16 +171,18 @@ bool board::send_do_step_ret(game_player * src,const proto::step_info *step)
 	proto::do_step_ret send;
 
 	int ret = do_step(step->x(), step->y(), src->get_player_id());
+
+	proto::step_info *t_step = send.mutable_other_step();
+	if (t_step)
+	{
+		t_step->set_x(step->x());
+		t_step->set_y(step->y());
+		t_step->set_stepno(step->stepno());
+		DEBUG_LOG("send_do_step_ret x=%u, y=%u, stepno=%u, do_player=%u", step->x(), step->y(), step->stepno(), src->get_player_id());
+	}
+
 	if (ret == (int)cg_result_none)
 	{
-		proto::step_info *t_step = send.mutable_other_step();
-		if (t_step)
-		{
-			t_step->set_x(step->x());
-			t_step->set_y(step->y());
-			t_step->set_stepno(step->stepno());
-		}
-
 		int size = send.ByteSize();
 		std::vector<char> bytes;
 		bytes.resize(size);
@@ -173,6 +202,7 @@ bool board::send_do_step_ret(game_player * src,const proto::step_info *step)
 	}
 	else
 	{
+		src->send_msg(protocol_number_do_step, NULL, 0);
 		return false;
 	}
 
@@ -207,11 +237,41 @@ bool board::send_surrender_ret(game_player * gp)
 unsigned board::player_count()
 {
 	unsigned count = 0;
-	for (int i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{
 		if (m_players[i].m_player_id)	++count;
 	}
 	return count;
+}
+
+bool board::all_ready()
+{
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	{
+		if (!m_players[i].m_ready)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void board::set_ready(unsigned player_id, bool is_ready)
+{
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	{
+		if (m_players[i].m_player_id == player_id)
+		{
+			m_players[i].m_ready = is_ready;
+			break;
+		}
+	}
+
+	if (all_ready())
+	{	
+		init();
+		send_start_ret();
+	}
 }
 
 int board::do_step(char x, char y, unsigned playerid)
@@ -223,7 +283,7 @@ int board::do_step(char x, char y, unsigned playerid)
 
 	bool ret = true;
 	bool move_flag = false;
-	for (int i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{
 		if (m_turn_chess == m_players[i].m_chess && playerid == m_players[i].m_player_id)
 		{
@@ -244,7 +304,7 @@ int board::do_step(char x, char y, unsigned playerid)
 
 	add_step(x, y, playerid);
 
-	if (check_win(x, y));
+	if (check_win(x, y))
 	{
 		return cg_result_win_lost;
 	}
@@ -269,7 +329,7 @@ int board::check_win(char x, char y)
 {
 	const char wincount = 5 - 1;
 
-	if (m_chess_way.get_stepno() < 1)	return false;
+	if (m_chess_way.get_stepno() < wincount*2)	return false;
 
 	if (count_up2down(x, y) > wincount || count_left2right(x, y) > wincount || count_lowleft2upright(x, y) > wincount || count_upleft2lowright(x, y) > wincount)
 		return true;
@@ -280,7 +340,7 @@ int board::check_win(char x, char y)
 
 game_player * board::get_another_player(game_player * src)
 {
-	for (int i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{
 		if (src->get_player_id() != m_players[i].m_player_id)
 		{
@@ -296,11 +356,12 @@ game_player * board::get_another_player(game_player * src)
 
 void board::send_msg_all(protocol_number pn, const char * msg, const unsigned len)
 {
-	for (int i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{
 		game_player *player = data_mgr::get_instance()->get_player(m_players[i].m_player_id);
 		if (player)
 		{
+			if (pn == protocol_number_start)	player->set_state(cg_player_state_playing);
 			player->send_msg(pn, msg, len);
 		}
 	}
@@ -311,6 +372,7 @@ void board::send_msg_another(game_player * src, protocol_number pn, const char *
 	game_player *another = get_another_player(src);
 	if (another)
 	{
+		DEBUG_LOG("send_msg_another from player=%u to player=%u proto=%u", src->get_player_id(), another->get_player_id(), pn);
 		another->send_msg(pn, msg, len);
 	}
 }

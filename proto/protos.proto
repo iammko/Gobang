@@ -91,3 +91,14 @@ message surrender_req
 
 }
 
+//protocol_number_exit_board = 8
+message exit_board_req
+{
+
+}
+
+message exit_board_ret
+{
+	optional uint32 result = 1;
+	optional uint32 player_id = 2;
+}

@@ -18,9 +18,10 @@ game_room::~game_room()
 void game_room::init()
 {
 	m_boards.reserve(m_max_count);
-	for (int i = 0; i < m_max_count; ++i)
+	for (unsigned i = 0; i < m_max_count; ++i)
 	{
-		m_boards[i] = board(i + 1);
+		board tmp(m_room_id, i + 1);
+		m_boards.push_back(tmp);
 		m_emptys.insert(i + 1);
 	}
 }
@@ -88,12 +89,13 @@ board* game_room::alloc_room_by_type_id(cg_mode_type type, unsigned board_id)
 		{
 			return get_board_by_id(*it);
 		}
-		return NULL;
 	}
 	else
 	{
 
 	}
+
+	return NULL;
 }
 
 board * game_room::get_board_by_id(unsigned board_id)
@@ -109,6 +111,10 @@ board * game_room::get_board_by_id(unsigned board_id)
 game_room_mgr::game_room_mgr()
 {
 	m_room_mgr.insert(std::pair<cg_game_room_type, game_room>(cg_game_room_normal, game_room(cg_game_room_normal, 1)));
+}
+
+void game_room_mgr::load_config()
+{
 }
 
 game_room * game_room_mgr::get_game_room(cg_game_room_type type)

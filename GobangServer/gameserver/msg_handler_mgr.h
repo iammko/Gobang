@@ -75,3 +75,9 @@ class surrender_req_handler :public msg_hander
 public:
 	virtual int done(game_player *gp, const char *msg, unsigned len);
 };
+
+class exit_board_req_handler :public msg_hander
+{
+public:
+	virtual int done(game_player *gp, const char *msg, unsigned len);
+};

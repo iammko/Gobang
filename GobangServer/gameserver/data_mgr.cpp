@@ -1,6 +1,7 @@
 #include "data_mgr.h"
 #include "game_service.h"
 #include "tcp_routine.h"
+#include "game_room.h"
 
 
 game_player::game_player()
@@ -18,9 +19,32 @@ game_player::~game_player()
 	delete m_service_task;
 }
 
+void game_player::player_online()
+{
+}
+
+void game_player::player_offline()
+{
+	game_room *gr = game_room_mgr::get_instance()->get_game_room(m_room_type);
+	if (gr)
+	{
+		gr->exit_board(this);
+	}
+}
+
 void game_player::send_msg(protocol_number pn, const char * msg, unsigned len)
 {
 	m_service_task->send_msg(pn, msg, len);
+}
+
+void game_player::set_state(cg_player_state_type state)
+{
+	m_state = state;
+}
+
+cg_player_state_type game_player::get_state()
+{
+	return m_state;
 }
 
 bool game_player::check_state()
@@ -31,20 +55,22 @@ bool game_player::check_state()
 
 void game_player::set_room_id(unsigned room_id)
 {
+	m_room_id = room_id;
 }
 
 unsigned game_player::get_room_id()
 {
-	return 0;
+	return m_room_id;
 }
 
 void game_player::set_board_id(unsigned board_id)
 {
+	m_board_id = board_id;
 }
 
 unsigned game_player::get_board_id()
 {
-	return 0;
+	return m_board_id;
 }
 
 int game_player::set_game_type(cg_mode_type type)
@@ -94,6 +120,24 @@ data_mgr::~data_mgr()
 	}
 }
 
+void data_mgr::load_config()
+{
+}
+
+void data_mgr::player_online(tcp_routine * rt)
+{
+}
+
+void data_mgr::player_offline(tcp_routine * rt)
+{
+	game_player *player = get_player(rt);
+	if (player)
+	{
+		player->player_offline();
+	}
+	remove_player(rt);
+}
+
 game_player * data_mgr::get_player(unsigned player_id)
 {
 	game_player_map_t::iterator it = m_game_player_mgr.find(player_id);
@@ -130,7 +174,7 @@ void data_mgr::add_player(tcp_routine * rt)
 		ERROR_LOG("add_player.new game_player failed bad alloc, routine_id=%lu fd=%d", rt->get_routine_id(), rt->get_fd());
 		return;
 	}
-	gp->m_player_id = get_unique_id();
+	gp->m_player_id = rt->get_routine_id();
 	gp->m_service_task = st;
 
 	m_game_player_mgr[rt->get_routine_id()] = gp;
