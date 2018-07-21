@@ -208,8 +208,7 @@ int chessgame::game_do_input_xy_send()//0.成功 1.投降
 			break;
 		}
 	}
-	if (send_do_step_req(x, y) == -1)	return -1;
-	return 0;
+	return send_do_step_req(x, y);
 }
 
 int chessgame::get_inputint(const char * ptip, int & rno, int low, int up, int quit)
