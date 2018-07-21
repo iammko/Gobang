@@ -278,12 +278,6 @@ void board::reset_ready()
 	}
 }
 
-bool board::all_ready_state(game_player *gp)
-{
-	
-	return false;
-}
-
 int board::do_step(char x, char y, unsigned playerid)
 {
 	if (!check_xy(x, y))
