@@ -72,7 +72,7 @@ bool board::exit(game_player * gp)
 			if (another)
 			{
 				if (another->get_state() >= cg_player_join_board
-					&& another->get_state() <= cg_player_state_playing)
+					&& another->get_state() < cg_player_state_count)
 				{
 					proto::exit_board_ret send;
 					send.set_player_id(gp->get_player_id());
