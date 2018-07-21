@@ -97,6 +97,7 @@ enum cg_player_state_type
 	cg_player_state_player_info = 4,
 	cg_player_state_start_ready = 5,
 	cg_player_state_playing = 6,
+	cg_player_state_game_over = 7,
 
 	cg_player_state_count
 };

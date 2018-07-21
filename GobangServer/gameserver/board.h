@@ -94,6 +94,7 @@ public:
 
 	void set_game_over(cg_result_type type);
 	cg_result_type get_game_over();
+	void set_all_state(game_player *gp, cg_player_state_type state);
 
 	int do_step(char x, char y, unsigned playerid);
 	int do_bot_step();

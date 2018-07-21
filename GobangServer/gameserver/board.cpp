@@ -167,7 +167,6 @@ bool board::send_do_step_ret(game_player * src,const proto::step_info *step)
 	proto::do_step_ret send;
 
 	int ret = do_step(step->x(), step->y(), src->get_player_id());
-	if (ret > cg_result_none && ret < cg_result_count)		set_game_over((cg_result_type)ret);
 
 	proto::step_info *t_step = send.mutable_other_step();
 	if (t_step)
@@ -192,16 +191,19 @@ bool board::send_do_step_ret(game_player * src,const proto::step_info *step)
 	{
 		send.set_result(cg_result_win_lost);
 		send.set_win_id(m_players[m_turn_index].m_player_id);
+		set_game_over(cg_result_win_lost);
 	}
 	else if (ret == (int)cg_result_draw)
 	{
 		send.set_result(cg_result_draw);
+		set_game_over(cg_result_draw);
 	}
 	else
 	{
 		src->send_msg(protocol_number_do_step, NULL, 0);
 		return false;
 	}
+	set_all_state(src, cg_player_state_game_over);
 
 	int size = send.ByteSize();
 	std::vector<char> bytes;
@@ -287,6 +289,18 @@ void board::set_game_over(cg_result_type type)
 cg_result_type board::get_game_over()
 {
 	return (cg_result_type)m_gameover;
+}
+
+void board::set_all_state(game_player * gp, cg_player_state_type state)
+{
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	{
+		game_player *player = data_mgr::get_instance()->get_player(m_players[i].m_player_id);
+		if (player)
+		{
+			player->set_state(state);
+		}
+	}
 }
 
 int board::do_step(char x, char y, unsigned playerid)
@@ -378,6 +392,7 @@ void board::send_msg_all(protocol_number pn, const char * msg, const unsigned le
 		{
 			player->send_msg(pn, msg, len);
 			if (pn == protocol_number_start)	player->set_state(cg_player_state_playing);
+			else if (pn == protocol_number_surrender) player->set_state(cg_player_state_game_over);
 		}
 	}
 }
