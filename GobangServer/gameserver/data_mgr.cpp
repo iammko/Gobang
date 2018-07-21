@@ -80,6 +80,10 @@ bool game_player::check_state(protocol_number pn)
 	{
 		return true;
 	}
+	else if (pn == protocol_number_id_req && m_state == cg_player_state_free)
+	{
+		return true;
+	}
 
 
 	return false;
