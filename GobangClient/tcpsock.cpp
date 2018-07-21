@@ -185,15 +185,15 @@ int tcpsock::do_proto(protocol_number pn, const char *msg, unsigned len)
 int tcpsock::recv_proto()
 {
 	char buf[32 * 4096];
-	service_msg_header header;
 
 	int ret = my_read(buf, sizeof(buf));
 	if (ret > 0)
 	{
-		if (ret >= (int)sizeof(header))
+		if (ret >= (int)sizeof(service_msg_header))
 		{
+			service_msg_header header;
 			memcpy(&header, buf, sizeof(header));
-			m_recv->append(buf + sizeof(header), ret - sizeof(header));
+			m_recv->append(buf, ret);
 			if (ret < (int)header.msg_size)
 			{
 				int recv = 0;
@@ -215,8 +215,13 @@ int tcpsock::recv_proto()
 			{
 				return -1;
 			}
-			ret = process_msg((protocol_number)header.msg_type, m_recv->data_ptr(), m_recv->data_len());
-			m_recv->consume(m_recv->data_len());
+			while (m_recv->data_len())
+			{
+				service_msg_header header;
+				memcpy(&header, m_recv->data_ptr(), sizeof(header));
+				ret = process_msg((protocol_number)header.msg_type, m_recv->data_ptr()+sizeof(header), m_recv->data_len()-sizeof(header));
+				m_recv->consume(header.msg_size);
+			}
 		}
 	}
 	else if (ret == 0)

@@ -34,7 +34,10 @@ void game_player::player_offline()
 
 void game_player::send_msg(protocol_number pn, const char * msg, unsigned len)
 {
-	m_service_task->send_msg(pn, msg, len);
+	if (check_state())
+	{
+		m_service_task->send_msg(pn, msg, len);
+	}
 }
 
 void game_player::set_state(cg_player_state_type state)
@@ -47,10 +50,39 @@ cg_player_state_type game_player::get_state()
 	return m_state;
 }
 
-bool game_player::check_state()
+bool game_player::check_state(protocol_number pn)
 {
+	if (pn == protocol_number_exit_board && m_state!= cg_player_state_free)
+	{
+		return true;
+	}
+	else if (pn == protocol_number_game_type && m_state == cg_player_game_type)
+	{
+		return true;
+	}
+	else if (pn == protocol_number_join_board && m_state == cg_player_join_board)
+	{
+		return true;
+	}
+	else if (pn == protocol_number_player_info && m_state == cg_player_state_player_info)
+	{
+		return true;
+	}
+	else if (pn == protocol_number_start && m_state == cg_player_state_start_ready)
+	{
+		return true;
+	}
+	else if (pn == protocol_number_do_step && m_state == cg_player_state_playing)
+	{
+		return true;
+	}
+	else if (pn == protocol_number_surrender && m_state == cg_player_state_playing)
+	{
+		return true;
+	}
 
-	return true;
+
+	return false;
 }
 
 void game_player::set_room_id(unsigned room_id)

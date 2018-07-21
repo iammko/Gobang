@@ -28,7 +28,7 @@ public:
 
 	void set_state(cg_player_state_type state);
 	cg_player_state_type get_state();
-	bool check_state();
+	bool check_state(protocol_number pn);
 
 	void set_room_id(unsigned room_id);
 	unsigned get_room_id();

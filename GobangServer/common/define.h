@@ -91,8 +91,11 @@ enum cg_player_state_type
 {
 	cg_player_state_none = 0,
 	cg_player_state_free = 1,
-	cg_player_state_wait = 2,
-	cg_player_state_playing = 3,
+	cg_player_game_type = 2,
+	cg_player_join_board = 3,
+	cg_player_state_player_info = 4,
+	cg_player_state_start_ready = 5,
+	cg_player_state_playing = 6,
 
 	cg_player_state_count
 };

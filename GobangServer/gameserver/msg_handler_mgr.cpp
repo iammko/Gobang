@@ -61,7 +61,7 @@ int cs_id_req_handler::done(game_player * gp, const char * msg, unsigned len)
 {
 	//proto::id_req decode;
 	//decode.ParseFromArray(msg, len);
-
+	gp->set_state(cg_player_state_free);
 	proto::id_ret send;
 	send.set_id(gp->get_player_id());
 	int size = send.ByteSize();
@@ -80,10 +80,10 @@ int cs_id_req_handler::done(game_player * gp, const char * msg, unsigned len)
 
 int game_type_req_handler::done(game_player * gp, const char * msg, unsigned len)
 {
+	gp->set_state(cg_player_game_type);
 	proto::game_type_req decode;
 	decode.ParseFromArray(msg, len);
 
-	if (!gp->check_state())	return 0;
 	gp->set_game_type((cg_mode_type)decode.game_type());
 	if (decode.game_type() == cg_mode_type_online_quickstart)
 	{
@@ -108,6 +108,7 @@ int game_type_req_handler::done(game_player * gp, const char * msg, unsigned len
 
 int join_board_req_handler::done(game_player * gp, const char * msg, unsigned len)
 {
+	gp->set_state(cg_player_join_board);
 	proto::join_board_req decode;
 	decode.ParseFromArray(msg, len);
 
@@ -141,7 +142,7 @@ int player_info_req_handler::done(game_player * gp, const char * msg, unsigned l
 {
 	//proto::player_info_req decode;
 	//decode.ParseFromArray(msg, len);
-
+	gp->set_state(cg_player_state_player_info);
 	game_room *gm = game_room_mgr::get_instance()->get_game_room(gp->get_room_type());
 	if (gm)
 	{
@@ -163,7 +164,7 @@ int start_req_handler::done(game_player * gp, const char * msg, unsigned len)
 {
 	//proto::start_req decode;
 	//decode.ParseFromArray(msg, len);
-
+	gp->set_state(cg_player_state_start_ready);
 	game_room *gm = game_room_mgr::get_instance()->get_game_room(gp->get_room_type());
 	if (gm)
 	{
@@ -182,7 +183,7 @@ int do_step_req_handler::done(game_player * gp, const char * msg, unsigned len)
 {
 	proto::do_step_req decode;
 	decode.ParseFromArray(msg, len);
-
+	gp->set_state(cg_player_state_playing);
 	if (!decode.has_step())	return 0;
 
 	game_room *gm = game_room_mgr::get_instance()->get_game_room(gp->get_room_type());
@@ -244,6 +245,7 @@ int exit_board_req_handler::done(game_player * gp, const char * msg, unsigned le
 			bytes.resize(size);
 			send.SerializeToArray(&bytes[0], size);
 			gp->send_msg(protocol_number_exit_board, &bytes[0], size);
+			gp->set_state(cg_player_state_free);
 		}
 	}
 	return 0;
