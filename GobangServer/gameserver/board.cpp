@@ -229,6 +229,7 @@ bool board::send_surrender_ret(game_player * gp)
 	bytes.resize(size);
 	send.SerializeToArray(&bytes[0], size);
 	send_msg_all(protocol_number_do_step, &bytes[0], size);
+	set_all_state(gp, cg_player_state_game_over);
 
 	return true;
 }
@@ -392,7 +393,6 @@ void board::send_msg_all(protocol_number pn, const char * msg, const unsigned le
 		{
 			player->send_msg(pn, msg, len);
 			if (pn == protocol_number_start)	player->set_state(cg_player_state_playing);
-			else if (pn == protocol_number_surrender) player->set_state(cg_player_state_game_over);
 		}
 	}
 }
