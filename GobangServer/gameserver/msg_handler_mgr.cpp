@@ -164,14 +164,17 @@ int start_req_handler::done(game_player * gp, const char * msg, unsigned len)
 {
 	//proto::start_req decode;
 	//decode.ParseFromArray(msg, len);
-	gp->set_state(cg_player_state_start_ready);
 	game_room *gm = game_room_mgr::get_instance()->get_game_room(gp->get_room_type());
 	if (gm)
 	{
 		board *b = gm->get_board_by_id(gp->get_board_id());
 		if (b)
 		{
-			b->set_ready(gp->get_player_id(), true);
+			if (b->player_count() == 2)
+			{
+				gp->set_state(cg_player_state_start_ready);
+				b->set_ready(gp->get_player_id(), true);
+			}
 		}
 	}
 
