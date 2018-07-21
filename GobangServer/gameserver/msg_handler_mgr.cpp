@@ -171,7 +171,6 @@ int start_req_handler::done(game_player * gp, const char * msg, unsigned len)
 		board *b = gm->get_board_by_id(gp->get_board_id());
 		if (b)
 		{
-			gp->set_state(cg_player_state_wait);
 			b->set_ready(gp->get_player_id(), true);
 		}
 	}

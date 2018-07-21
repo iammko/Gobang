@@ -288,7 +288,7 @@ int chessgame::send_board_join_req(unsigned room_id)
 
 int chessgame::send_player_info_req()
 {
-	set_state(cg_player_state_wait);
+	set_state(cg_player_state_player_info);
 	printf("正在等待玩家\n");
 	proto::player_info_req send;
 	int size = send.ByteSize();
@@ -306,7 +306,7 @@ int chessgame::send_player_info_req()
 
 int chessgame::send_start_req()
 {
-	set_state(cg_player_state_wait);
+	set_state(cg_player_state_start_ready);
 	printf("已准备！\n");
 	proto::start_req send;
 	int size = send.ByteSize();
