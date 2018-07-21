@@ -167,7 +167,7 @@ bool board::send_do_step_ret(game_player * src,const proto::step_info *step)
 	proto::do_step_ret send;
 
 	int ret = do_step(step->x(), step->y(), src->get_player_id());
-	if(ret > cg_result_none && ret < cg_result_count)	
+	if (ret > cg_result_none && ret < cg_result_count)		set_game_over(ret);
 
 	proto::step_info *t_step = send.mutable_other_step();
 	if (t_step)
@@ -286,7 +286,7 @@ void board::set_game_over(cg_result_type type)
 
 cg_result_type board::get_game_over()
 {
-	return m_gameover;
+	return (cg_result_type)m_gameover;
 }
 
 int board::do_step(char x, char y, unsigned playerid)
