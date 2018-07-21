@@ -34,7 +34,7 @@ void game_player::player_offline()
 
 void game_player::send_msg(protocol_number pn, const char * msg, unsigned len)
 {
-	if (check_state(pn))
+	if (check_proto_state(pn))
 	{
 		m_service_task->send_msg(pn, msg, len);
 	}
@@ -50,7 +50,7 @@ cg_player_state_type game_player::get_state()
 	return m_state;
 }
 
-bool game_player::check_state(protocol_number pn)
+bool game_player::check_proto_state(protocol_number pn)
 {
 	if (pn == protocol_number_exit_board && m_state!= cg_player_state_free)
 	{
@@ -89,7 +89,7 @@ bool game_player::check_state(protocol_number pn)
 	return false;
 }
 
-bool game_player::check_state_equal(protocol_number pn)
+bool game_player::check_state_equal(cg_player_state_type pn)
 {
 	if (m_state == pn)	return true;
 
