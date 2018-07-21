@@ -91,6 +91,7 @@ public:
 	bool all_ready();
 	void set_ready(unsigned player_id,bool is_ready = true);
 	void reset_ready();
+	bool all_ready_state();
 
 	int do_step(char x, char y, unsigned playerid);
 	int do_bot_step();

@@ -67,7 +67,7 @@ bool board::exit(game_player * gp)
 		if (m_players[i].m_player_id == gp->get_player_id())
 		{
 			m_players[i].m_player_id = 0;
-			m_players[i].m_ready = false;
+			reset_ready();
 			game_player *another = get_another_player(gp);
 			if (another)
 			{
@@ -276,6 +276,12 @@ void board::reset_ready()
 	{
 		m_players[i].m_ready = false;
 	}
+}
+
+bool board::all_ready_state(game_player *gp)
+{
+	
+	return false;
 }
 
 int board::do_step(char x, char y, unsigned playerid)
