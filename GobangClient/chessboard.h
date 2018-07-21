@@ -81,6 +81,11 @@ public:
 				m_chesses[i][j] = '+';
 			}
 		}
+
+		set_player_chess(PLAYER_ME, 0);
+		set_player_chess(PLAYER_OTHER, 0);
+	
+
 		m_need_init = false;
 	}
 
