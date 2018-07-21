@@ -90,6 +90,7 @@ public:
 	unsigned player_count();
 	bool all_ready();
 	void set_ready(unsigned player_id,bool is_ready = true);
+	void reset_ready();
 
 	int do_step(char x, char y, unsigned playerid);
 	int do_bot_step();

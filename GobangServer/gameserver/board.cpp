@@ -32,10 +32,7 @@ void board::init()
 		}
 	}
 
-	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
-	{
-		m_players[i].m_ready = false;
-	}
+	reset_ready();
 }
 
 void board::turn_chess_index()
@@ -270,6 +267,14 @@ void board::set_ready(unsigned player_id, bool is_ready)
 	{	
 		init();
 		send_start_ret();
+	}
+}
+
+void board::reset_ready()
+{
+	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
+	{
+		m_players[i].m_ready = false;
 	}
 }
 
