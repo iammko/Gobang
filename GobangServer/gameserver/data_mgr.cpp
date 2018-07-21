@@ -89,6 +89,13 @@ bool game_player::check_state(protocol_number pn)
 	return false;
 }
 
+bool game_player::check_state_equal(protocol_number pn)
+{
+	if (m_state == pn)	return true;
+
+	return false;
+}
+
 void game_player::set_room_id(unsigned room_id)
 {
 	m_room_id = room_id;
