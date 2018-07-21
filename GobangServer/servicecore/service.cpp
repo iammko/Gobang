@@ -75,8 +75,18 @@ int service::process_msg(tcp_routine_proxy * trp, tcp_routine * tr, circular_buf
 		}
 		else if (header.msg_size < buff->data_len())
 		{
-			ERROR_LOG("process_msg recive err msg  msgsize=%u buflen=%u", header.msg_size, buff->data_len());
-			return -1;
+			ERROR_LOG("process_msg msgheader.msgsize < buflen  msgsize=%u buflen=%u", header.msg_size, buff->data_len());
+			int ret = process_msg(tr, header, buff->data_ptr() + header_len, header.msg_size - header_len);
+			if (ret == 0)
+			{
+				buff->consume(header.msg_size);
+			}
+			else
+			{
+				ERROR_LOG("process_msg.process_msg error");
+				return -1;
+			}
+			//return -1;
 		}
 		else
 		{

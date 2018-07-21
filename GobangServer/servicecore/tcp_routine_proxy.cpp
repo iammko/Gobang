@@ -151,7 +151,7 @@ void tcp_routine_proxy::react()
 	inspect();
 
 	struct timespec rqtp;
-	rqtp.tv_nsec = 20 * 1000 * 1000;
+	rqtp.tv_nsec = 20 * 1000;
 	nanosleep(&rqtp, NULL);
 }
 

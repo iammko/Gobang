@@ -121,6 +121,7 @@ int chessgame::game_online_quickstart()
 		m_board.init();
 		set_other_id(0);
 		set_player_chess(m_player_id, 0);
+		m_board.draw();
 		m_menu.id_chess_menu();
 		ret = send_player_info_req();
 		if (ret == -1)	return 0;
