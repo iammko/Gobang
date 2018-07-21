@@ -164,7 +164,7 @@ int start_req_handler::done(game_player * gp, const char * msg, unsigned len)
 {
 	//proto::start_req decode;
 	//decode.ParseFromArray(msg, len);
-	if (!gp->check_state_equal(cg_player_state_player_info))	return 0;
+	if (!gp->check_state_equal(cg_player_state_player_info) || !gp->check_state_equal(cg_player_state_free))	return 0;
 	game_room *gm = game_room_mgr::get_instance()->get_game_room(gp->get_room_type());
 	if (gm)
 	{

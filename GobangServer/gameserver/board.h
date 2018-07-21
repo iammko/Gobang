@@ -92,6 +92,9 @@ public:
 	void set_ready(unsigned player_id,bool is_ready = true);
 	void reset_ready();
 
+	void set_game_over(cg_result_type type);
+	cg_result_type get_game_over();
+
 	int do_step(char x, char y, unsigned playerid);
 	int do_bot_step();
 	int check_win(char x, char y);
