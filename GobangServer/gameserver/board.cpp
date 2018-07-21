@@ -361,8 +361,8 @@ void board::send_msg_all(protocol_number pn, const char * msg, const unsigned le
 		game_player *player = data_mgr::get_instance()->get_player(m_players[i].m_player_id);
 		if (player)
 		{
-			if (pn == protocol_number_start)	player->set_state(cg_player_state_playing);
 			player->send_msg(pn, msg, len);
+			if (pn == protocol_number_start)	player->set_state(cg_player_state_playing);
 		}
 	}
 }
