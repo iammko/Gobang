@@ -34,7 +34,7 @@ void game_player::player_offline()
 
 void game_player::send_msg(protocol_number pn, const char * msg, unsigned len)
 {
-	if (check_state())
+	if (check_state(pn))
 	{
 		m_service_task->send_msg(pn, msg, len);
 	}
