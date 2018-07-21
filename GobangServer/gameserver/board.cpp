@@ -71,7 +71,6 @@ bool board::exit(game_player * gp)
 		{
 			m_players[i].m_player_id = 0;
 			m_players[i].m_ready = false;
-			gp->set_state(cg_player_state_free);
 			game_player *another = get_another_player(gp);
 			if (another)
 			{
