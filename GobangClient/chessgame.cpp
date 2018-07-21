@@ -121,8 +121,6 @@ int chessgame::game_online_quickstart()
 		m_board.init();
 		set_other_id(0);
 		set_player_chess(m_player_id, 0);
-		m_board.draw();
-		m_menu.id_chess_menu();
 		ret = send_player_info_req();
 		if (ret == -1)	return 0;
 		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))
@@ -448,6 +446,7 @@ void chessgame::set_game_over(int over)
 
 int chessgame::get_game_over()
 {
+	//printf("game state =%d\n", m_board.m_gameover);
 	return m_board.m_gameover;
 }
 
