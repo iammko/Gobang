@@ -86,6 +86,8 @@ int chessgame::online_game_process()
 	int ret = 0;
 	while (1)
 	{
+		printf("房间号：%d\n", get_board_id());
+		printf("你的ID：%d	", get_my_id());
 		m_board.init();
 		set_other_id(0);
 		set_player_chess(m_player_id, 0);
