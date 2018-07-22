@@ -173,7 +173,7 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 		m_game->m_board_list.clear();
 		for (unsigned i = 0; i < decode.boards_size(); ++i)
 		{
-			proto::board_info *info = decode.boards(i);
+			const proto::board_info &info = decode.boards(i);
 			if (info)
 			{
 				cg_board_info s_info;
