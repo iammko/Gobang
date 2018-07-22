@@ -44,7 +44,9 @@ time_node * timer_manager::register_timer(int time_out, timer_call_back on_timer
 		return NULL;
 	}
 
-	time_node *tick_node = m_tick[m_cur_tick + tick];
+	tick += m_cur_tick;
+	tick %= _tick_num;
+	time_node *tick_node = m_tick[tick];
 	if (NULL == tick_node)
 	{
 		delete node;
