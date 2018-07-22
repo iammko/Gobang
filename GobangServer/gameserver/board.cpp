@@ -47,7 +47,7 @@ void board::turn_chess_index()
 bool board::join(game_player * gp)
 {
 	gp->set_room_id(m_room_id);
-	gp->set_board_id(m_board_id);
+	gp->set_board_id(m_board_id+100);
 
 	for (unsigned i = 0; i < sizeof(m_players) / sizeof(m_players[0]); ++i)
 	{

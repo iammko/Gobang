@@ -103,7 +103,7 @@ bool game_room::send_board_list(game_player * gp, int pre_next)
 		proto::board_info *info = send.add_boards();
 		if (info)
 		{
-			info->set_board_id(m_boards[i].m_board_id+101);
+			info->set_board_id(m_boards[i].m_board_id+100);
 			info->set_player_count(m_boards[i].player_count());
 			info->set_state(m_boards[i].m_game_state);
 		}

@@ -86,6 +86,10 @@ bool game_player::check_proto_state(protocol_number pn)
 	{
 		return true;
 	}
+	else if (pn == protocol_number_board_list)
+	{
+		return true;
+	}
 
 
 	return false;
