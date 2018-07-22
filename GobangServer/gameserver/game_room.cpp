@@ -113,6 +113,32 @@ game_room_mgr::game_room_mgr()
 	m_room_mgr.insert(std::pair<cg_game_room_type, game_room>(cg_game_room_normal, game_room(cg_game_room_normal, 1)));
 }
 
+void game_room_mgr::on_ready_timeout(void * data)
+{
+	game_player *gp = (game_player*)data;
+	if (gp == NULL)	return;
+
+	if (gp->m_state != cg_player_state_player_info)	return;
+	proto::exit_board_ret send;
+	send.set_player_id(gp->get_player_id());
+	send.set_result(0);
+
+	game_room *gm = get_game_room(gp->get_room_type());
+	if (gm)
+	{
+		if (gm->exit_board(gp))
+		{
+			send.set_result(1);
+			int size = send.ByteSize();
+			std::vector<char> bytes;
+			bytes.resize(size);
+			send.SerializeToArray(&bytes[0], size);
+			gp->send_msg(protocol_number_exit_board, &bytes[0], size);
+			gp->set_state(cg_player_state_free);
+		}
+	}
+}
+
 void game_room_mgr::load_config()
 {
 }

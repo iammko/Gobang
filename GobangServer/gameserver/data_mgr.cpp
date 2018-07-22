@@ -12,6 +12,7 @@ game_player::game_player()
 	m_board_id = 0;
 	m_chess_color = 0;
 	m_service_task = NULL;
+	m_ready_time = 0;
 }
 
 game_player::~game_player()

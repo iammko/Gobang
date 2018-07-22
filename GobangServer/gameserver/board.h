@@ -103,8 +103,6 @@ public:
 
 	game_player *get_another_player(game_player *src);
 
-
-
 	void send_msg_all(protocol_number pn, const char *msg, const unsigned len);
 	void send_msg_another(game_player *src, protocol_number pn, const char *msg, const unsigned len);
 private: 

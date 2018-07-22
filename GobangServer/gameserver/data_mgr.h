@@ -52,6 +52,7 @@ private:
 	unsigned m_room_id;
 	unsigned m_board_id;
 	char m_chess_color;
+	uint64_t m_ready_time;
 
 	cg_player_state_type m_state;
 	service_task *m_service_task;

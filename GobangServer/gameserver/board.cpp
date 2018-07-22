@@ -138,6 +138,9 @@ bool board::send_info_each(game_player * src)
 		}
 	}
 
+	game_service::get_instance()->register_timer(3, &game_room_mgr::get_instance()->on_ready_timeout, src);
+	game_service::get_instance()->register_timer(3, &game_room_mgr::get_instance()->on_ready_timeout, dest);
+
 	send_player_info(src, send_src);
 	send_player_info(dest, send_dest);
 
