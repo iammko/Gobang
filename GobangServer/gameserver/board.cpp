@@ -122,7 +122,7 @@ void on_ready_timeout(void *data)
 	game_player *gp = (game_player*)data;
 	if (gp == NULL)	return;
 
-	if (gp->m_state != cg_player_state_player_info)	return;
+	if (!gp->check_state_equal(cg_player_state_player_info))	return;
 	proto::exit_board_ret send;
 	send.set_player_id(gp->get_player_id());
 	send.set_result(0);
