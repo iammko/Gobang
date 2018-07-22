@@ -203,6 +203,7 @@ int chessgame::game_online_race()
 
 int chessgame::game_online_board_mode()
 {
+	send_game_type_req();
 	send_board_list_req(0);
 	while (1)
 	{
