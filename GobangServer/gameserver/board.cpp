@@ -1,6 +1,7 @@
 #include "board.h"
 #include "data_mgr.h"
 #include "protos.pb.h"
+#include "game_room.h"
 
 board::board(unsigned room_id, unsigned board_id):m_room_id(room_id), m_board_id(board_id)
 {
