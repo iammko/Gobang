@@ -1,8 +1,10 @@
 #include "tcp_routine_proxy.h"
 #include "tcp_routine.h"
 #include "service.h"
+#include "timer.h"
 
 #include <errno.h>
+#include <timer.h>
 
 #include <sys/epoll.h>
 
@@ -149,6 +151,7 @@ void tcp_routine_proxy::react()
 	}
 
 	inspect();
+	process_timer();
 
 	struct timespec rqtp;
 	rqtp.tv_nsec = 20 * 1000;
@@ -232,6 +235,16 @@ void tcp_routine_proxy::get_user_data(uint64_t routine_id, user_data & data)
 	if (tr)
 	{
 		tr->get_user_data(data);
+	}
+}
+
+void tcp_routine_proxy::process_timer()
+{
+	uint64_t time_now = time(NULL);
+	if (time_now > m_timer_manager.m_cur_sec)
+	{
+		m_timer_manager.m_cur_sec = time_now;
+		m_timer_manager.on_tick();
 	}
 }
 

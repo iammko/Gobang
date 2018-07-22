@@ -2,6 +2,7 @@
 
 #include <signal.h>
 
+#include "timer.h"
 #include "define.h"
 
 class tcp_ep;
@@ -21,6 +22,8 @@ public:
 	{
 		return m_service_instance;
 	}
+
+	virtual time_node *register_timer(int timeout, timer_call_back call_back, void *data);
 
 	virtual void start_service();
 	virtual int stop_service();

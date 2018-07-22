@@ -30,8 +30,10 @@ int chessmenu::mode_menu(int choose)
 		"(离线) PVP",
 	};
 	const char *online[] = {
-		"(在线) PVP",
-		"(在线) 参加比赛"
+		"快速开始",
+		"竞赛模式",
+		"房间列表",
+
 	};
 	int len1 = sizeof(offline) / sizeof(offline[0]);
 	int len2 = sizeof(online) / sizeof(online[0]);
@@ -51,7 +53,7 @@ int chessmenu::mode_menu(int choose)
 		else if(ret == 0)
 		{
 			system("clear");
-			printf("连接成功。。。\n");
+			printf("连接成功。。。\n");	
 			m_game->send_id_req();
 			sleep(1);
 			system("clear");

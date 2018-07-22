@@ -3,6 +3,7 @@
 #include "define.h"
 #include "protos.pb.h"
 #include "proto_define.h"
+#include "timer.h"
 
 class game_player;
 
@@ -101,6 +102,8 @@ public:
 	int check_win(char x, char y);
 
 	game_player *get_another_player(game_player *src);
+
+
 
 	void send_msg_all(protocol_number pn, const char *msg, const unsigned len);
 	void send_msg_another(game_player *src, protocol_number pn, const char *msg, const unsigned len);

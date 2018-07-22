@@ -4,6 +4,7 @@
 #include "service_define.h"
 
 class tcp_routine;
+class timer_manager;
 
 class tcp_routine_proxy
 {
@@ -25,9 +26,14 @@ public:
 
 	void set_user_data(uint64_t routine_id, const user_data&data);
 	void get_user_data(uint64_t routine_id, user_data&data);
+
+	void process_timer();
 protected:
+	friend class service;
 	int m_epoll_fd;
 	bool m_auto_work;
+
+	timer_manager m_timer_manager;
 
 	typedef std::map<uint64_t, tcp_routine *> tcp_routine_mgr;
 	tcp_routine_mgr m_routine_mgr;

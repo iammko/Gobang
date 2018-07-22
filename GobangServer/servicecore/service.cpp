@@ -26,6 +26,11 @@ service::~service()
 	delete m_log_writer;
 }
 
+time_node * service::register_timer(int timeout, timer_call_back call_back, void * data)
+{
+	return m_routine_proxy->m_timer_manager.register_timer(timeout, call_back, data);
+}
+
 void service::start_service()
 {
 	create_listen_routine(m_service_addr.c_str(), m_service_port);
