@@ -98,17 +98,18 @@ bool game_room::send_board_list(game_player * gp, int pre_next)
 
 	if (index < 0 || index > (int)m_boards.size() / BOARDS_COUNT_PER - 1)	index = 0;
 
-	for (int i = 0; i < BOARDS_COUNT_PER && index < (int)m_boards.size(); ++i)
+	int begin = index * BOARDS_COUNT_PER;
+	for (int i = 0; i < BOARDS_COUNT_PER && begin < (int)m_boards.size(); ++i, ++begin)
 	{
 		proto::board_info *info = send.add_boards();
 		if (info)
 		{
-			info->set_board_id(m_boards[i].m_board_id+100);
-			info->set_player_count(m_boards[i].player_count());
-			info->set_state(m_boards[i].m_game_state);
+			info->set_board_id(m_boards[begin].m_board_id+100);
+			info->set_player_count(m_boards[begin].player_count());
+			info->set_state(m_boards[begin].m_game_state);
 		}
 	}
-	gp->set_board_index(++index);
+	gp->set_board_index(index);
 
 	int size = send.ByteSize();
 	std::vector<char> bytes;
