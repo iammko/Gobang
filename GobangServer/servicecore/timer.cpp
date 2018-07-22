@@ -88,7 +88,9 @@ void timer_manager::on_tick()
 	}
 
 	do_call_back();
-	++m_cur_tick;
+	if(++m_cur_tick >= _tick_num)
+		m_cur_tick = 0;
+
 }
 
 void timer_manager::do_call_back()
