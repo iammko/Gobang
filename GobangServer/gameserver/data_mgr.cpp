@@ -117,6 +117,11 @@ void game_player::set_board_id(unsigned board_id)
 	m_board_id = board_id;
 }
 
+unsigned game_player::get_really_board_id()
+{
+	return m_board_id - 101;
+}
+
 unsigned game_player::get_board_id()
 {
 	return m_board_id;

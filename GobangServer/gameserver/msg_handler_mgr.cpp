@@ -125,7 +125,7 @@ int join_board_req_handler::done(game_player * gp, const char * msg, unsigned le
 	}
 	proto::join_board_ret send;
 	send.set_result(ret);
-	send.set_board_id(gp->get_board_id());
+	send.set_board_id(gp->get_board_id()+101);
 	int size = send.ByteSize();
 	if (size)
 	{
