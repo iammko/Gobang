@@ -104,7 +104,7 @@ bool game_room::send_board_list(game_player * gp, int pre_next)
 		proto::board_info *info = send.add_boards();
 		if (info)
 		{
-			info->set_board_id(m_boards[begin].m_board_id+100);
+			info->set_board_id(m_boards[begin].m_board_id);
 			info->set_player_count(m_boards[begin].player_count());
 			info->set_state(m_boards[begin].m_game_state);
 		}
@@ -137,9 +137,9 @@ board* game_room::alloc_room_by_type_id(cg_mode_type type, unsigned board_id)
 	}
 	else if (type == cg_mode_type_online_room_mode)
 	{
-		if (board_id-101 < m_boards.size())
+		if (board_id < m_boards.size())
 		{
-			return &(m_boards[board_id - 101]);
+			return &(m_boards[board_id]);
 		}
 	}
 

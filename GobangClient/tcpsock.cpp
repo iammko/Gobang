@@ -76,7 +76,7 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 		{
 			if (decode.has_board_id() && decode.board_id() && decode.result())
 			{
-				m_game->set_board_id(decode.board_id());
+				m_game->set_board_id(decode.board_id()+100);
 			}
 			return decode.result();
 		}

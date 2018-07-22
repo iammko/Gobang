@@ -324,7 +324,7 @@ int chessgame::send_board_join_req(unsigned room_id)
 	proto::join_board_req send;
 	if (room_id)
 	{
-		send.set_board_id(room_id);
+		send.set_board_id(room_id-101);
 	}
 	int size = send.ByteSize();
 	std::vector<char> bytes;
