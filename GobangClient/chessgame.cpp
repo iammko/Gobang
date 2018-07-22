@@ -135,7 +135,11 @@ int chessgame::game_online_quickstart()
 			m_menu.id_chess_menu();
 			ret = send_start_req();
 			if (ret == -1)	return 0;
-			else if(ret == (int)protocol_number_exit_board)	break;;
+			else if (ret == (int)protocol_number_exit_board)
+			{
+				if (get_board_id() == 0)	return;
+				else break;
+			}
 
 			m_board.draw();
 			m_menu.start_oder_menu();
