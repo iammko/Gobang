@@ -35,7 +35,6 @@ class game_room_mgr : public mysingleton<game_room_mgr>
 public:
 	game_room_mgr();
 
-	void on_ready_timeout(void *data);
 	void load_config();
 
 	game_room *get_game_room(cg_game_room_type type);
