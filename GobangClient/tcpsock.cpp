@@ -177,9 +177,9 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 			if (info)
 			{
 				cg_board_info s_info;
-				s_info.m_board_id = info->board_id();
-				s_info.m_player_count = info->player_count();
-				s_info.m_game_state = info->state();
+				s_info.m_board_id = info.board_id();
+				s_info.m_player_count = info.player_count();
+				s_info.m_game_state = info.state();
 				m_game->m_board_list.push_back(s_info);
 			}
 		}
