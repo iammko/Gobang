@@ -108,7 +108,7 @@ bool game_room::send_board_list(game_player * gp, int pre_next)
 			info->set_state(m_boards[i].m_game_state);
 		}
 	}
-	gp->set_board_index(index);
+	gp->set_board_index(++index);
 
 	int size = send.ByteSize();
 	std::vector<char> bytes;
