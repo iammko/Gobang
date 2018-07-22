@@ -90,15 +90,15 @@ bool game_room::send_board_list(game_player * gp, int pre_next)
 	else if (pre_next == 2)
 	{
 		++index;
-		if (index > m_boards.size() / BOARDS_COUNT_PER - 1)
+		if (index > (int)m_boards.size() / BOARDS_COUNT_PER - 1)
 		{
 			index = 0;
 		}
 	}
 
-	if (index < 0 || index > m_boards.size() / BOARDS_COUNT_PER - 1)	index = 0;
+	if (index < 0 || index > (int)m_boards.size() / BOARDS_COUNT_PER - 1)	index = 0;
 
-	for (int i = 0; i < BOARDS_COUNT_PER && index < m_boards.size(); ++i)
+	for (int i = 0; i < BOARDS_COUNT_PER && index < (int)m_boards.size(); ++i)
 	{
 		proto::board_info *info = send.add_boards();
 		if (info)
