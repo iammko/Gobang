@@ -87,7 +87,7 @@ int chessgame::online_game_process()
 	while (1)
 	{
 		printf("房间号：%d\n", get_board_id());
-		printf("你的ID：%d	", get_my_id());
+		printf("你的ID：%d\n", get_my_id());
 		m_board.init();
 		set_other_id(0);
 		set_player_chess(m_player_id, 0);
@@ -221,7 +221,8 @@ int chessgame::game_online_board_mode()
 		}
 		else if( num >= 101 && num <= 400)
 		{
-			send_board_join_req(num - 1);
+			system("clear");
+			send_board_join_req(num);
 		}
 		else
 		{
@@ -505,11 +506,11 @@ void chessgame::result_menu(int result, int win_id)
 void chessgame::show_board_list()
 {
 	system("clear");
-	printf("------五子棋\n");
+	printf("------五子棋------\n");
 	std::list<cg_board_info>::iterator it = m_board_list.begin();
 	while (it != m_board_list.end())
 	{
-		printf("%u.	人数%u/2	", it->m_board_id, it->m_player_count);
+		printf("房间号%u.%4c人数%u/2%4c", it->m_board_id, ' ',it->m_player_count, ' ');
 		if (it->m_game_state == cg_player_state_playing)
 			printf("游戏中\n");
 		else
