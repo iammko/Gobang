@@ -118,5 +118,5 @@ message board_list_req
 
 message board_list_ret
 {
-	repeat board_info boards = 1;
+	repeated board_info boards = 1;
 }
