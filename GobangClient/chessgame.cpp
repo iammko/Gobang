@@ -137,7 +137,7 @@ int chessgame::game_online_quickstart()
 			if (ret == -1)	return 0;
 			else if (ret == (int)protocol_number_exit_board)
 			{
-				if (get_board_id() == 0)	return;
+				if (get_board_id() == 0)	return 0;
 				else break;
 			}
 
