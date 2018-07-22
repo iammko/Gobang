@@ -66,6 +66,11 @@ bool chessgame::start_game(const char mode)
 		game_online_race();
 		return false;
 	}
+	else if(mode == cg_mode_type_online_room_mode)
+	{
+		game_online_board_mode();
+		return false;
+	}
 	else
 	{
 		return false;
@@ -74,6 +79,78 @@ bool chessgame::start_game(const char mode)
 	get_inputint("请选择继续(1)or返回(0)：", goon, 0, 1);
 
 	return goon;
+}
+
+int chessgame::online_game_process()
+{
+	int ret = 0;
+	while (1)
+	{
+		m_board.init();
+		set_other_id(0);
+		set_player_chess(m_player_id, 0);
+		ret = send_player_info_req();
+		if (ret == -1)	return 0;
+		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))
+		{
+			send_exit_board_req();
+			return 0;
+		}
+
+		while (1)
+		{
+			m_board.draw();
+			m_menu.id_chess_menu();
+			ret = send_start_req();
+			if (ret == -1)	return 0;
+			else if (ret == (int)protocol_number_exit_board)
+			{
+				if (get_board_id() == 0)	return 0;
+				else break;
+			}
+
+			m_board.draw();
+			m_menu.start_oder_menu();
+			if (get_turn_chess() == get_player_chess(m_player_id))
+			{
+				ret = game_do_input_xy_send();
+				if (ret == -1)//错误
+					return 0;
+				else if (ret == (int)protocol_number_exit_board)
+					break;
+			}
+			else
+			{
+				ret = send_do_step_req(0, 0);
+				if (ret == -1)
+					return 0;
+				if (ret == (int)protocol_number_exit_board)
+					break;
+			}
+			while (1)
+			{
+				if (get_game_over())	break;
+
+				ret = game_do_input_xy_send();
+				if (ret == -1)//错误
+					return 0;
+				else if (ret == (int)protocol_number_exit_board)
+					break;
+			}
+			if (ret == (int)protocol_number_exit_board)
+			{
+				break;
+			}
+
+			if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))
+			{
+				send_exit_board_req();
+				return 0;
+			}
+			m_board.init();
+		}
+	}
+	return 0;
 }
 
 int chessgame::game_off_pve()
@@ -116,76 +193,41 @@ int chessgame::game_online_quickstart()
 	ret = send_board_join_req();
 	if (ret != 1)	return 0;
 
-	while (1)
-	{
-		m_board.init();
-		set_other_id(0);
-		set_player_chess(m_player_id, 0);
-		ret = send_player_info_req();
-		if (ret == -1)	return 0;
-		if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))
-		{
-			send_exit_board_req();
-			return 0;
-		}
-
-		while (1)
-		{
-			m_board.draw();
-			m_menu.id_chess_menu();
-			ret = send_start_req();
-			if (ret == -1)	return 0;
-			else if (ret == (int)protocol_number_exit_board)
-			{
-				if (get_board_id() == 0)	return 0;
-				else break;
-			}
-
-			m_board.draw();
-			m_menu.start_oder_menu();
-			if (get_turn_chess() == get_player_chess(m_player_id))
-			{
-				ret = game_do_input_xy_send();
-				if (ret == -1)//错误
-					return 0;
-				else if (ret == (int)protocol_number_exit_board)
-					break;
-			}
-			else
-			{
-				ret =send_do_step_req(0, 0);
-				if (ret == -1)
-					return 0;
-				if (ret == (int)protocol_number_exit_board)
-					break;
-			}
-			while (1)
-			{
-				if (get_game_over())	break;
-
-				ret = game_do_input_xy_send();
-				if (ret == -1)//错误
-					return 0;
-				else if (ret == (int)protocol_number_exit_board)
-					break;
-			}
-			if (ret == (int)protocol_number_exit_board)
-			{
-				break;
-			}
-
-			if (!m_menu.sure_or_not_menu("请输入(1准备 0退出)："))
-			{
-				send_exit_board_req();
-				return 0;
-			}
-			m_board.init();
-		}
-	}
+	return online_game_process();
 }
 
 int chessgame::game_online_race()
 {
+	return 0;
+}
+
+int chessgame::game_online_board_mode()
+{
+	send_board_list_req(0);
+	while (1)
+	{
+		show_board_list();
+		int num = 0;
+		get_inputint("上一页(1)	下一页(2) 返回(0)\n进入房间请输入房间号：", num, 0, 400, 0);
+		if (num == 0)	
+			return 0;
+		else if (num == 1 || num == 2)
+		{
+			send_board_list_req(num);
+			continue;
+		}
+		else if( num >= 101 && num <= 400)
+		{
+			send_board_join_req(num - 1)
+		}
+		else
+		{
+			continue;
+		}
+
+		online_game_process();
+	}
+
 	return 0;
 }
 
@@ -359,6 +401,20 @@ int chessgame::send_exit_board_req()
 	return m_sock.do_proto(protocol_number_exit_board, &bytes[0], size);
 }
 
+int chessgame::send_board_list_req(unsigned pre_next)
+{
+	proto::board_list_req send;
+	if (pre_next)
+	{
+		send.set_prev_or_next(pre_next);
+	}
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+	return m_sock.do_proto(protocol_number_board_list, &bytes[0], size);
+}
+
 void chessgame::set_my_id(unsigned id)
 {
 	m_player_id = id;
@@ -441,6 +497,23 @@ int chessgame::do_step(int x, int y, unsigned player_id)
 void chessgame::result_menu(int result, int win_id)
 {
 	m_menu.result_menu(result, win_id);
+}
+
+void chessgame::show_board_list()
+{
+	system("clear");
+	printf("------五子棋\n");
+	std::list<cg_board_info>::iterator it = m_board_list.begin();
+	while (it != m_board_list.end())
+	{
+		printf("%u.	人数%u/2	", it->m_board_id, it->m_player_count);
+		if (it->m_game_state == cg_player_state_playing)
+			printf("游戏中\n");
+		else
+			printf("空闲\n");
+
+		++it;
+	}
 }
 
 void chessgame::set_game_over(int over)

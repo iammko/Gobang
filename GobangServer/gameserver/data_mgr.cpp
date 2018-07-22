@@ -13,6 +13,7 @@ game_player::game_player()
 	m_chess_color = 0;
 	m_service_task = NULL;
 	m_ready_time = 0;
+	m_board_index = 0;
 }
 
 game_player::~game_player()
@@ -138,6 +139,16 @@ int game_player::set_room_type(cg_game_room_type type)
 cg_game_room_type game_player::get_room_type()
 {
 	return m_room_type;
+}
+
+void game_player::set_board_index(int index)
+{
+	m_board_index = index;
+}
+
+int game_player::get_board_index()
+{
+	return m_board_index;
 }
 
 void game_player::set_chess(char chess)

@@ -19,6 +19,8 @@
 
 #define MAXLINE 4096
 
+#define BOARDS_COUNT_PER 10
+
 #ifndef SAFE_DELETE 
 #define SAVE_DELETE(p) { \
 		if (p) {delete p; p = NULL;} \
@@ -53,6 +55,7 @@ enum cg_mode_type
 	cg_mode_type_offpvp = 2,
 	cg_mode_type_online_quickstart = 3,
 	cg_mode_type_online_race = 4,
+	cg_mode_type_online_room_mode = 5,
 	cg_mode_type_max
 };
 

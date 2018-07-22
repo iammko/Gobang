@@ -166,6 +166,24 @@ int tcpsock::process_msg(protocol_number pn, const char * buff, unsigned len)
 			return protocol_number_exit_board;
 		}
 	}
+	else if (pn == protocol_number_board_list)
+	{
+		proto::board_list_ret decode;
+		decode.ParseFromArray(buff, len);
+		m_game->m_board_list.clear();
+		for (unsigned i = 0; i < decode.boards_size(); ++i)
+		{
+			proto::board_info *info = decode.boards(i);
+			if (info)
+			{
+				cg_board_info s_info;
+				s_info.m_board_id = info->board_id();
+				s_info.m_player_count = info->player_count();
+				s_info.m_game_state = info->state();
+				m_game->m_board_list.push_back(s_info);
+			}
+		}
+	}
 
 	return 1;
 }

@@ -11,6 +11,6 @@ enum protocol_number
 	protocol_number_do_step = 6,
 	protocol_number_surrender = 7,
 	protocol_number_exit_board = 8,
-
+	protocol_number_board_list = 9,
 
 };

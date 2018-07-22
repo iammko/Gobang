@@ -177,6 +177,7 @@ bool board::send_info_each(game_player * src)
 
 bool board::send_start_ret()
 {
+	m_game_state = cg_player_state_playing;
 	proto::start_ret send;
 	
 	send.set_white_id(m_players[0].m_player_id);
@@ -242,6 +243,8 @@ bool board::send_do_step_ret(game_player * src,const proto::step_info *step)
 	send.SerializeToArray(&bytes[0], size);
 	send_msg_all(protocol_number_do_step, &bytes[0], size);
 
+	m_game_state = cg_player_state_free;
+
 	return true;
 }
 
@@ -261,6 +264,7 @@ bool board::send_surrender_ret(game_player * gp)
 	send.SerializeToArray(&bytes[0], size);
 	send_msg_all(protocol_number_do_step, &bytes[0], size);
 	set_all_state(gp, cg_player_state_game_over);
+	m_game_state = cg_player_state_free;
 
 	return true;
 }

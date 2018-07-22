@@ -6,6 +6,19 @@
 #include "chessmenu.h"
 #include "proto_define.h"
 
+struct cg_board_info
+{
+	cg_board_info()
+	{
+		m_board_id = 0;
+		m_player_count = 0;
+		m_game_state = 0;
+	}
+	unsigned m_board_id;
+	unsigned m_player_count;
+	unsigned m_game_state;
+};
+
 class chessgame
 {
 public:
@@ -15,11 +28,13 @@ public:
 	void start();
 
 	bool start_game(const char mode);
+	int online_game_process();
 
 	int game_off_pve();
 	int game_off_pvp();
 	int game_online_quickstart();
 	int game_online_race();
+	int game_online_board_mode();
 
 	int game_do_input_xy_send();
 
@@ -38,6 +53,7 @@ public:
 	int send_do_step_req(int x, int y);
 	int send_surrender_req();
 	int send_exit_board_req();
+	int send_board_list_req(unsigned pre_next = 0);
 
 	void set_my_id(unsigned id);
 	unsigned get_my_id();
@@ -56,6 +72,7 @@ public:
 
 	int do_step(int x, int y, unsigned player_id);
 	void result_menu(int result, int win_id = 0);
+	void show_board_list();
 
 	void set_game_over(int over = 1);
 	int get_game_over();
@@ -74,4 +91,5 @@ private:
 	chessboard m_board;
 	cg_player_state_type m_state;
 	bool m_connected_flag;
+	std::list<cg_board_info> m_board_list;
 };

@@ -16,6 +16,8 @@ public:
 	bool join_board(game_player *gp, unsigned board_id);
 	bool exit_board(game_player *gp);
 
+	bool send_board_list(game_player *gp, int pre_next);
+
 	board* alloc_room_by_type_id(cg_mode_type type, unsigned board_id);
 	board* get_board_by_id(unsigned board_id);
 private:

@@ -75,6 +75,50 @@ bool game_room::exit_board(game_player * gp)
 	return false;
 }
 
+bool game_room::send_board_list(game_player * gp, int pre_next)
+{
+	proto::board_list_ret send;
+	int index = gp->get_board_index();
+	if (pre_next == 1)
+	{
+		--index;
+		if (index < 0)
+		{
+			index = m_boards.size() / BOARDS_COUNT_PER - 1;
+		}
+	}
+	else if (pre_next == 2)
+	{
+		++index;
+		if (index > m_boards.size() / BOARDS_COUNT_PER - 1)
+		{
+			index = 0;
+		}
+	}
+
+	if (index < 0 || index > m_boards.size() / BOARDS_COUNT_PER - 1)	index = 0;
+
+	for (int i = 0; i < BOARDS_COUNT_PER && index < m_boards.size(); ++i)
+	{
+		proto::board_info *info = send.add_boards();
+		if (info)
+		{
+			info->set_board_id(m_boards[i].m_board_id+101);
+			info->set_player_count(m_boards[i].player_count());
+			info->set_state(m_boards[i].m_game_state);
+		}
+	}
+	gp->set_board_index(index);
+
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+	gp->send_msg(protocol_number_board_list, &bytes[0], size);
+
+	return false;
+}
+
 board* game_room::alloc_room_by_type_id(cg_mode_type type, unsigned board_id)
 {
 	if (type == cg_mode_type_online_quickstart)
@@ -90,9 +134,12 @@ board* game_room::alloc_room_by_type_id(cg_mode_type type, unsigned board_id)
 			return get_board_by_id(*it);
 		}
 	}
-	else
+	else if (type == cg_mode_type_online_room_mode)
 	{
-
+		if (board_id-101 < m_boards.size())
+		{
+			return &(m_boards[board_id - 101]);
+		}
 	}
 
 	return NULL;

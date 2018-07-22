@@ -102,3 +102,21 @@ message exit_board_ret
 	optional uint32 result = 1;
 	optional uint32 player_id = 2;
 }
+
+//protocol_number_board_list = 8
+message board_info
+{
+	optional uint32 board_id = 1;	// begin with 101
+	optional uint32 player_count = 2;
+	optional uint32 state = 3;
+}
+
+message board_list_req
+{
+	optional uint32 prev_or_next = 1; // 1=prev 2=next
+}
+
+message board_list_ret
+{
+	repeat board_info boards = 1;
+}

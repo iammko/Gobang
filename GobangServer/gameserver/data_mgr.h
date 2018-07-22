@@ -42,6 +42,10 @@ public:
 	int set_room_type(cg_game_room_type type);
 	cg_game_room_type get_room_type();
 
+	void set_board_index(int index);
+	int get_board_index();
+
+
 	void set_chess(char chess);
 	char get_chess();
 private:
@@ -53,6 +57,8 @@ private:
 	unsigned m_board_id;
 	char m_chess_color;
 	uint64_t m_ready_time;
+
+	int m_board_index;
 
 	cg_player_state_type m_state;
 	service_task *m_service_task;

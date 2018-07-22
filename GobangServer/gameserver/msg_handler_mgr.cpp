@@ -33,6 +33,7 @@ void msg_handler_mgr::register_all()
 	register_handler(protocol_number_do_step, new do_step_req_handler());
 	register_handler(protocol_number_surrender, new surrender_req_handler()); 
 	register_handler(protocol_number_exit_board, new exit_board_req_handler());
+	register_handler(protocol_number_board_list, new board_list_req_handler());
 }
 
 void msg_handler_mgr::register_handler(protocol_number pn, msg_hander * handler)
@@ -85,7 +86,8 @@ int game_type_req_handler::done(game_player * gp, const char * msg, unsigned len
 	decode.ParseFromArray(msg, len);
 
 	gp->set_game_type((cg_mode_type)decode.game_type());
-	if (decode.game_type() == cg_mode_type_online_quickstart)
+	if (decode.game_type() == cg_mode_type_online_quickstart
+		|| decode.game_type() == cg_mode_type_online_room_mode)
 	{
 		gp->set_room_type(cg_game_room_normal);
 	}
@@ -253,5 +255,24 @@ int exit_board_req_handler::done(game_player * gp, const char * msg, unsigned le
 			gp->set_state(cg_player_state_free);
 		}
 	}
+	return 0;
+}
+
+int board_list_req_handler::done(game_player * gp, const char * msg, unsigned len)
+{
+	proto::board_list_req decode;
+	decode.ParseFromArray(msg, len);
+	int pre_next = 0;
+	if (decode.has_prev_or_next())
+	{
+		pre_next = decode.prev_or_next();
+	}
+
+	game_room *gm = game_room_mgr::get_instance()->get_game_room(gp->get_room_type());
+	if (gm)
+	{
+		gm->send_board_list(gp, pre_next);
+	}
+
 	return 0;
 }
