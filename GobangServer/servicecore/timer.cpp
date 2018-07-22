@@ -74,7 +74,7 @@ void timer_manager::on_tick()
 	INFO_LOG("on_tick m_cur_sec=%lu m_cur_tick=%d", m_cur_sec, m_cur_tick);
 	time_node *node = m_tick[m_cur_tick];
 	time_node *next = node->m_next;
-	while (next != node)
+	while (next && next != node)
 	{
 		if (next->m_rotation == 0)
 		{
