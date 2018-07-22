@@ -218,7 +218,7 @@ int chessgame::game_online_board_mode()
 		}
 		else if( num >= 101 && num <= 400)
 		{
-			send_board_join_req(num - 1)
+			send_board_join_req(num - 1);
 		}
 		else
 		{
