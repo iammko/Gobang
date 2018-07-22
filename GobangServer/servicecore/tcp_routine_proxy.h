@@ -2,9 +2,9 @@
 
 #include "define.h"
 #include "service_define.h"
+#include "timer.h"
 
 class tcp_routine;
-class timer_manager;
 
 class tcp_routine_proxy
 {

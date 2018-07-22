@@ -4,7 +4,6 @@
 #include "timer.h"
 
 #include <errno.h>
-#include <timer.h>
 
 #include <sys/epoll.h>
 

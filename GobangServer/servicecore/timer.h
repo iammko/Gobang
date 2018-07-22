@@ -1,5 +1,9 @@
 #pragma  once
 
+#include <stdio.h>
+#include <stdint.h>
+#include <list>
+
 typedef void(*timer_call_back)(void *data);
 
 struct time_node
@@ -10,19 +14,17 @@ struct time_node
 		m_data(data),
 		m_prev(this),
 		m_next(this),
-		m_data(NULL),
-		m_on_timer(NULL),
 		m_register_time(0)
 	{
 
 	}
-	time_node * m_prev;
-	time_node * m_next;
 
 	int m_rotation;
+	timer_call_back m_on_timer;
 	
 	void *m_data;
-	timer_call_back m_on_timer;
+	time_node * m_prev;
+	time_node * m_next;
 	uint64_t m_register_time;
 };
 
