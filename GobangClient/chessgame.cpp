@@ -229,6 +229,23 @@ int chessgame::game_online_board_mode()
 			continue;
 		}
 
+		for (std::list<cg_board_info>::iterator it = m_board_list.begin(); it != m_board_list.end(); ++it)
+		{
+			if (it->m_board_id == num && it->m_player_count == 2)
+			{
+				m_board.init();
+				while (1)
+				{
+					m_board.draw();
+					if (!m_menu.sure_or_not_menu("(1继续 0退出)："))
+					{
+						break;
+					}
+					m_sock.recv_proto();
+				}
+				break;
+			}
+		}
 		online_game_process();
 	}
 

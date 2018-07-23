@@ -59,6 +59,20 @@ bool board::join(game_player * gp)
 		}
 	}
 
+	chess_player judge;
+	judge.m_player_id = gp->get_player_id();
+	m_judges.push_back(judge);
+
+	proto::join_board_ret send;
+	send.set_board_id(m_board_id);
+	send.set_result(1);
+
+	int size = send.ByteSize();
+	std::vector<char> bytes;
+	bytes.resize(size);
+	send.SerializeToArray(&bytes[0], size);
+	gp->send_msg(protocol_number_join_board, &bytes[0], size);
+
 	return false;
 }
 
@@ -88,7 +102,17 @@ bool board::exit(game_player * gp)
 					another->set_state(cg_player_state_free);
 				}
 			}
+			m_game_state = cg_player_state_free;
+			return true;
+		}
+	}
 
+	std::list<chess_player>::iterator it = m_judges.begin();
+	for (; it != m_judges.end(); ++it)
+	{
+		if (it->m_player_id == gp->get_player_id())
+		{
+			m_judges.erase(it);
 			return true;
 		}
 	}
@@ -166,8 +190,8 @@ bool board::send_info_each(game_player * src)
 		}
 	}
 
-	game_service::get_instance()->register_timer(3, &on_ready_timeout, src);
-	game_service::get_instance()->register_timer(3, &on_ready_timeout, dest);
+	game_service::get_instance()->register_timer(5, &on_ready_timeout, src);
+	game_service::get_instance()->register_timer(5, &on_ready_timeout, dest);
 
 	send_player_info(src, send_src);
 	send_player_info(dest, send_dest);
@@ -216,7 +240,7 @@ bool board::send_do_step_ret(game_player * src,const proto::step_info *step)
 		bytes.resize(size);
 		send.SerializeToArray(&bytes[0], size);
 		send_msg_another(src, protocol_number_do_step, &bytes[0], size);
-
+		send_msg_judges(protocol_number_do_step, &bytes[0], size);
 		return true;
 	}
 	else if (ret == (int)cg_result_win_lost)
@@ -430,6 +454,16 @@ void board::send_msg_all(protocol_number pn, const char * msg, const unsigned le
 			if (pn == protocol_number_start)	player->set_state(cg_player_state_playing);
 		}
 	}
+
+	std::list<chess_player>::iterator it = m_judges.begin();
+	for (; it != m_judges.end(); ++it)
+	{
+		game_player *player = data_mgr::get_instance()->get_player(it->m_player_id);
+		if (player)
+		{
+			player->send_msg(pn, msg, len);
+		}
+	}
 }
 
 void board::send_msg_another(game_player * src, protocol_number pn, const char * msg, const unsigned len)
@@ -439,6 +473,19 @@ void board::send_msg_another(game_player * src, protocol_number pn, const char *
 	{
 		DEBUG_LOG("send_msg_another from player=%u to player=%u proto=%u", src->get_player_id(), another->get_player_id(), pn);
 		another->send_msg(pn, msg, len);
+	}
+}
+
+void board::send_msg_judges(protocol_number pn, const char * msg, const unsigned len)
+{
+	std::list<chess_player>::iterator it = m_judges.begin();
+	for (; it != m_judges.end(); ++it)
+	{
+		game_player *player = data_mgr::get_instance()->get_player(it->m_player_id);
+		if (player)
+		{
+			player->send_msg(pn, msg, len);
+		}
 	}
 }
 

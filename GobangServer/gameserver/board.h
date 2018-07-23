@@ -105,6 +105,7 @@ public:
 
 	void send_msg_all(protocol_number pn, const char *msg, const unsigned len);
 	void send_msg_another(game_player *src, protocol_number pn, const char *msg, const unsigned len);
+	void send_msg_judges(protocol_number pn, const char *msg, const unsigned len);
 private: 
 	bool check_xy(int x, int y);
 
